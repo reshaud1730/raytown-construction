@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raytown Construction | Metaverse Development</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: rgba(15, 23, 42, 0.9);
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--accent);
+            letter-spacing: 1px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 6rem 5% 4rem;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text-main);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .service-card h3 {
+            color: var(--accent);
+            margin-top: 0;
+            font-size: 1.4rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 4rem 5%;
+            background-color: var(--bg-card);
+            border-top: 1px solid #334155;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>RAYTOWN CONSTRUCTION</h1>
+    </header>
+
+    <section class="hero">
+        <h2>Engineering the Metaverse</h2>
+        <p>At Raytown Construction, we don't just place buildings; we engineer digital communities. Our development strategies are 100% data-driven, utilizing the advanced analytics of the FASTTRACK TOOLs system to ensure every structure maximizes return for the neighborhood.</p>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">Neighborhood Development Services</h2>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>FastTrack Node Analysis & Zoning</h3>
+                <p>Before a single unit of Sparklet is staked, we run the numbers. We analyze neighborhood density, floor prices, and foot traffic using FASTTRACK TOOLs to determine exactly what needs to be built to elevate the node's overall rating.</p>
+            </div>
+
+            <div class="service-card">
+                <h3>Strategic Sparklet Allocation</h3>
+                <p>Time is money in the metaverse. We offer project management insights to help you deploy your Sparklet efficiently, calculating optimal build times and staking requirements to get your structures completed faster and smarter.</p>
+            </div>
+
+            <div class="service-card">
+                <h3>Community Node Master Planning</h3>
+                <p>We consult with community leaders to create comprehensive "Master Plans." We help align individual property owners under a single architectural vision, ensuring the neighborhood develops with cohesive aesthetics and maximum economic utility.</p>
+            </div>
+
+            <div class="service-card">
+                <h3>Manufacturing & Structure Optimization</h3>
+                <p>Not sure which structure fits your property's topography? We cross-reference your specific property data with FastTrack insights to recommend the highest-value building model for your exact coordinates.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <h2>The Raytown Advantage</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Gut feelings don't build successful Upland cities; data does. Partner with us to leverage premier metaverse analytics and turn empty digital lots into thriving developments.</p>
+        <a href="#" class="button">Connect on Discord</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
+
+</body>
+</html>
