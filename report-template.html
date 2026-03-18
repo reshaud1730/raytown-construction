@@ -4,151 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maximizing Foot Traffic in Genesis Cities | Raytown Construction</title>
+    
+    <link rel="icon" type="image/png" href="assets/images/image_0.png">
+    
     <style>
-        /* Core Raytown Styling */
+        /* Updated asset matching colors */
         :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
+            --bg-dark: #080d1e;
+            --bg-card: #131e36;
+            --text-main: #e2e8f0;
             --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-hover: #0284c7;
-            --tag-bg: #334155;
-            --border-color: #334155;
+            --accent: #00f6ff;
+            --accent-hover: #00d4db;
+            --border-color: #1c2b4d;
+            --tag-bg: #1c2b4d;
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-dark);
+            /* Site background pattern matching assets */
+            background-image: url('assets/images/image_0.png');
+            background-repeat: repeat;
+            background-size: 30px;
+            background-attachment: fixed;
             color: var(--text-main);
             margin: 0;
             padding: 0;
             line-height: 1.8;
         }
 
-        /* Navigation */
+        .bg-overlay { background-color: rgba(8, 13, 30, 0.9); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        /* Branded header with logo group */
         header {
-            background-color: rgba(15, 23, 42, 0.9);
+            background-color: rgba(8, 13, 30, 0.95);
             padding: 1rem 5%;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            position: sticky; top: 0; z-index: 100;
         }
 
-        header h1 { margin: 0; font-size: 1.5rem; color: var(--accent); }
-        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 2rem; transition: color 0.3s; }
+        .header-logo { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 40px; height: 40px; }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 0.5px;}
+
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; }
         .nav-links a:hover { color: var(--accent); }
 
-        /* Report Container */
-        .report-container {
-            max-width: 800px;
-            margin: 3rem auto;
-            padding: 0 5%;
-        }
-
-        .back-link {
-            display: inline-block;
-            color: var(--text-muted);
-            text-decoration: none;
-            margin-bottom: 2rem;
-            transition: color 0.3s;
-        }
-
+        .report-container { max-width: 800px; margin: 3rem auto; padding: 0 5%; position: relative; }
+        .back-link { display: inline-block; color: var(--text-muted); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.3s; font-size: 1.05rem; }
         .back-link:hover { color: var(--accent); }
+        .back-link::before { content: '← '; }
         
-        /* Report Header */
-        .report-header {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-        }
+        .report-header { margin-bottom: 3.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border-color); }
 
         .report-tag {
             display: inline-block;
             background-color: var(--tag-bg);
             color: var(--accent);
-            padding: 0.3rem 1rem;
+            padding: 0.3rem 0.9rem;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             margin-bottom: 1rem;
+            border: 1px solid rgba(0, 246, 255, 0.1);
         }
 
-        .report-title {
-            font-size: 2.5rem;
-            margin: 0 0 1rem 0;
-            line-height: 1.2;
-        }
+        .report-title { font-size: 2.8rem; margin: 0 0 1.2rem 0; line-height: 1.2; color: var(--text-main);}
+        .report-meta { color: var(--text-muted); font-size: 1rem; }
 
-        .report-meta {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
+        .report-body h2 { color: var(--accent); margin-top: 3.5rem; margin-bottom: 1.2rem; font-size: 2rem; }
+        .report-body h3 { margin-top: 2.5rem; font-size: 1.5rem; color: var(--text-main); }
+        .report-body p { margin-bottom: 1.8rem; color: #cbd5e1; font-size: 1.05rem; line-height: 1.8; }
 
-        /* Report Body */
-        .report-body h2 {
-            color: var(--accent);
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        .report-body h3 {
-            margin-top: 2rem;
-            font-size: 1.4rem;
-        }
-
-        .report-body p {
-            margin-bottom: 1.5rem;
-            color: #cbd5e1;
-        }
-
-        /* Data Callout Box for FastTrack Stats */
+        /* Branded Data Callout Box matching assets */
         .data-box {
             background-color: var(--bg-card);
             border-left: 4px solid var(--accent);
-            padding: 1.5rem;
-            margin: 2rem 0;
+            padding: 1.5rem 2.5rem;
+            margin: 2.5rem 0;
             border-radius: 0 8px 8px 0;
+            box-shadow: 0 0 10px rgba(0, 246, 255, 0.05);
         }
 
-        .data-box h4 {
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-        }
+        .data-box h4 { margin-top: 0; margin-bottom: 0.8rem; color: var(--text-main); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .data-box ul { margin: 0; padding-left: 1rem; color: #cbd5e1; font-size: 1rem; }
+        .data-box li { margin-bottom: 0.7rem; }
+        .data-box li strong { color: var(--accent); }
 
-        .data-box ul {
-            margin: 0;
-            padding-left: 1.5rem;
-            color: #cbd5e1;
-        }
-
-        .data-box li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 4rem;
-        }
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 5rem; position: relative; }
     </style>
 </head>
 <body>
 
+    <div class="bg-overlay"></div>
+
     <header>
-        <h1>RAYTOWN CONSTRUCTION</h1>
+        <div class="header-logo">
+            <img src="assets/images/image_0.png" alt="Raytown Construction Logo" class="logo-icon">
+            <h1>RAYTOWN CONSTRUCTION</h1>
+        </div>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="insights.html">FastTrack Insights</a>
@@ -157,7 +117,7 @@
     </header>
 
     <main class="report-container">
-        <a href="insights.html" class="back-link">← Back to Insights</a>
+        <a href="insights.html" class="back-link">Back to Insights</a>
 
         <header class="report-header">
             <span class="report-tag">Node Analysis</span>
@@ -178,15 +138,12 @@
                 <ul>
                     <li><strong>Optimal Commercial Density:</strong> 3-4 storefronts per high-traffic transit block.</li>
                     <li><strong>Residential Support:</strong> Every commercial structure requires a baseline of 5 adjacent residential properties to stabilize neighborhood value.</li>
-                    <li><strong>Sparklet Waste:</strong> Building factories in designated residential nodes increases construction time by an average of 14% due to poor zoning alignment.</li>
+                    <li><strong>Sparklet Waste:</strong> Building factories in designated residential nodes increases construction time by an average of 14%.</li>
                 </ul>
             </div>
-
-            <h2>Raytown's Strategic Implementation</h2>
+            
+            <h3>Strategic Implementation</h3>
             <p>Based on these insights, Raytown Construction recommends a tiered development approach. By clustering high-tier residential builds near transit hubs and creating a perimeter of commercial structures, we create a self-sustaining ecosystem of foot traffic.</p>
-
-            <h3>The Bottom Line</h3>
-            <p>Stop guessing where to build. By utilizing our neighborhood development services, we apply these exact FastTrack metrics to your properties, ensuring every structure you build serves the greater economic engine of your Upland community.</p>
         </article>
     </main>
 
