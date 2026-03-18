@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastTrack Insights | Raytown Construction</title>
+    <style>
+        /* Keeping the exact same color palette and base styling */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --tag-bg: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        header {
+            background-color: rgba(15, 23, 42, 0.9);
+            padding: 1rem 5%;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 { margin: 0; font-size: 1.5rem; color: var(--accent); }
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 2rem; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* Page Header */
+        .page-header {
+            padding: 4rem 5% 2rem;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .page-header h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .page-header p { color: var(--text-muted); font-size: 1.2rem; }
+
+        /* Insights Grid Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 5%;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* Report Cards */
+        .report-card {
+            background-color: var(--bg-card);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .report-content {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .report-tag {
+            display: inline-block;
+            background-color: var(--tag-bg);
+            color: var(--accent);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .report-card h3 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: var(--text-main);
+        }
+
+        .report-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .read-more:hover { color: var(--accent-hover); }
+        .read-more::after { content: ' →'; margin-left: 5px; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid #334155;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>RAYTOWN CONSTRUCTION</h1>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="insights.html" style="color: var(--accent);">FastTrack Insights</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h2>FastTrack Insights Hub</h2>
+        <p>Data-driven neighborhood analytics and structural optimization reports.</p>
+    </div>
+
+    <div class="container">
+        <div class="insights-grid">
+            
+            <article class="report-card">
+                <div class="report-content">
+                    <span class="report-tag">Node Analysis</span>
+                    <h3>Maximizing Foot Traffic in Genesis Cities</h3>
+                    <p>A deep dive into the recent FastTrack data showing how strategic commercial zoning near transit hubs drastically increases neighborhood utility scores.</p>
+                    <a href="#" class="read-more">Read Full Report</a>
+                </div>
+            </article>
+
+            <article class="report-card">
+                <div class="report-content">
+                    <span class="report-tag">Build Strategy</span>
+                    <h3>Sparklet Optimization for Factory Builds</h3>
+                    <p>Stop wasting Sparklet on inefficient staking. We break down the exact mathematical curve for manufacturing plant construction times versus staking requirements.</p>
+                    <a href="#" class="read-more">Read Full Report</a>
+                </div>
+            </article>
+
+            <article class="report-card">
+                <div class="report-content">
+                    <span class="report-tag">Market Update</span>
+                    <h3>Q1 Upland Property Floor Price Analytics</h3>
+                    <p>Identifying undervalued neighborhoods ripe for massive development projects using floor price aggregates from the FastTrack API.</p>
+                    <a href="#" class="read-more">Read Full Report</a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
+
+</body>
+</html>
