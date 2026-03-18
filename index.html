@@ -3,174 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raytown Construction | Metaverse Development</title>
+    <title>Raytown Construction | Metaverse Development | Powered by FastTrack Tools</title>
+    
+    <link rel="icon" type="image/png" href="assets/images/image_0.png">
+    
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
+            /* Branding colors extracted from assets */
+            --bg-dark: #080d1e; /* Deep space blue */
+            --bg-card: #131e36; /* Slightly lighter depth */
+            --text-main: #e2e8f0; /* Silver/metallic from text */
             --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-hover: #0284c7;
+            --accent: #00f6ff; /* Bright electric teal/blue from circuit lines */
+            --accent-hover: #00d4db;
+            --border-color: #1c2b4d;
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-dark);
+            /* Site background: A repeating pattern derived from the asset backgrounds */
+            background-image: url('assets/images/image_0.png');
+            background-repeat: repeat;
+            background-size: 30px; /* Subtle texture */
+            background-attachment: fixed;
             color: var(--text-main);
             margin: 0;
             padding: 0;
             line-height: 1.6;
         }
 
-        header {
-            background-color: rgba(15, 23, 42, 0.9);
-            padding: 1.5rem 5%;
-            border-bottom: 1px solid #334155;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        /* Overlay to darken background pattern for content readability */
+        .bg-overlay {
+            background-color: rgba(8, 13, 30, 0.9);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
         }
 
+        header {
+            background-color: rgba(8, 13, 30, 0.95);
+            padding: 1rem 5%;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        /* Branded header logo group */
+        .header-logo { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 40px; height: 40px; }
         header h1 {
             margin: 0;
-            font-size: 1.8rem;
-            color: var(--accent);
-            letter-spacing: 1px;
+            font-size: 1.6rem;
+            color: var(--text-main);
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
+        header h1 span { color: var(--accent); font-weight: normal; font-size: 1rem; }
 
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* Branded Hero Section using the full wide banner */
         .hero {
             text-align: center;
-            padding: 6rem 5% 4rem;
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            padding: 0; /* Minimal padding */
+            background: linear-gradient(180deg, #131e36 0%, #080d1e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .hero h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            margin-top: 0;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 5%;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--text-main);
-        }
-
-        .services-grid {
+        .hero-banner-container {
+            width: 100%;
+            max-width: 1400px;
+            overflow: hidden;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr 1fr; /* 50/50 split */
+            align-items: center;
+            padding: 2rem 5%;
         }
 
+        .hero-banner-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 30px rgba(0, 246, 255, 0.15); /* Subtle teal glow */
+        }
+
+        .hero-content {
+            padding: 0 4rem;
+            text-align: left;
+        }
+
+        .hero-content h2 { font-size: 3rem; margin-bottom: 1rem; margin-top: 0; color: var(--text-main); }
+        .hero-content p { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2rem; line-height: 1.7; }
+        .hero-content p strong { color: var(--accent); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 5%; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--text-main); }
+        .section-title span { color: var(--accent); font-size: 1.1rem; display: block; font-weight: normal; margin-top: 5px;}
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .service-card {
             background-color: var(--bg-card);
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 8px;
-            border: 1px solid #334155;
+            border: 1px solid var(--border-color);
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        .service-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        .service-card h3 {
-            color: var(--accent);
-            margin-top: 0;
-            font-size: 1.4rem;
-        }
+        .service-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .service-card h3 { color: var(--accent); margin-top: 0; font-size: 1.5rem; }
+        .service-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 0; }
 
         .cta-section {
             text-align: center;
             padding: 4rem 5%;
             background-color: var(--bg-card);
-            border-top: 1px solid #334155;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .button {
             display: inline-block;
             background-color: var(--accent);
-            color: var(--bg-dark);
-            padding: 1rem 2rem;
+            color: #080d1e;
+            padding: 1.2rem 2.5rem;
             text-decoration: none;
             font-weight: bold;
             border-radius: 4px;
-            transition: background-color 0.3s ease;
-            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1.15rem;
+            box-shadow: 0 0 20px rgba(0, 246, 255, 0.2);
         }
 
-        .button:hover {
-            background-color: var(--accent-hover);
-        }
+        .button:hover { background-color: var(--accent-hover); transform: scale(1.02); }
 
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border-top: 1px solid #334155;
-        }
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); position: relative; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>RAYTOWN CONSTRUCTION</h1>
+    <div class="bg-overlay"></div> <header>
+        <div class="header-logo">
+            <img src="assets/images/image_0.png" alt="Raytown Construction Logo" class="logo-icon">
+            <h1>RAYTOWN CONSTRUCTION</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" style="color: var(--accent);">Home</a>
+            <a href="insights.html">FastTrack Insights</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+        </div>
     </header>
 
     <section class="hero">
-        <h2>Engineering the Metaverse</h2>
-        <p>At Raytown Construction, we don't just place buildings; we engineer digital communities. Our development strategies are 100% data-driven, utilizing the advanced analytics of the FASTTRACK TOOLs system to ensure every structure maximizes return for the neighborhood.</p>
+        <div class="hero-banner-container">
+            <img src="assets/images/image_1.png" alt="FastTrack Tools Banner" class="hero-banner-image">
+            
+            <div class="hero-content">
+                <h2>Engineering the Metaverse</h2>
+                <p>Raytown Construction don't just place buildings; we engineer digital communities. Our strategies utilize the precise analytics of the <strong>FASTTRACK TOOLs</strong> system, from neighborhood density to Sparklet allocation.</p>
+                <a href="insights.html" class="button">Read Development Insights</a>
+            </div>
+        </div>
     </section>
 
     <div class="container">
-        <h2 class="section-title">Neighborhood Development Services</h2>
+        <h2 class="section-title">Neighborhood Development Services<span>(All decisions powered by FASTTRACK TOOLs)</span></h2>
         
         <div class="services-grid">
             <div class="service-card">
                 <h3>FastTrack Node Analysis & Zoning</h3>
-                <p>Before a single unit of Sparklet is staked, we run the numbers. We analyze neighborhood density, floor prices, and foot traffic using FASTTRACK TOOLs to determine exactly what needs to be built to elevate the node's overall rating.</p>
+                <p>We analyze density, floor prices, and foot traffic using FASTTRACK TOOLs to determine exactly what must be built to elevate the neighborhood's overall rating.</p>
             </div>
 
             <div class="service-card">
                 <h3>Strategic Sparklet Allocation</h3>
-                <p>Time is money in the metaverse. We offer project management insights to help you deploy your Sparklet efficiently, calculating optimal build times and staking requirements to get your structures completed faster and smarter.</p>
+                <p>Time is money in Upland. We calculate optimal build times and staking requirements to ensure your structures are completed faster and smarter.</p>
             </div>
-
+            
             <div class="service-card">
                 <h3>Community Node Master Planning</h3>
-                <p>We consult with community leaders to create comprehensive "Master Plans." We help align individual property owners under a single architectural vision, ensuring the neighborhood develops with cohesive aesthetics and maximum economic utility.</p>
-            </div>
-
-            <div class="service-card">
-                <h3>Manufacturing & Structure Optimization</h3>
-                <p>Not sure which structure fits your property's topography? We cross-reference your specific property data with FastTrack insights to recommend the highest-value building model for your exact coordinates.</p>
+                <p>We consult with leaders to align property owners under a single architectural vision, ensuring maximum economic utility and cohesive aesthetics.</p>
             </div>
         </div>
     </div>
 
-   <section class="cta-section">
+    <section class="cta-section">
         <h2>The Raytown Advantage</h2>
-        <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Gut feelings don't build successful Upland cities; data does. Partner with us to leverage premier metaverse analytics and turn empty digital lots into thriving developments.</p>
-        
-        <a href="https://discord.gg/BeVnv48x" class="button" target="_blank">Connect on Discord</a>
-        
+        <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; font-size: 1.1rem; line-height: 1.7;">Gut feelings don't build successful Upland cities; data does. Partner with Raytown Construction to leverage premier metaverse analytics and turn digital lots into thriving developments.</p>
+        <a href="https://discord.gg/BeVnv48x" class="button" target="_blank">Break Ground on Discord</a>
     </section>
 
     <footer>
