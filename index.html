@@ -5,27 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raytown Construction | Metaverse Development | Powered by FastTrack Tools</title>
     
-    <link rel="icon" type="image/png" href="assets/images/image_0.png">
+    <link rel="icon" type="image/png" href="assets/images/fasttracktoolslogo.png">
     
     <style>
         :root {
-            /* Branding colors extracted from assets */
-            --bg-dark: #080d1e; /* Deep space blue */
-            --bg-card: #131e36; /* Slightly lighter depth */
-            --text-main: #e2e8f0; /* Silver/metallic from text */
+            var(--bg-dark): #080d1e;
+            --bg-card: #131e36;
+            --text-main: #e2e8f0;
             --text-muted: #94a3b8;
-            --accent: #00f6ff; /* Bright electric teal/blue from circuit lines */
+            --accent: #00f6ff;
             --accent-hover: #00d4db;
             --border-color: #1c2b4d;
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-dark);
-            /* Site background: A repeating pattern derived from the asset backgrounds */
-            background-image: url('assets/images/image_0.png');
+            background-color: #080d1e;
+            /* Updated background pattern link */
+            background-image: url('assets/images/fasttracktoolslogo.png');
             background-repeat: repeat;
-            background-size: 30px; /* Subtle texture */
+            background-size: 30px;
             background-attachment: fixed;
             color: var(--text-main);
             margin: 0;
@@ -33,7 +32,6 @@
             line-height: 1.6;
         }
 
-        /* Overlay to darken background pattern for content readability */
         .bg-overlay {
             background-color: rgba(8, 13, 30, 0.9);
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -49,7 +47,6 @@
             position: sticky; top: 0; z-index: 100;
         }
 
-        /* Branded header logo group */
         .header-logo { display: flex; align-items: center; gap: 10px; }
         .logo-icon { width: 40px; height: 40px; }
         header h1 {
@@ -64,10 +61,9 @@
         .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; }
         .nav-links a:hover { color: var(--accent); }
 
-        /* Branded Hero Section using the full wide banner */
         .hero {
             text-align: center;
-            padding: 0; /* Minimal padding */
+            padding: 0;
             background: linear-gradient(180deg, #131e36 0%, #080d1e 100%);
             display: flex;
             justify-content: center;
@@ -80,7 +76,7 @@
             max-width: 1400px;
             overflow: hidden;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 50/50 split */
+            grid-template-columns: 1fr 1fr;
             align-items: center;
             padding: 2rem 5%;
         }
@@ -88,7 +84,7 @@
         .hero-banner-image {
             width: 100%;
             border-radius: 8px;
-            box-shadow: 0 4px 30px rgba(0, 246, 255, 0.15); /* Subtle teal glow */
+            box-shadow: 0 4px 30px rgba(0, 246, 255, 0.15);
         }
 
         .hero-content {
@@ -145,9 +141,11 @@
 </head>
 <body>
 
-    <div class="bg-overlay"></div> <header>
+    <div class="bg-overlay"></div>
+
+    <header>
         <div class="header-logo">
-            <img src="assets/images/image_0.png" alt="Raytown Construction Logo" class="logo-icon">
+            <img src="assets/images/fasttracktoolslogo.png" alt="Raytown Construction Logo" class="logo-icon">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
@@ -159,7 +157,7 @@
 
     <section class="hero">
         <div class="hero-banner-container">
-            <img src="assets/images/image_1.png" alt="FastTrack Tools Banner" class="hero-banner-image">
+            <img src="assets/images/fasttracktoolsbanner.png" alt="FastTrack Tools Banner" class="hero-banner-image">
             
             <div class="hero-content">
                 <h2>Engineering the Metaverse</h2>
