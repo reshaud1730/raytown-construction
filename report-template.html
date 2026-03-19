@@ -3,45 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastTrack Ledger: Project Status | Raytown Construction: Trade N Build</title>
+    <title>LIVE LEDGER: FastTrack Tools | Raytown Construction: Trade N Build</title>
     
     <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
     
     <style>
         :root {
-            var(--bg-dark): #0f1f3d; 
+            --bg-dark: #0f1f3d; 
             --bg-card: #132549; 
             --text-main: #e2e8f0; 
             --text-muted: #94a3b8;
             --accent: #d6a048; 
             --border-color: #4b5563; 
             --tag-bg: #4b5563; 
-            
-            /* Status Colors */
-            --status-open: #4ade80; /* Bright Green */
-            --status-pending: #facc15; /* Warning Yellow */
-            --status-cleared: #94a3b8; /* Muted Gray */
         }
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: #0f1f3d;
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            line-height: 1.8;
-        }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.8; }
+        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
-        header {
-            background-color: rgba(15, 31, 61, 0.98);
-            padding: 1rem 5%;
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky; top: 0; z-index: 100;
-        }
-
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .header-logo { display: flex; align-items: center; gap: 12px; }
         .logo-icon { width: 50px; height: 50px; }
         header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
@@ -49,17 +29,18 @@
         .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
         .nav-links a:hover { color: var(--accent); }
 
-        .report-container { max-width: 900px; margin: 3rem auto; padding: 0 5%; position: relative; }
+        .report-container { max-width: 1000px; margin: 3rem auto; padding: 0 5%; position: relative; }
         .back-link { display: inline-block; color: var(--text-muted); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.3s; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px;}
         .back-link:hover { color: var(--accent); }
         .back-link::before { content: '← '; }
         
-        .report-header { margin-bottom: 3.5rem; padding-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); }
+        .report-header { margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); }
 
         .report-tag {
             display: inline-block;
-            background-color: var(--tag-bg);
-            color: var(--accent);
+            color: #4ade80; /* Status Green */
+            background-color: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.4);
             padding: 0.3rem 0.9rem;
             border-radius: 20px;
             font-size: 0.8rem;
@@ -67,55 +48,33 @@
             text-transform: uppercase;
             letter-spacing: 0.8px;
             margin-bottom: 1rem;
-            border: 1px solid rgba(214, 160, 72, 0.1);
         }
 
         .report-title { font-size: 2.8rem; margin: 0 0 1.2rem 0; line-height: 1.2; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
         .report-meta { color: var(--text-muted); font-size: 1rem; }
-
-        .report-body h2 { color: var(--accent); margin-top: 3.5rem; margin-bottom: 1.2rem; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px;}
         .report-body p { margin-bottom: 1.8rem; color: #cbd5e1; font-size: 1.05rem; line-height: 1.8; }
 
-        .data-box {
+        /* Iframe Container Styling */
+        .live-ledger-container {
+            width: 100%;
+            height: 800px;
             background-color: var(--bg-card);
-            border-left: 4px solid var(--accent);
-            padding: 2rem;
-            margin: 2.5rem 0;
-            border-radius: 0 8px 8px 0;
-            box-shadow: 0 0 10px rgba(214, 160, 72, 0.05);
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(214, 160, 72, 0.15);
+            overflow: hidden;
+            margin-top: 2rem;
+            position: relative;
         }
 
-        .stat-block h4 { margin: 0 0 0.5rem 0; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-        .stat-block span { font-size: 2.5rem; font-weight: bold; color: var(--text-main); }
-        .stat-block .gold { color: var(--accent); }
-
-        /* Custom Table Styling for Ledger */
-        table { width: 100%; border-collapse: collapse; margin-bottom: 3rem; background-color: rgba(19, 37, 73, 0.3); border-radius: 8px; overflow: hidden; }
-        th, td { padding: 1.2rem; text-align: left; border-bottom: 1px solid var(--border-color); }
-        th { background-color: rgba(15, 31, 61, 0.5); color: var(--accent); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
-        tr:last-child td { border-bottom: none; }
-        tr:hover { background-color: rgba(214, 160, 72, 0.05); }
-        
-        .status { font-weight: bold; display: inline-flex; align-items: center; gap: 8px; }
-        .status.open { color: var(--status-open); }
-        .status.pending { color: var(--status-pending); }
-        .status.cleared { color: var(--status-cleared); }
-        
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-        .status.open .status-dot { background-color: var(--status-open); box-shadow: 0 0 8px var(--status-open); }
-        .status.pending .status-dot { background-color: var(--status-pending); box-shadow: 0 0 8px var(--status-pending); }
-        .status.cleared .status-dot { background-color: var(--status-cleared); }
-
-        .important-note { background-color: rgba(250, 204, 21, 0.1); border: 1px solid var(--status-pending); padding: 1.5rem; border-radius: 8px; margin-top: 3rem; }
-        .important-note h4 { color: var(--status-pending); margin-top: 0; text-transform: uppercase; }
+        .live-ledger-container iframe { width: 100%; height: 100%; border: none; }
 
         footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 5rem; }
     </style>
 </head>
 <body>
+
+    <div class="bg-overlay"></div>
 
     <header>
         <div class="header-logo">
@@ -126,6 +85,7 @@
             <a href="index.html">Home</a>
             <a href="insights.html">FastTrack Insights</a>
             <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
         </div>
     </header>
 
@@ -133,131 +93,18 @@
         <a href="insights.html" class="back-link">Back to Insights</a>
 
         <header class="report-header">
-            <span class="report-tag">Ledger Update</span>
-            <h1 class="report-title">FASTTRACK LEDGER: Project Status Update</h1>
+            <span class="report-tag">LIVE CONNECTION ESTABLISHED</span>
+            <h1 class="report-title">FASTTRACK PUBLIC LEDGER</h1>
             <div class="report-meta">
-                Published by Raytown Construction | Operations Overview
+                Real-time data synchronization directly from FastTrack Tools servers.
             </div>
         </header>
 
         <article class="report-body">
-            <p>Raytown Construction operations across the Kansas City hub are scaling rapidly. This ledger serves as the official operational status and UPX payout record for our current active builds. Sub-stakers are encouraged to review the Open Projects list below to secure their contracts.</p>
+            <p>Welcome to the live operational center for Raytown Construction. The data below is pulled directly from the FastTrack Tools ecosystem in real-time. Sub-stakers can monitor active contracts, pending clearances, and finalized payouts exactly as they happen without leaving this page.</p>
 
-            <div class="data-box">
-                <div class="stat-block">
-                    <h4>Available Now</h4>
-                    <span class="gold">2</span>
-                </div>
-                <div class="stat-block">
-                    <h4>Awaiting Clearance</h4>
-                    <span>6</span>
-                </div>
-                <div class="stat-block">
-                    <h4>Total Cleared</h4>
-                    <span>3</span>
-                </div>
-            </div>
-
-            <h2>🟢 Open Projects (Available for Subs)</h2>
-            <p>These projects are currently OPEN. Sub-stakers can now accept these contracts directly.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Property Address</th>
-                        <th>Payout Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>9004 E 74th St</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status open"><span class="status-dot"></span> OPEN</span></td>
-                    </tr>
-                    <tr>
-                        <td>9015 E 73rd St</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status open"><span class="status-dot"></span> OPEN</span></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h2>🟡 Pending Clearance (Closed)</h2>
-            <p>The following projects are under construction or closed to new stakers but are NOT YET CLEARED in the ledger.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Property Address</th>
-                        <th>Payout Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>9013 E 85th St</td>
-                        <td>36,000 UPX</td>
-                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
-                    </tr>
-                    <tr>
-                        <td>8921 E 74th St</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
-                    </tr>
-                    <tr>
-                        <td>11212 E 53rd St</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
-                    </tr>
-                    <tr>
-                        <td>9003 E 73rd St</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
-                    </tr>
-                    <tr>
-                        <td>9015 E 72nd Ter</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
-                    </tr>
-                    <tr>
-                        <td>9202 E 74th Ter</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h2>✅ Completed & Cleared</h2>
-            <p>The following projects have been fully processed, payments recorded, and cleared from the active ledger.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Property Address</th>
-                        <th>Final Payout</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>11211 E 53rd Ter</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status cleared"><span class="status-dot"></span> CLEARED</span></td>
-                    </tr>
-                    <tr>
-                        <td>8802 Richards Dr</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status cleared"><span class="status-dot"></span> CLEARED</span></td>
-                    </tr>
-                    <tr>
-                        <td>7405 Blue Ridge Blvd</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status cleared"><span class="status-dot"></span> CLEARED</span></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="important-note">
-                <h4>⚠️ Important Notice to the Crew</h4>
-                <p>Once your staker pull is detected, please confirm directly in the Discord so we can move your project to the CLEARED list and finalize the ledger!</p>
+            <div class="live-ledger-container">
+                <iframe src="https://fasttracktools.pythonanywhere.com/public" title="FastTrack Tools Public Ledger"></iframe>
             </div>
 
         </article>
