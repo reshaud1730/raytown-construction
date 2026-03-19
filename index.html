@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raytown Construction: Trade N Build | Metaverse Development | Powered by FastTrack Tools</title>
+    <title>Raytown Construction: Trade N Build | Metaverse Development</title>
     
     <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
     
@@ -16,14 +16,13 @@
 
     <style>
         :root {
-            /* Updated palette matching the industrial metallic badge */
-            --bg-dark: #0f1f3d; /* Deep industrial blue from logo center */
-            --bg-card: #132549; /* Slightly lighter depth */
-            --text-main: #e2e8f0; /* Silver/metallic text */
+            --bg-dark: #0f1f3d; 
+            --bg-card: #132549; 
+            --text-main: #e2e8f0; 
             --text-muted: #94a3b8;
-            --accent: #d6a048; /* Golden Yellow from tools and building frame */
+            --accent: #d6a048; 
             --accent-hover: #b0843a;
-            --border-color: #4b5563; /* Metallic border from rim */
+            --border-color: #4b5563; 
         }
 
         body {
@@ -35,11 +34,7 @@
             line-height: 1.6;
         }
 
-        /* Overlay to darken pattern/background for content readability */
-        .bg-overlay {
-            background-color: rgba(15, 31, 61, 0.95);
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-        }
+        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
         header {
             background-color: rgba(15, 31, 61, 0.98);
@@ -51,22 +46,13 @@
             position: sticky; top: 0; z-index: 100;
         }
 
-        /* Branded header with the new metallic logo */
         .header-logo { display: flex; align-items: center; gap: 12px; }
         .logo-icon { width: 50px; height: 50px; }
-        header h1 {
-            margin: 0;
-            font-size: 1.6rem;
-            color: var(--text-main);
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
 
         .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
         .nav-links a:hover { color: var(--accent); }
 
-        /* The Hero Section updated for the new badge */
         .hero {
             text-align: center;
             padding: 0;
@@ -87,20 +73,8 @@
             padding: 3rem 5%;
         }
 
-        /* Displays the new circular badge largely and clearly in the hero */
-        .hero-banner-image {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 50%;
-            box-shadow: 0 4px 30px rgba(214, 160, 72, 0.15); /* Subtle gold glow */
-            margin: 0 auto;
-        }
-
-        .hero-content {
-            padding: 0 4rem;
-            text-align: left;
-        }
-
+        .hero-banner-image { width: 100%; max-width: 400px; border-radius: 50%; box-shadow: 0 4px 30px rgba(214, 160, 72, 0.15); margin: 0 auto; }
+        .hero-content { padding: 0 4rem; text-align: left; }
         .hero-content h2 { font-size: 3rem; margin-bottom: 1rem; margin-top: 0; color: var(--text-main); line-height: 1.1; }
         .hero-content p { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2.5rem; line-height: 1.7; }
         .hero-content p strong { color: var(--accent); }
@@ -110,104 +84,23 @@
         .section-title span { color: var(--accent); font-size: 1.1rem; display: block; font-weight: normal; margin-top: 5px; text-transform: none; letter-spacing: normal;}
 
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
-        .service-card {
-            background-color: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
+        .service-card { background-color: var(--bg-card); padding: 2.5rem; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.3s ease, border-color 0.3s ease; }
         .service-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 0 15px rgba(214, 160, 72, 0.05); }
         .service-card h3 { color: var(--accent); margin-top: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .service-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 0; line-height: 1.7; }
-/* Project Portfolio Styling */
-        .portfolio-section {
-            background-color: rgba(19, 37, 73, 0.4);
-            padding: 5rem 5%;
-            border-top: 2px solid var(--border-color);
-        }
 
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .portfolio-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .portfolio-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 0 15px rgba(214, 160, 72, 0.05);
-        }
-
-        /* This creates a placeholder box until you upload real Upland screenshots */
-        .portfolio-image-placeholder {
-            background-color: #0f1f3d;
-            height: 220px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-style: italic;
-            border-bottom: 2px solid var(--border-color);
-            font-size: 0.9rem;
-        }
-
+        /* Project Portfolio Styling */
+        .portfolio-section { background-color: rgba(19, 37, 73, 0.4); padding: 5rem 5%; border-top: 2px solid var(--border-color); }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
+        .portfolio-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; transition: transform 0.3s ease, border-color 0.3s ease; }
+        .portfolio-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 0 15px rgba(214, 160, 72, 0.05); }
         .portfolio-content { padding: 1.8rem; }
-        
-        .portfolio-tag {
-            color: var(--accent);
-            font-size: 0.8rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .portfolio-content h3 {
-            color: var(--text-main);
-            margin-top: 0;
-            font-size: 1.3rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.8rem;
-        }
-
+        .portfolio-tag { color: var(--accent); font-size: 0.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.5rem; }
+        .portfolio-content h3 { color: var(--text-main); margin-top: 0; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.8rem; }
         .portfolio-content p { color: #cbd5e1; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6; }
-        .cta-section {
-            text-align: center;
-            padding: 4rem 5%;
-            background-color: var(--bg-card);
-            border-top: 2px solid var(--border-color);
-            border-bottom: 2px solid var(--border-color);
-        }
 
-        .button {
-            display: inline-block;
-            background-color: var(--accent);
-            color: #0f1f3d;
-            padding: 1.2rem 2.5rem;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            font-size: 1.15rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(214, 160, 72, 0.2);
-        }
-
+        .cta-section { text-align: center; padding: 4rem 5%; background-color: var(--bg-card); border-top: 2px solid var(--border-color); border-bottom: 2px solid var(--border-color); }
+        .button { display: inline-block; background-color: var(--accent); color: #0f1f3d; padding: 1.2rem 2.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; transition: background-color 0.3s ease, transform 0.2s ease; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 20px rgba(214, 160, 72, 0.2); }
         .button:hover { background-color: var(--accent-hover); transform: scale(1.02); }
 
         footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); position: relative; }
@@ -226,13 +119,13 @@
             <a href="index.html" style="color: var(--accent);">Home</a>
             <a href="insights.html">FastTrack Insights</a>
             <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
         </div>
     </header>
 
     <section class="hero">
         <div class="hero-banner-container">
             <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build circular logo" class="hero-banner-image">
-            
             <div class="hero-content">
                 <h2>Engineering the Metaverse</h2>
                 <p>Raytown Construction don't just place buildings; we engineer digital communities. Our strategies leverage strategic property acquisition and precise development analytics from the <strong>FASTTRACK TOOLs</strong> system.</p>
@@ -243,29 +136,25 @@
 
     <div class="container">
         <h2 class="section-title">Development & Acquisition Services<span>(All decisions powered by FASTTRACK TOOLs)</span></h2>
-        
         <div class="services-grid">
             <div class="service-card">
                 <h3>Node Analysis & Zoning</h3>
                 <p>We analyze density, floor prices, and foot traffic using FASTTRACK TOOLs to determine exactly what must be built to elevate the neighborhood's overall rating.</p>
             </div>
-
             <div class="service-card">
                 <h3>Strategic Acquisitions</h3>
                 <p>Gut feelings don't find undervalued neighborhoods; data does. We identify undervalued property nodes using FastTrack APIs for strategic acquisition, prepping them for development.</p>
             </div>
-            
             <div class="service-card">
                 <h3>Community Node Master Planning</h3>
                 <p>We consult with leaders to align property owners under a single architectural vision, ensuring maximum economic utility and cohesive aesthetics.</p>
             </div>
         </div>
     </div>
-<section class="portfolio-section">
+
+    <section class="portfolio-section">
         <h2 class="section-title">Active Developments & Portfolio<span>(Recent Raytown Builds in Upland)</span></h2>
-        
         <div class="portfolio-grid">
-            
             <div class="portfolio-card">
                 <img src="assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights Development" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);">
                 <div class="portfolio-content">
@@ -292,9 +181,9 @@
                     <p>Macro-level neighborhood strategy powered by FASTTRACK TOOLs. Identifying and acquiring high-potential property clusters for future coordinated development.</p>
                 </div>
             </div>
-
         </div>
     </section>
+
     <section class="cta-section">
         <h2>The Raytown Advantage</h2>
         <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; font-size: 1.1rem; line-height: 1.7;">Stop guessing where to build or what to trade. Partner with Raytown Construction to leverage premier metaverse analytics and turn digital lots into thriving, high-utility developments.</p>
