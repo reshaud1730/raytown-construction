@@ -3,61 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maximizing Foot Traffic in Genesis Cities | Raytown Construction</title>
+    <title>Maximizing Foot Traffic in Genesis Cities | Raytown Construction: Trade N Build</title>
     
-    <link rel="icon" type="image/png" href="assets/images/fasttracktoolslogo.png">
+    <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
     
     <style>
         :root {
-            --bg-dark: #080d1e;
-            --bg-card: #131e36;
-            --text-main: #e2e8f0;
+            /* Updated palette matching the metallic industrial badge */
+            --bg-dark: #0f1f3d; 
+            --bg-card: #132549; 
+            --text-main: #e2e8f0; 
             --text-muted: #94a3b8;
-            --accent: #00f6ff;
-            --accent-hover: #00d4db;
-            --border-color: #1c2b4d;
-            --tag-bg: #1c2b4d;
+            --accent: #d6a048; /* Golden Yellow */
+            --accent-hover: #b0843a;
+            --border-color: #4b5563; 
+            --tag-bg: #4b5563; 
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-dark);
-            /* Updated background pattern link */
-            background-image: url('assets/images/fasttracktoolslogo.png');
-            background-repeat: repeat;
-            background-size: 30px;
-            background-attachment: fixed;
             color: var(--text-main);
             margin: 0;
             padding: 0;
             line-height: 1.8;
         }
 
-        .bg-overlay { background-color: rgba(8, 13, 30, 0.9); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
         header {
-            background-color: rgba(8, 13, 30, 0.95);
+            background-color: rgba(15, 31, 61, 0.98);
             padding: 1rem 5%;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky; top: 0; z-index: 100;
         }
 
-        .header-logo { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 40px; height: 40px; }
-        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 0.5px;}
+        .header-logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 50px; height: 50px; }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
 
-        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; }
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
         .nav-links a:hover { color: var(--accent); }
 
         .report-container { max-width: 800px; margin: 3rem auto; padding: 0 5%; position: relative; }
-        .back-link { display: inline-block; color: var(--text-muted); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.3s; font-size: 1.05rem; }
+        .back-link { display: inline-block; color: var(--text-muted); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.3s; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px;}
         .back-link:hover { color: var(--accent); }
         .back-link::before { content: '← '; }
         
-        .report-header { margin-bottom: 3.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border-color); }
+        .report-header { margin-bottom: 3.5rem; padding-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); }
 
         .report-tag {
             display: inline-block;
@@ -70,23 +66,24 @@
             text-transform: uppercase;
             letter-spacing: 0.8px;
             margin-bottom: 1rem;
-            border: 1px solid rgba(0, 246, 255, 0.1);
+            border: 1px solid rgba(214, 160, 72, 0.1);
         }
 
-        .report-title { font-size: 2.8rem; margin: 0 0 1.2rem 0; line-height: 1.2; color: var(--text-main);}
+        .report-title { font-size: 2.8rem; margin: 0 0 1.2rem 0; line-height: 1.2; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
         .report-meta { color: var(--text-muted); font-size: 1rem; }
 
-        .report-body h2 { color: var(--accent); margin-top: 3.5rem; margin-bottom: 1.2rem; font-size: 2rem; }
-        .report-body h3 { margin-top: 2.5rem; font-size: 1.5rem; color: var(--text-main); }
+        .report-body h2 { color: var(--accent); margin-top: 3.5rem; margin-bottom: 1.2rem; font-size: 2rem; text-transform: uppercase; letter-spacing: 1px;}
+        .report-body h3 { margin-top: 2.5rem; font-size: 1.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px; }
         .report-body p { margin-bottom: 1.8rem; color: #cbd5e1; font-size: 1.05rem; line-height: 1.8; }
 
+        /* Branded Data Callout Box matching new gold assets */
         .data-box {
             background-color: var(--bg-card);
             border-left: 4px solid var(--accent);
             padding: 1.5rem 2.5rem;
             margin: 2.5rem 0;
             border-radius: 0 8px 8px 0;
-            box-shadow: 0 0 10px rgba(0, 246, 255, 0.05);
+            box-shadow: 0 0 10px rgba(214, 160, 72, 0.05);
         }
 
         .data-box h4 { margin-top: 0; margin-bottom: 0.8rem; color: var(--text-main); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -103,7 +100,7 @@
 
     <header>
         <div class="header-logo">
-            <img src="assets/images/fasttracktoolslogo.png" alt="Raytown Construction Logo" class="logo-icon">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build Logo" class="logo-icon">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
