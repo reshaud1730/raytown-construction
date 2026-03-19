@@ -121,7 +121,70 @@
         .service-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 0 15px rgba(214, 160, 72, 0.05); }
         .service-card h3 { color: var(--accent); margin-top: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .service-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 0; line-height: 1.7; }
+/* Project Portfolio Styling */
+        .portfolio-section {
+            background-color: rgba(19, 37, 73, 0.4);
+            padding: 5rem 5%;
+            border-top: 2px solid var(--border-color);
+        }
 
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .portfolio-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(214, 160, 72, 0.05);
+        }
+
+        /* This creates a placeholder box until you upload real Upland screenshots */
+        .portfolio-image-placeholder {
+            background-color: #0f1f3d;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-style: italic;
+            border-bottom: 2px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .portfolio-content { padding: 1.8rem; }
+        
+        .portfolio-tag {
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-content h3 {
+            color: var(--text-main);
+            margin-top: 0;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+        }
+
+        .portfolio-content p { color: #cbd5e1; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6; }
         .cta-section {
             text-align: center;
             padding: 4rem 5%;
