@@ -3,63 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastTrack Insights Hub | Raytown Construction</title>
+    <title>FastTrack Insights Hub | Raytown Construction: Trade N Build</title>
     
-    <link rel="icon" type="image/png" href="assets/images/fasttracktoolslogo.png">
+    <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
     
     <style>
         :root {
-            --bg-dark: #080d1e;
-            --bg-card: #131e36;
-            --text-main: #e2e8f0;
+            /* Updated palette matching the metallic industrial badge */
+            --bg-dark: #0f1f3d; 
+            --bg-card: #132549; 
+            --text-main: #e2e8f0; 
             --text-muted: #94a3b8;
-            --accent: #00f6ff;
-            --accent-hover: #00d4db;
-            --border-color: #1c2b4d;
-            --tag-bg: #1c2b4d; 
+            --accent: #d6a048; /* Golden Yellow */
+            --accent-hover: #b0843a;
+            --border-color: #4b5563; 
+            --tag-bg: #4b5563; /* Use border gray for muted tags */
         }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-dark);
-            /* Updated background pattern link */
-            background-image: url('assets/images/fasttracktoolslogo.png');
-            background-repeat: repeat;
-            background-size: 30px;
-            background-attachment: fixed;
             color: var(--text-main);
             margin: 0;
             padding: 0;
             line-height: 1.6;
         }
 
-        .bg-overlay { background-color: rgba(8, 13, 30, 0.9); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
         header {
-            background-color: rgba(8, 13, 30, 0.95);
+            background-color: rgba(15, 31, 61, 0.98);
             padding: 1rem 5%;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky; top: 0; z-index: 100;
         }
 
-        .header-logo { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 40px; height: 40px; }
-        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 0.5px;}
+        .header-logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 50px; height: 50px; }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
 
-        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; }
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
         .nav-links a:hover { color: var(--accent); }
 
         .page-header {
             padding: 5rem 5% 3rem;
             text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            background: linear-gradient(180deg, #131e36 0%, #080d1e 100%);
+            border-bottom: 2px solid var(--border-color);
+            background: linear-gradient(180deg, #132549 0%, #0f1f3d 100%);
         }
         
-        .page-header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; }
+        .page-header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
         .page-header p { color: var(--text-muted); font-size: 1.25rem; max-width: 600px; margin: 0 auto; line-height: 1.7; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 4rem 5%; }
@@ -75,7 +71,7 @@
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        .report-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 246, 255, 0.05);}
+        .report-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 0 15px rgba(214, 160, 72, 0.05);}
         .report-content { padding: 2.5rem; flex-grow: 1; }
 
         .report-tag {
@@ -89,10 +85,10 @@
             margin-bottom: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            border: 1px solid rgba(0, 246, 255, 0.1);
+            border: 1px solid rgba(214, 160, 72, 0.1); /* Subtle gold border */
         }
 
-        .report-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--text-main); margin-bottom: 0.8rem;}
+        .report-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--text-main); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;}
         .report-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 1.8rem; line-height: 1.7;}
         
         .read-more {
@@ -102,6 +98,8 @@
             display: inline-flex;
             align-items: center;
             font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .read-more:hover { color: var(--accent-hover); }
@@ -116,7 +114,7 @@
 
     <header>
         <div class="header-logo">
-            <img src="assets/images/fasttracktoolslogo.png" alt="Raytown Construction Logo" class="logo-icon">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build Logo" class="logo-icon">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
