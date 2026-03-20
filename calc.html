@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raytown Construction Depo - Spark Calculator</title>
+    <style>
+        :root {
+            --bg-dark: #0b0e14;
+            --accent-cyan: #00f2ff;
+            --accent-blue: #007bff;
+            --panel-metal: #2c3e50;
+            --text-glow: 0 0 10px rgba(0, 242, 255, 0.7);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .calc-container {
+            background: linear-gradient(145deg, #1a1f26, #2c3e50);
+            border: 2px solid #4a5568;
+            border-radius: 20px;
+            padding: 30px;
+            width: 380px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hexagon Background Pattern Overlay */
+        .calc-container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .logo-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-header h2 {
+            margin: 5px 0;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: var(--accent-cyan);
+            text-shadow: var(--text-glow);
+            text-transform: uppercase;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            color: #cbd5e0;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f172a;
+            border: 1px solid #4a5568;
+            border-radius: 8px;
+            color: var(--accent-cyan);
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+        }
+
+        .calc-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            background: linear-gradient(to right, var(--accent-blue), #00c8ff);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: transform 0.1s, box-shadow 0.3s;
+        }
+
+        .calc-btn:hover {
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.6);
+        }
+
+        .calc-btn:active {
+            transform: scale(0.98);
+        }
+
+        .results-panel {
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .result-value {
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calc-container">
+    <div class="logo-header">
+        <img src="fasttracktoolslogo.png" alt="FastTrack Tools" style="width: 80px; filter: drop-shadow(0 0 10px rgba(0,242,255,0.5));">
+        <h2>Raytown Construction</h2>
+        <div style="font-size: 0.6rem; color: #718096;">OFFICIAL PROJECT PORTAL</div>
+    </div>
+
+    <div class="input-group">
+        <label>Total SH Required</label>
+        <input type="number" id="total_sh" placeholder="Total Project Hours">
+    </div>
+
+    <div class="input-group">
+        <label>Completed Spark Hours</label>
+        <input type="number" id="completed_sh" placeholder="Hours finished so far">
+    </div>
+
+    <div class="input-group">
+        <label>Current Staked Spark</label>
+        <input type="number" id="staked_spark" step="0.01" placeholder="Current Spark Staked">
+    </div>
+
+    <button class="calc-btn" onclick="calculateRTC()">Calculate Progress</button>
+
+    <div id="rtc-results" class="results-panel" style="display: none;">
+        <div class="result-item">
+            <span>Remaining SH:</span>
+            <span id="res_rem" class="result-value">0</span>
+        </div>
+        <div class="result-item" style="border-top: 1px solid #444; padding-top: 10px; margin-top: 5px;">
+            <span>Est. Completion:</span>
+            <span id="res_time" class="result-value">0 Days</span>
+        </div>
+    </div>
+</div>
+
+<script>
+function calculateRTC() {
+    const total = parseFloat(document.getElementById('total_sh').value);
+    const current = parseFloat(document.getElementById('completed_sh').value);
+    const spark = parseFloat(document.getElementById('staked_spark').value);
+    const resultsPanel = document.getElementById('rtc-results');
+
+    if (total > 0 && spark > 0) {
+        const remaining = total - current;
+        const hoursLeft = remaining / spark;
+        
+        const days = Math.floor(hoursLeft / 24);
+        const hours = Math.round(hoursLeft % 24);
+
+        document.getElementById('res_rem').innerText = remaining.toFixed(2) + " SH";
+        document.getElementById('res_time').innerText = `${days} Days, ${hours} Hours`;
+        
+        resultsPanel.style.display = 'block';
+    } else {
+        alert("Please enter valid Spark and Total Hour values.");
+    }
+}
+</script>
+
+</body>
+</html>
