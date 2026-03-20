@@ -89,6 +89,37 @@
         .service-card h3 { color: var(--accent); margin-top: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .service-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 0; line-height: 1.7; }
 
+        /* CALCULATOR STYLING */
+        .tools-section { background-color: rgba(15, 31, 61, 0.8); padding: 4rem 5%; border-top: 2px solid var(--border-color); }
+        .calc-wrapper { display: flex; justify-content: center; }
+        .calc-container { 
+            background: var(--bg-card); 
+            border: 2px solid var(--accent); 
+            border-radius: 12px; 
+            padding: 30px; 
+            width: 100%; 
+            max-width: 450px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .calc-container h3 { color: var(--accent); text-align: center; margin-top: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
+        .input-group input { 
+            width: 100%; padding: 12px; background: #0b172a; border: 1px solid var(--border-color); 
+            border-radius: 5px; color: var(--accent); font-size: 1rem; box-sizing: border-box;
+        }
+        .calc-btn { 
+            width: 100%; padding: 15px; background: var(--accent); color: #0f1f3d; 
+            border: none; border-radius: 5px; font-weight: bold; text-transform: uppercase; 
+            cursor: pointer; transition: background 0.3s;
+        }
+        .calc-btn:hover { background: var(--accent-hover); }
+        .results-panel { 
+            margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.2); 
+            border-radius: 8px; border-left: 4px solid var(--accent); display: none; 
+        }
+        .res-line { display: flex; justify-content: space-between; margin-bottom: 5px; }
+
         /* Project Portfolio Styling */
         .portfolio-section { background-color: rgba(19, 37, 73, 0.4); padding: 5rem 5%; border-top: 2px solid var(--border-color); }
         .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
@@ -130,6 +161,44 @@
                 <h2>Engineering the Metaverse</h2>
                 <p>Raytown Construction don't just place buildings; we engineer digital communities. Our strategies leverage strategic property acquisition and precise development analytics from the <strong>FASTTRACK TOOLs</strong> system.</p>
                 <a href="insights.html" class="button">Read Development Insights</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="tools-section">
+        <div class="container">
+            <h2 class="section-title">Project Development Tools<span>Estimate your build completion time instantly</span></h2>
+            <div class="calc-wrapper">
+                <div class="calc-container">
+                    <img src="fasttracktoolslogo.png" alt="FastTrack" style="width: 60px; display: block; margin: 0 auto 15px;">
+                    <h3>Spark Hour Calculator</h3>
+                    
+                    <div class="input-group">
+                        <label>Total Spark Hours Required</label>
+                        <input type="number" id="total_sh" placeholder="e.g. 1200">
+                    </div>
+                    <div class="input-group">
+                        <label>Completed Spark Hours</label>
+                        <input type="number" id="completed_sh" placeholder="e.g. 450">
+                    </div>
+                    <div class="input-group">
+                        <label>Current Staked Spark</label>
+                        <input type="number" id="staked_spark" step="0.01" placeholder="e.g. 1.5">
+                    </div>
+                    
+                    <button class="calc-btn" onclick="calculateRTC()">Calculate Completion</button>
+                    
+                    <div id="rtc-results" class="results-panel">
+                        <div class="res-line">
+                            <span>Remaining:</span>
+                            <span id="res_rem" style="color: var(--accent); font-weight: bold;">0 SH</span>
+                        </div>
+                        <div class="res-line" style="border-top: 1px solid #444; margin-top: 10px; padding-top: 10px;">
+                            <span>Est. Time:</span>
+                            <span id="res_time" style="color: var(--accent); font-weight: bold;">0 Days</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -193,6 +262,30 @@
     <footer>
         <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
     </footer>
+
+    <script>
+        function calculateRTC() {
+            const total = parseFloat(document.getElementById('total_sh').value);
+            const current = parseFloat(document.getElementById('completed_sh').value);
+            const spark = parseFloat(document.getElementById('staked_spark').value);
+            const resultsPanel = document.getElementById('rtc-results');
+
+            if (total > 0 && spark > 0) {
+                const remaining = total - current;
+                const hoursLeft = remaining / spark;
+                
+                const days = Math.floor(hoursLeft / 24);
+                const hours = Math.round(hoursLeft % 24);
+
+                document.getElementById('res_rem').innerText = remaining.toFixed(2) + " SH";
+                document.getElementById('res_time').innerText = `${days} Days, ${hours} Hours`;
+                
+                resultsPanel.style.display = 'block';
+            } else {
+                alert("Please enter all values (Spark amount must be greater than 0).");
+            }
+        }
+    </script>
 
 </body>
 </html>
