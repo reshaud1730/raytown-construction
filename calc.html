@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raytown Construction: Trade N Build | Metaverse Development</title>
+    <title>Raytown Construction: Trade N Build | Builder Portal</title>
     <style>
         :root {
             --bg-dark: #0f1f3d;
@@ -12,33 +12,32 @@
             --metal-shine: rgba(255,255,255,0.25);
             --metal-shadow: rgba(0,0,0,0.6);
             --metal-texture: url('https://www.transparenttextures.com/patterns/brushed-alum.png');
+            --accent-gold: #d6a048;
         }
 
         body {
             font-family: 'Montserrat', 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-dark);
+            /* Background uses your asset folder */
             background-image: url('assets/images/lowpoly_space_background.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: white;
             margin: 0; padding: 0;
-            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            display: flex; flex-direction: column; align-items: center;
             min-height: 100vh;
         }
 
-        /* Standard Header from original site */
+        /* --- Header --- */
         header { width: 100%; box-sizing: border-box; background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid #4b5563; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .header-logo { display: flex; align-items: center; gap: 12px; }
         .logo-icon { width: 40px; height: 40px; }
         header h1 { margin: 0; font-size: 1.4rem; color: #e2e8f0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .nav-links a { color: #e2e8f0; text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.9rem; text-transform: uppercase; }
-        .nav-links a:hover { color: #d6a048; }
+        .nav-links a { color: #e2e8f0; text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.85rem; text-transform: uppercase; }
+        .nav-links a:hover { color: var(--accent-gold); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 5%; display: flex; flex-direction: column; align-items: center; }
-        .section-title { text-align: center; font-size: 2rem; margin-bottom: 2rem; color: #e2e8f0; text-transform: uppercase; letter-spacing: 1.5px;}
-
-        /* --- THE METALLIC CALCULATOR --- */
+        /* --- The Metallic Calculator Console --- */
         .calculator-frame {
             width: 440px;
             background: linear-gradient(135deg, #abb1b8 0%, #d1d9e6 45%, #e1e9f6 55%, #c0c6d0 100%);
@@ -47,13 +46,12 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 3px 6px rgba(255,255,255,0.6);
             position: relative;
             padding: 20px;
-            margin-top: 2rem;
-            margin-bottom: 4rem;
+            margin: 3rem auto;
+            z-index: 10;
         }
 
-        .calculator-frame::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: var(--metal-texture); opacity: 0.03; pointer-events: none; }
+        .calculator-frame::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: var(--metal-texture); opacity: 0.05; pointer-events: none; }
 
-        /* Hex Grid Background Area */
         .grid-panel {
             background-color: #121e3c;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%232a4e7f' fill-opacity='0.1' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.25v12l11 6.5 11-6.5v-12l-11-6.5-11 6.5zm0-12.5L1 3.25V1.25h12.99l13 7.5V11.25l-11-6.5-11 6.5-13-7.5zm0 30l1 1.5v12h12.99l13-7.5v-2l-11 6.5-11-6.5-13 7.5zm22-30l1-1.5v-2H13.99l-13 7.5v2l11-6.5 11 6.5 1-1.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
@@ -63,185 +61,146 @@
             box-shadow: inset 0 2px 10px rgba(0,0,0,0.7);
         }
 
-        /* Branded header bar */
         .brand-bar {
             background: linear-gradient(to right, #203e7c, #0d1e41, #203e7c);
-            color: #d6eaff;
-            text-align: center;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: bold;
-            border: 1px solid #4a6da7;
-            margin-top: 10px; margin-bottom: 15px;
-            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+            color: #d6eaff; text-align: center; padding: 8px; border-radius: 6px;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;
+            border: 1px solid #4a6da7; margin-bottom: 15px;
         }
-        .brand-bar div:last-child { font-size: 0.6rem; color: #a1b8d5; font-weight: normal; margin-top: 2px; }
 
-        /* The Display Node Panel (Metal with rivets) */
         .display-node {
             background: linear-gradient(135deg, #d4dbe4 0%, #e8eef6 50%, #ccd3de 100%);
-            border-radius: 8px;
-            border: 1px solid #7d858f;
-            padding: 12px;
-            position: relative;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5), inset 0 2px 2px rgba(255,255,255,0.7);
-        }
-        .rivet { width: 6px; height: 6px; background: radial-gradient(circle at 3px 3px, #e8f0fa 0%, #90a1b6 100%); border-radius: 50%; border: 1px solid #7d858f; position: absolute; box-shadow: inset 0 -1px 1px rgba(0,0,0,0.3); }
-        .rivet-tl { top: 6px; left: 6px; } .rivet-tr { top: 6px; right: 6px; } .rivet-bl { bottom: 6px; left: 6px; } .rivet-br { bottom: 6px; right: 6px; }
-
-        .display-node label {
-            display: block; font-size: 0.65rem; color: #1a2f57; margin-bottom: 5px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;
+            border-radius: 8px; border: 1px solid #7d858f; padding: 12px;
+            position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 2px 2px rgba(255,255,255,0.7);
+            margin-bottom: 10px;
         }
 
-        /* Glowing Cyan Numerical Display */
+        .display-node label { display: block; font-size: 0.6rem; color: #1a2f57; margin-bottom: 5px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+
         .data-input {
-            width: 100%; box-sizing: border-box; background: radial-gradient(circle at center, #1e3966 0%, #1a2a47 100%);
+            width: 100%; box-sizing: border-box; background: #070d18;
             border: 2px solid #2e4d82; border-radius: 6px;
-            color: var(--text-glowing); font-size: 2.2rem; font-weight: 900;
-            text-align: center; padding: 10px 0; outline: none; transition: border 0.3s;
-            text-shadow: 0 0 12px var(--accent-cyan);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.8), inset 0 -2px 6px rgba(0, 242, 255, 0.3);
-            cursor: pointer;
+            color: var(--text-glowing); font-size: 1.4rem; font-weight: 900;
+            text-align: center; padding: 8px 0; outline: none;
+            text-shadow: 0 0 10px var(--accent-cyan);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
         }
-        .data-input:focus { border-color: var(--accent-cyan); box-shadow: inset 0 0 15px rgba(0,0,0,0.8), inset 0 -2px 6px rgba(0, 242, 255, 0.3), 0 0 10px rgba(0, 242, 255, 0.4); }
 
-        /* The Main Button (Chrome/Blue) */
-        .action-button-container { display: flex; justify-content: center; margin-top: 15px; margin-bottom: 5px; }
+        .action-button-container { display: flex; justify-content: center; margin-top: 15px; }
         .calculate-btn {
             background: linear-gradient(to bottom, #7da1d1 0%, #1e5ba9 48%, #164687 52%, #2a6fcc 100%);
-            color: #d6eaff; font-size: 0.8rem; font-weight: 800; text-transform: uppercase;
-            letter-spacing: 1px; padding: 12px 25px; border-radius: 12px;
-            border: 2px solid #4a6da7; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.4);
-            transition: all 0.2s;
+            color: white; font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
+            padding: 12px 30px; border-radius: 12px; border: 2px solid #4a6da7; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5); width: 100%;
         }
-        .calculate-btn:hover { background: linear-gradient(to bottom, #8cb1e1 0%, #2062b9 48%, #1c5297 52%, #317bdd 100%); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
-        .calculate-btn:active { transform: translateY(1px); box-shadow: 0 2px 5px rgba(0,0,0,0.6); }
 
-        /* Blue nodes on the metal frame */
-        .metal-node { width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at center, #1e3966 0%, #1a2a47 100%); border: 2px solid #5a79ad; box-shadow: 0 0 8px rgba(0, 242, 255, 0.2); position: absolute; }
-        .metal-node-tl { top: 22px; left: 22px; } .metal-node-tr { top: 22px; right: 22px; } .metal-node-bl { bottom: 22px; left: 22px; } .metal-node-br { bottom: 22px; right: 22px; }
+        .calculate-btn:hover { box-shadow: 0 0 15px var(--accent-cyan); filter: brightness(1.1); }
 
-        /* Project Portfolio Styling from original site (re-applied) */
-        .portfolio-section { background-color: rgba(19, 37, 73, 0.4); padding: 5rem 5%; border-top: 2px solid #4b5563; }
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
-        .portfolio-card { background-color: #132549; border: 1px solid #4b5563; border-radius: 8px; overflow: hidden; transition: transform 0.3s ease; }
-        .portfolio-card:hover { transform: translateY(-5px); border-color: #d6a048; }
-        .portfolio-content { padding: 1.8rem; }
-        .portfolio-tag { color: #d6a048; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
-        .portfolio-content h3 { color: #e2e8f0; margin-top: 0; font-size: 1.3rem; text-transform: uppercase; margin-bottom: 0.8rem; }
-        .portfolio-content p { color: #cbd5e1; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6; }
+        /* Results Display Section */
+        #results-display { margin-top: 15px; background: rgba(0, 242, 255, 0.05); border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 15px; display: none; text-align: center; }
+        .res-main-label { color: #a1b8d5; font-size: 0.7rem; text-transform: uppercase; }
+        .res-main-val { color: var(--accent-cyan); font-size: 2rem; font-weight: 900; text-shadow: 0 0 15px var(--accent-cyan); margin: 5px 0; display: block; }
 
-        footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: 0.9rem; border-top: 1px solid #4b5563; position: relative; width: 100%; box-sizing: border-box; background-color: rgba(15, 31, 61, 0.98); }
+        /* Rivets and Nodes for Metal Look */
+        .rivet { width: 4px; height: 4px; background: #90a1b6; border-radius: 50%; position: absolute; box-shadow: inset 0 1px 1px rgba(0,0,0,0.5); }
+        .rivet-tl { top: 4px; left: 4px; } .rivet-tr { top: 4px; right: 4px; } .rivet-bl { bottom: 4px; left: 4px; } .rivet-br { bottom: 4px; right: 4px; }
+        .metal-node { width: 10px; height: 10px; border-radius: 50%; background: #1a2a47; border: 2px solid #5a79ad; position: absolute; }
+        .metal-node-tl { top: 15px; left: 15px; } .metal-node-tr { top: 15px; right: 15px; }
 
+        footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: 0.8rem; border-top: 1px solid #4b5563; background: rgba(15, 31, 61, 0.9); width: 100%; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="header-logo">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build Logo" class="logo-icon">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Logo" class="logo-icon">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
-            <a href="index.html" style="color: #d6a048;">Home</a>
+            <a href="index.html">Home</a>
             <a href="insights.html">Insights</a>
             <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
-            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: #d6a048; padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem;">FastTrack Tools</a>
         </div>
     </header>
 
-    <div class="container">
-        <h2 class="section-title">RTC Builder Portal</h2>
+    <div class="calculator-frame">
+        <div class="metal-node metal-node-tl"></div><div class="metal-node metal-node-tr"></div>
         
-        <div class="calculator-frame">
-            <div class="metal-node metal-node-tl"></div> <div class="metal-node metal-node-tr"></div>
-            <div class="metal-node metal-node-bl"></div> <div class="metal-node metal-node-br"></div>
+        <img src="assets/images/fasttracktools_crest_logo.png" alt="FastTrack" style="width: 100px; display: block; margin: 0 auto 10px; filter: drop-shadow(0 0 5px var(--accent-cyan));">
 
-            <img src="assets/images/fasttracktools_crest_logo.png" alt="FastTrack TOOLS" style="width: 130px; display: block; margin: 0 auto; filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.4)); position: relative; z-index: 10;">
+        <div class="grid-panel">
+            <div class="brand-bar">RTC CONSTRUCTION PORTAL</div>
 
-            <div class="grid-panel">
-                <div class="brand-bar">
-                    <div>RAYTOWN CONSTRUCTION DEPO</div>
-                    <div>OFFICIAL PORTAL</div>
-                </div>
+            <div class="display-node">
+                <div class="rivet rivet-tl"></div><div class="rivet rivet-tr"></div>
+                <div class="rivet rivet-bl"></div><div class="rivet rivet-br"></div>
+                <label>Total Project Requirement (SH)</label>
+                <input type="number" id="total_req" class="data-input" placeholder="0000">
+            </div>
 
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <div class="display-node">
-                    <div class="rivet rivet-tl"></div><div class="rivet rivet-tr"></div>
-                    <div class="rivet rivet-bl"></div><div class="rivet rivet-br"></div>
-                    <label>Completed Spark Hours (UI Value)</label>
-                    <input type="number" id="completed_ui_sh" class="data-input" placeholder="0000">
+                    <label>Days Left</label>
+                    <input type="number" id="days_left" class="data-input" placeholder="0">
+                </div>
+                <div class="display-node">
+                    <label>Hours Left</label>
+                    <input type="number" id="hours_left" class="data-input" placeholder="0">
+                </div>
+            </div>
+
+            <div class="display-node">
+                <label>Current Staked Spark</label>
+                <input type="number" id="staked_spark" step="0.01" class="data-input" placeholder="1.00">
+            </div>
+
+            <div id="results-display">
+                <span class="res-main-label">Completed Spark Hours</span>
+                <span id="res_completed" class="res-main-val">0.00</span>
+                <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #a1b8d5; border-top: 1px solid #2e4d82; padding-top: 8px;">
+                    <span>Rem: <span id="res_rem_sh" style="color:var(--accent-gold)">0</span> SH</span>
+                    <span>Progress: <span id="res_percent" style="color:var(--accent-gold)">0</span>%</span>
                 </div>
             </div>
             
             <div class="action-button-container">
-                <button class="calculate-btn" onclick="calculateProgress()">CALCULATE PROGRESS</button>
+                <button class="calculate-btn" onclick="runRTCReverse()">RUN PROGRESS ANALYSIS</button>
             </div>
         </div>
     </div>
 
-    <section class="portfolio-section">
-        <h2 class="section-title">Active Developments</h2>
-        <div class="portfolio-grid">
-            <div class="portfolio-card">
-                <img src="assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights" style="width: 100%; height: 220px; object-fit: cover;">
-                <div class="portfolio-content">
-                    <span class="portfolio-tag">Commercial</span>
-                    <h3>Gregory Heights Development</h3>
-                    <p>A high-density district optimized for maximum foot traffic, leveraging FASTTRACK TOOLs zoning data.</p>
-                </div>
-            </div>
-            <div class="portfolio-card">
-                <img src="assets/images/Raytown_University.png" alt="Raytown Campus" style="width: 100%; height: 220px; object-fit: cover;">
-                <div class="portfolio-content">
-                    <span class="portfolio-tag">Master Planning</span>
-                    <h3>Raytown University Campus</h3>
-                    <p>Large-scale architectural alignment and efficient Sparklet deployment across adjacent parcels.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <footer>
-        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+        <p>&copy; 2026 Raytown Construction | Powered by FASTTRACK TOOLs</p>
     </footer>
 
-<script>
-function calculateProgress() {
-    // 1. Get the inputs from the UI
-    // We'll add two more input fields to the HTML below to support this math
-    const totalReq = parseFloat(document.getElementById('total_req').value);
-    const daysLeft = parseFloat(document.getElementById('days_left').value) || 0;
-    const hoursLeft = parseFloat(document.getElementById('hours_left').value) || 0;
-    const currentSpark = parseFloat(document.getElementById('staked_spark').value);
+    <script>
+        function runRTCReverse() {
+            const totalReq = parseFloat(document.getElementById('total_req').value);
+            const d = parseFloat(document.getElementById('days_left').value) || 0;
+            const h = parseFloat(document.getElementById('hours_left').value) || 0;
+            const spark = parseFloat(document.getElementById('staked_spark').value);
+            const display = document.getElementById('results-display');
 
-    if (totalReq > 0 && currentSpark > 0) {
-        // 2. Convert "Time Left" into total remaining hours
-        const totalHoursRemaining = (daysLeft * 24) + hoursLeft;
+            if (totalReq > 0 && spark > 0) {
+                // Formula: (Days * 24 + Hours) * Spark = Remaining SH
+                const totalHoursLeft = (d * 24) + h;
+                const remainingSH = totalHoursLeft * spark;
+                
+                // Formula: Total - Remaining = Completed
+                const completedSH = totalReq - remainingSH;
+                const percent = (completedSH / totalReq) * 100;
 
-        // 3. Calculate Remaining Spark Hours (SH)
-        // Formula: Spark Staked * Hours Left
-        const remainingSH = totalHoursRemaining * currentSpark;
-
-        // 4. Calculate Completed Spark Hours
-        // Formula: Total Requirement - Remaining SH
-        const completedSH = totalReq - remainingSH;
-
-        // 5. Calculate Percentage
-        const percent = (completedSH / totalReq) * 100;
-
-        // Display results in an alert (or we can map them to the UI nodes)
-        alert(
-            "--- RTC Construction Report ---\n" +
-            "Completed Spark Hours: " + completedSH.toFixed(2) + " SH\n" +
-            "Remaining Spark Hours: " + remainingSH.toFixed(2) + " SH\n" +
-            "Project Progress: " + Math.max(0, percent.toFixed(1)) + "%"
-        );
-    } else {
-        alert("Please ensure Total Requirement and Staked Spark are filled out.");
-    }
-}
-</script>
+                // Update UI Nodes
+                document.getElementById('res_completed').innerText = completedSH.toFixed(2);
+                document.getElementById('res_rem_sh').innerText = Math.max(0, remainingSH.toFixed(2));
+                document.getElementById('res_percent').innerText = Math.max(0, percent.toFixed(1));
+                
+                display.style.display = 'block';
+            } else {
+                alert("Calculation Error: Please enter Total Requirement and Staked Spark.");
+            }
+        }
+    </script>
+</body>
+</html>
