@@ -99,6 +99,10 @@
         .important-note { background-color: rgba(250, 204, 21, 0.1); border: 1px solid var(--status-pending); padding: 1.5rem; border-radius: 8px; margin-top: 3rem; }
         .important-note h4 { color: var(--status-pending); margin-top: 0; text-transform: uppercase; }
 
+        .celebration-banner { background: linear-gradient(135deg, rgba(74, 222, 128, 0.2) 0%, rgba(19, 37, 73, 0.8) 100%); border: 2px solid var(--status-open); padding: 2rem; border-radius: 8px; text-align: center; margin-bottom: 3rem; box-shadow: 0 0 20px rgba(74, 222, 128, 0.1); }
+        .celebration-banner h3 { color: var(--status-open); margin-top: 0; text-transform: uppercase; font-size: 1.5rem; letter-spacing: 1px; }
+        .celebration-banner p { margin-bottom: 0; color: #e2e8f0; font-size: 1.1rem; }
+
         .section-divider { height: 2px; background: linear-gradient(90deg, transparent, var(--border-color), transparent); margin: 5rem 0; }
 
         footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 5rem; }
@@ -110,13 +114,14 @@
 
     <header>
         <div class="header-logo">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="insights.html">FastTrack Insights</a>
-            <a href="portal.html" style="color: var(--accent);">Builder Portal</a> <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="insights.html" style="color: var(--accent);">FastTrack Insights</a>
+            <a href="portal.html">Builder Portal</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
             <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
         </div>
     </header>
@@ -144,46 +149,29 @@
             <div class="section-divider"></div>
 
             <h2>💬 Discord Operations Snapshot</h2>
-            <p>Current active dispatches and crew status from the Raytown Construction Discord. Sub-stakers should review the Open Projects list below to secure their contracts.</p>
+            <p>Current active dispatches and crew status from the Raytown Construction Discord.</p>
 
             <div class="data-box">
                 <div class="stat-block">
                     <h4>Available Now</h4>
-                    <span class="gold">2</span>
+                    <span class="gold">0</span>
                 </div>
                 <div class="stat-block">
                     <h4>Awaiting Clearance</h4>
-                    <span>6</span>
+                    <span>5</span>
                 </div>
                 <div class="stat-block">
                     <h4>Total Cleared</h4>
-                    <span>3</span>
+                    <span>6</span>
                 </div>
             </div>
 
             <h3 style="color: var(--text-main); margin-top: 2.5rem; text-transform: uppercase;">🟢 Open Projects (Available for Subs)</h3>
-            <p>These projects are currently OPEN. Sub-stakers can now accept these contracts directly in Discord.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Property Address</th>
-                        <th>Payout Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>9004 E 74th St</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status open"><span class="status-dot"></span> OPEN</span></td>
-                    </tr>
-                    <tr>
-                        <td>9015 E 73rd St</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status open"><span class="status-dot"></span> OPEN</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            
+            <div class="celebration-banner">
+                <h3>🎉 ALL PROJECTS HAVE BEEN ACCEPTED AND CLOSED!</h3>
+                <p>Thanks everyone for your incredible support and participation. The dispatch board has been wiped clean!</p>
+            </div>
 
             <h3 style="color: var(--text-main); margin-top: 2.5rem; text-transform: uppercase;">🟡 Pending Clearance (Closed)</h3>
             <p>The following projects are under construction or closed to new stakers but are NOT YET CLEARED in the ledger.</p>
@@ -207,22 +195,17 @@
                         <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
                     </tr>
                     <tr>
-                        <td>11212 E 53rd St</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
-                    </tr>
-                    <tr>
-                        <td>9003 E 73rd St</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
-                    </tr>
-                    <tr>
-                        <td>9015 E 72nd Ter</td>
-                        <td>31,200 UPX</td>
-                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
-                    </tr>
-                    <tr>
                         <td>9202 E 74th Ter</td>
+                        <td>31,200 UPX</td>
+                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
+                    </tr>
+                    <tr>
+                        <td>9004 E 74th St</td>
+                        <td>31,200 UPX</td>
+                        <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
+                    </tr>
+                    <tr>
+                        <td>9015 E 73rd St</td>
                         <td>31,200 UPX</td>
                         <td><span class="status pending"><span class="status-dot"></span> CLOSED (PENDING)</span></td>
                     </tr>
@@ -252,6 +235,21 @@
                     </tr>
                     <tr>
                         <td>7405 Blue Ridge Blvd</td>
+                        <td>31,200 UPX</td>
+                        <td><span class="status cleared"><span class="status-dot"></span> CLEARED</span></td>
+                    </tr>
+                    <tr>
+                        <td>11212 E 53rd St</td>
+                        <td>31,200 UPX</td>
+                        <td><span class="status cleared"><span class="status-dot"></span> CLEARED</span></td>
+                    </tr>
+                    <tr>
+                        <td>9003 E 73rd St</td>
+                        <td>31,200 UPX</td>
+                        <td><span class="status cleared"><span class="status-dot"></span> CLEARED</span></td>
+                    </tr>
+                    <tr>
+                        <td>9015 E 72nd Ter</td>
                         <td>31,200 UPX</td>
                         <td><span class="status cleared"><span class="status-dot"></span> CLEARED</span></td>
                     </tr>
