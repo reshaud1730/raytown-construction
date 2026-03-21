@@ -209,14 +209,39 @@
         <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
     </footer>
 
-    <script>
-        function calculateProgress() {
-            // This is a placeholder for the logic since you stated you don't have the formula.
-            // When we get the formula, we will add the calculation here and update the display.
-            const inputVal = document.getElementById('completed_ui_sh').value;
-            alert("Calculation Request for Completed SH value: " + inputVal);
-        }
-    </script>
+<script>
+function calculateProgress() {
+    // 1. Get the inputs from the UI
+    // We'll add two more input fields to the HTML below to support this math
+    const totalReq = parseFloat(document.getElementById('total_req').value);
+    const daysLeft = parseFloat(document.getElementById('days_left').value) || 0;
+    const hoursLeft = parseFloat(document.getElementById('hours_left').value) || 0;
+    const currentSpark = parseFloat(document.getElementById('staked_spark').value);
 
-</body>
-</html>
+    if (totalReq > 0 && currentSpark > 0) {
+        // 2. Convert "Time Left" into total remaining hours
+        const totalHoursRemaining = (daysLeft * 24) + hoursLeft;
+
+        // 3. Calculate Remaining Spark Hours (SH)
+        // Formula: Spark Staked * Hours Left
+        const remainingSH = totalHoursRemaining * currentSpark;
+
+        // 4. Calculate Completed Spark Hours
+        // Formula: Total Requirement - Remaining SH
+        const completedSH = totalReq - remainingSH;
+
+        // 5. Calculate Percentage
+        const percent = (completedSH / totalReq) * 100;
+
+        // Display results in an alert (or we can map them to the UI nodes)
+        alert(
+            "--- RTC Construction Report ---\n" +
+            "Completed Spark Hours: " + completedSH.toFixed(2) + " SH\n" +
+            "Remaining Spark Hours: " + remainingSH.toFixed(2) + " SH\n" +
+            "Project Progress: " + Math.max(0, percent.toFixed(1)) + "%"
+        );
+    } else {
+        alert("Please ensure Total Requirement and Staked Spark are filled out.");
+    }
+}
+</script>
