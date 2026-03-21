@@ -3,72 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raytown Construction: Insights & Strategy</title>
+    <title>FastTrack Insights Hub | Raytown Construction: Trade N Build</title>
+    
+    <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
+    
     <style>
         :root {
-            --bg-dark: #0f1f3d; --bg-card: #132549; --text-main: #e2e8f0; 
-            --accent-gold: #d6a048; --accent-cyan: #00f2ff; --border-color: #4b5563;
+            --bg-dark: #0f1f3d; 
+            --bg-card: #132549; 
+            --text-main: #e2e8f0; 
+            --text-muted: #94a3b8;
+            --accent: #d6a048; 
+            --accent-hover: #b0843a;
+            --border-color: #4b5563; 
+            --tag-bg: #4b5563; 
         }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin:0; padding:0; }
-        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
+        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .header-logo { display: flex; align-items: center; gap: 12px; }
-        header h1 { margin: 0; font-size: 1.6rem; text-transform: uppercase; color: var(--text-main); }
-        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; text-transform: uppercase; font-size: 0.9rem; }
-        .container { max-width: 1000px; margin: 4rem auto; padding: 0 5%; }
+        .logo-icon { width: 50px; height: 50px; }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .nav-links a:hover { color: var(--accent); }
+
+        .page-header { padding: 5rem 5% 3rem; text-align: center; border-bottom: 2px solid var(--border-color); background: linear-gradient(180deg, #132549 0%, #0f1f3d 100%); }
+        .page-header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
+        .page-header p { color: var(--text-muted); font-size: 1.25rem; max-width: 650px; margin: 0 auto; line-height: 1.7; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 5%; }
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
+
+        .report-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, border-color 0.3s ease; }
+        .report-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 0 15px rgba(214, 160, 72, 0.05);}
+        .report-content { padding: 2.5rem; flex-grow: 1; }
+
+        .report-tag { display: inline-block; background-color: var(--tag-bg); color: var(--accent); padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.8px; border: 1px solid rgba(214, 160, 72, 0.1); }
+        .report-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--text-main); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .report-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 1.8rem; line-height: 1.7;}
         
-        .tech-spec { background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 15px; padding: 40px; margin-bottom: 3rem; }
-        .formula-box { background: #0b172a; padding: 30px; border-radius: 10px; border-left: 6px solid var(--accent-gold); margin: 30px 0; text-align: center; }
-        .case-study { border-radius: 15px; overflow: hidden; margin-bottom: 3rem; border: 2px solid var(--border-color); }
-        .case-header { padding: 15px 30px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
-        .case-content { padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
-        img { width: 100%; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .read-more { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .read-more:hover { color: var(--accent-hover); }
+        .read-more::after { content: ' →'; margin-left: 6px; font-weight: bold;}
+
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; position: relative; }
     </style>
 </head>
 <body>
 
+    <div class="bg-overlay"></div>
+
     <header>
         <div class="header-logo">
-            <img src="assets/images/raytown_trade_build_logo.png" style="width:40px;">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build Logo" class="logo-icon">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="insights.html" style="color: var(--accent-gold);">Insights</a>
+            <a href="insights.html" style="color: var(--accent);">FastTrack Insights</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
         </div>
     </header>
 
-    <div class="container">
-        <section class="tech-spec">
-            <h2 style="color: var(--accent-gold); text-transform: uppercase; margin-top:0;">Technical Brief: Progress Analytics</h2>
-            <p style="color: #94a3b8;">Utilizing the FastTrack Analytics reverse-calculation method to identify banked Completed Spark Hours (CSH).</p>
-            <div class="formula-box">
-                <span style="display:block; color:#64748b; font-size:0.7rem; text-transform:uppercase; margin-bottom:10px;">The Equation</span>
-                <code style="font-size: 1.8rem; color: var(--accent-cyan);">CSH = R - ((D * 24 + H) * S)</code>
-            </div>
-        </section>
-
-        <section class="case-study" style="border-color: var(--accent-gold);">
-            <div class="case-header" style="background: var(--accent-gold); color: #0f1f3d;">Case Study: Gregory Heights Node</div>
-            <div class="case-content">
-                <img src="assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights">
-                <div>
-                    <h4 style="color: var(--accent-gold); margin-top:0;">Outcome</h4>
-                    <p style="font-size: 0.9rem;">Optimized reward distribution for Trade N Build participants. Exact CSH tracking ensures fair 15% reward splits upon project completion.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="case-study" style="border-color: var(--accent-cyan);">
-            <div class="case-header" style="background: #1e3966; color: var(--accent-cyan); border-bottom: 2px solid var(--accent-cyan);">Case Study: Raytown University</div>
-            <div class="case-content">
-                <div>
-                    <h4 style="color: var(--accent-cyan); margin-top:0;">Outcome</h4>
-                    <p style="font-size: 0.9rem;">Large-scale architectural alignment across adjacent parcels. Synchronized staking schedules result in zero "Dead Spark" time.</p>
-                </div>
-                <img src="assets/images/Raytown_University.png" alt="Raytown University">
-            </div>
-        </section>
+    <div class="page-header">
+        <h2>FastTrack Insights Hub</h2>
+        <p>Strategic neighborhood analytics, operational ledgers, and structural optimization reports powered by FASTTRACK TOOLs.</p>
     </div>
+
+    <div class="container">
+        <div class="insights-grid">
+            
+            <article class="report-card">
+                <div class="report-content">
+                    <span class="report-tag">Ledger Update</span>
+                    <h3>FASTTRACK LEDGER: Project Status Update</h3>
+                    <p>Official operational status and UPX payout records for current active builds in the Kansas City hub. View open projects available for sub-stakers right now.</p>
+                    <a href="report-template.html" class="read-more">View Full Ledger</a>
+                </div>
+            </article>
+
+            <article class="report-card">
+                <div class="report-content">
+                    <span class="report-tag">Node Analysis</span>
+                    <h3>Maximizing Foot Traffic in Genesis Cities</h3>
+                    <p>A deep dive into the recent FastTrack data showing how strategic commercial zoning near transit hubs drastically increases neighborhood utility scores.</p>
+                    <a href="#" class="read-more">Read Full Report</a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
 
 </body>
 </html>
