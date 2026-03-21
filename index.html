@@ -89,6 +89,29 @@
         .service-card h3 { color: var(--accent); margin-top: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .service-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 0; line-height: 1.7; }
 
+        /* World Engine Spotlight Section */
+        .spotlight-section {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, rgba(19, 37, 73, 0.8) 0%, rgba(15, 31, 61, 0.9) 100%);
+            border-top: 2px solid var(--border-color);
+        }
+        .spotlight-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .spotlight-image { width: 100%; border-radius: 12px; border: 2px solid var(--accent); box-shadow: 0 0 30px rgba(214, 160, 72, 0.2); }
+        .spotlight-content h2 { color: var(--text-main); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 0; margin-bottom: 0.5rem; }
+        .spotlight-content .tag { color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; display: block; margin-bottom: 1rem; }
+        .spotlight-content p { color: #cbd5e1; font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem; }
+        .spotlight-content ul { list-style: none; padding: 0; margin-bottom: 2rem; }
+        .spotlight-content li { color: #cbd5e1; font-size: 1.05rem; margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; }
+        .spotlight-content li::before { content: '⚡'; position: absolute; left: 0; color: var(--accent); }
+        .spotlight-blockquote { border-left: 4px solid var(--accent); padding-left: 1.5rem; font-style: italic; color: var(--text-muted); font-size: 1.15rem; margin: 2rem 0 0 0; line-height: 1.6;}
+        
         /* Project Portfolio Styling */
         .portfolio-section { background-color: rgba(19, 37, 73, 0.4); padding: 5rem 5%; border-top: 2px solid var(--border-color); }
         .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
@@ -104,6 +127,14 @@
         .button:hover { background-color: var(--accent-hover); transform: scale(1.02); }
 
         footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); position: relative; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-banner-container { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+            .hero-content { padding: 0 1rem; }
+            .hero-content p { margin: 0 auto 2.5rem auto; }
+            .spotlight-container { grid-template-columns: 1fr; gap: 2rem; }
+        }
     </style>
 </head>
 <body>
@@ -112,20 +143,21 @@
 
     <header>
         <div class="header-logo">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build Logo" class="logo-icon">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
-            <a href="index.html">Home</a>
+            <a href="index.html" style="color: var(--accent);">Home</a>
             <a href="insights.html">FastTrack Insights</a>
-            <a href="portal.html" style="color: var(--accent);">Builder Portal</a> <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="portal.html">Builder Portal</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
             <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
         </div>
     </header>
 
     <section class="hero">
         <div class="hero-banner-container">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build circular logo" class="hero-banner-image">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build circular logo" class="hero-banner-image" onerror="this.style.display='none'">
             <div class="hero-content">
                 <h2>Engineering the Metaverse</h2>
                 <p>Raytown Construction don't just place buildings; we engineer digital communities. Our strategies leverage strategic property acquisition and precise development analytics from the <strong>FASTTRACK TOOLs</strong> system.</p>
@@ -152,11 +184,39 @@
         </div>
     </div>
 
+    <section class="spotlight-section">
+        <div class="spotlight-container">
+            <div class="spotlight-image-wrapper">
+                <img src="assets/images/Prime_Builder.png" alt="World Engine Prime Builder Badge" class="spotlight-image" onerror="this.style.display='none'">
+            </div>
+            <div class="spotlight-content">
+                <span class="tag">World Engine Dispatch: Community Spotlight</span>
+                <h2>The Legend of Masschef</h2>
+                <p style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 1.5rem; text-transform: uppercase; font-weight: bold;">
+                    The Architect of Raytown & Prime Efficiency Specialist
+                </p>
+                <p>In the bustling digital industrial hub of Raytown, where the hum of the World Engine Collective never ceases, a new legend has been etched into the blockchain. While many builders look at a dispatch board and see a list of chores, <strong>Masschef</strong> saw a challenge to the laws of physics.</p>
+                <p>In a record-breaking <strong>two-week sprint</strong>, the Raytown Operations channel witnessed a feat of structural engineering and logistics that has redefined "Upland speed." Out of a massive 11-project queue, Masschef didn't just participate—he dominated.</p>
+                
+                <h3 style="color: var(--accent); text-transform: uppercase; margin-top: 2rem; margin-bottom: 1rem; font-size: 1.3rem;">The Record of Service</h3>
+                <ul>
+                    <li><strong>Project Volume:</strong> Commanded the highest volume of builds from the dispatch board.</li>
+                    <li><strong>Completed Works:</strong> 3 high-priority projects fully cleared and delivered.</li>
+                    <li><strong>Current Momentum:</strong> While 2 projects remain on the active docket, Masschef’s "slowest" pace is still significantly outperforming the combined progress of all other remaining builds in the sector.</li>
+                </ul>
+                
+                <blockquote class="spotlight-blockquote">
+                    "They say in Raytown, if you blink, you might miss a foundation being poured. If you blink twice, Masschef has already finished the roof."
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
     <section class="portfolio-section">
         <h2 class="section-title">Active Developments & Portfolio<span>(Recent Raytown Builds in Upland)</span></h2>
         <div class="portfolio-grid">
             <div class="portfolio-card">
-                <img src="assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights Development" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);">
+                <img src="assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights Development" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
                 <div class="portfolio-content">
                     <span class="portfolio-tag">Commercial Zoning</span>
                     <h3>Gregory Heights Development</h3>
@@ -165,7 +225,7 @@
             </div>
 
             <div class="portfolio-card">
-                <img src="assets/images/Raytown_University.png" alt="Raytown University Campus" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);">
+                <img src="assets/images/Raytown_University.png" alt="Raytown University Campus" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
                 <div class="portfolio-content">
                     <span class="portfolio-tag">Master Planning</span>
                     <h3>Raytown University Campus</h3>
@@ -174,7 +234,7 @@
             </div>
 
             <div class="portfolio-card">
-                <img src="assets/images/Raytown_neighborhood.png" alt="Raytown Strategic Node Map" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);">
+                <img src="assets/images/Raytown_neighborhood.png" alt="Raytown Strategic Node Map" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
                 <div class="portfolio-content">
                     <span class="portfolio-tag">Strategic Acquisition</span>
                     <h3>Raytown Node Network</h3>
