@@ -3,173 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastTrack Insights Hub | Raytown Construction: Trade N Build</title>
-    
-    <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
-    
+    <title>Raytown Construction: Insights & Strategy</title>
     <style>
         :root {
-            --bg-dark: #0f1f3d; 
-            --bg-card: #132549; 
-            --text-main: #e2e8f0; 
-            --text-muted: #94a3b8;
-            --accent: #d6a048; 
-            --accent-hover: #b0843a;
-            --border-color: #4b5563; 
-            --tag-bg: #4b5563; 
+            --bg-dark: #0f1f3d; --bg-card: #132549; --text-main: #e2e8f0; 
+            --accent-gold: #d6a048; --accent-cyan: #00f2ff; --border-color: #4b5563;
         }
-
-        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
-        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin:0; padding:0; }
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .header-logo { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { width: 50px; height: 50px; }
-        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
-
-        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
-        .nav-links a:hover { color: var(--accent); }
-
-        .page-header { padding: 5rem 5% 3rem; text-align: center; border-bottom: 2px solid var(--border-color); background: linear-gradient(180deg, #132549 0%, #0f1f3d 100%); }
-        .page-header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
-        .page-header p { color: var(--text-muted); font-size: 1.25rem; max-width: 650px; margin: 0 auto; line-height: 1.7; }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 5%; }
-        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
-
-        .report-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, border-color 0.3s ease; }
-        .report-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 0 15px rgba(214, 160, 72, 0.05);}
-        .report-content { padding: 2.5rem; flex-grow: 1; }
-
-        .report-tag { display: inline-block; background-color: var(--tag-bg); color: var(--accent); padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.8px; border: 1px solid rgba(214, 160, 72, 0.1); }
-        .report-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--text-main); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;}
-        .report-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 1.8rem; line-height: 1.7;}
+        header h1 { margin: 0; font-size: 1.6rem; text-transform: uppercase; color: var(--text-main); }
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; text-transform: uppercase; font-size: 0.9rem; }
+        .container { max-width: 1000px; margin: 4rem auto; padding: 0 5%; }
         
-        .read-more { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px; }
-        .read-more:hover { color: var(--accent-hover); }
-        .read-more::after { content: ' →'; margin-left: 6px; font-weight: bold;}
-
-        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; position: relative; }
+        .tech-spec { background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 15px; padding: 40px; margin-bottom: 3rem; }
+        .formula-box { background: #0b172a; padding: 30px; border-radius: 10px; border-left: 6px solid var(--accent-gold); margin: 30px 0; text-align: center; }
+        .case-study { border-radius: 15px; overflow: hidden; margin-bottom: 3rem; border: 2px solid var(--border-color); }
+        .case-header { padding: 15px 30px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+        .case-content { padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+        img { width: 100%; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
-    <div class="bg-overlay"></div>
-
     <header>
         <div class="header-logo">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build Logo" class="logo-icon">
+            <img src="assets/images/raytown_trade_build_logo.png" style="width:40px;">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="insights.html" style="color: var(--accent);">FastTrack Insights</a>
-            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
-            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
+            <a href="insights.html" style="color: var(--accent-gold);">Insights</a>
         </div>
     </header>
 
-    <div class="page-header">
-        <h2>FastTrack Insights Hub</h2>
-        <p>Strategic neighborhood analytics, operational ledgers, and structural optimization reports powered by FASTTRACK TOOLs.</p>
-    </div>
-
-<div class="insights-container" style="max-width: 1000px; margin: 0 auto; padding: 2rem; font-family: 'Segoe UI', sans-serif; color: #e2e8f0;">
-
-    <section class="tech-spec" style="background: #132549; border: 2px solid #4b5563; border-radius: 15px; padding: 40px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-        <h2 style="color: #d6a048; text-transform: uppercase; letter-spacing: 2px; margin-top: 0; border-bottom: 1px solid #4b5563; padding-bottom: 10px;">
-            Technical Brief: Progress Analytics
-        </h2>
-        <p style="color: #94a3b8; font-size: 1.1rem; line-height: 1.8;">
-            At Raytown Construction, we eliminate the guesswork from development. While the standard Upland interface provides general estimations, our <strong>FastTrack Analytics</strong> utilizes a reverse-calculation method to identify banked <strong>Completed Spark Hours (CSH)</strong> with 100% precision.
-        </p>
-
-        <div style="background: #0b172a; padding: 30px; border-radius: 10px; border-left: 6px solid #d6a048; margin: 30px 0; text-align: center;">
-            <span style="display: block; color: #64748b; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 2px;">Proprietary Reverse SH Equation</span>
-            <code style="font-size: 2rem; color: #00f2ff; font-family: 'Courier New', monospace; text-shadow: 0 0 15px rgba(0, 242, 255, 0.4);">
-                CSH = R - ((D * 24 + H) * S)
-            </code>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; font-size: 0.95rem; border-top: 1px solid #4b5563; padding-top: 20px;">
-            <div>
-                <p><strong style="color: #d6a048;">R:</strong> Total Project Requirement (Total SH)</p>
-                <p><strong style="color: #d6a048;">S:</strong> Current Staked Spark (Decimal)</p>
+    <div class="container">
+        <section class="tech-spec">
+            <h2 style="color: var(--accent-gold); text-transform: uppercase; margin-top:0;">Technical Brief: Progress Analytics</h2>
+            <p style="color: #94a3b8;">Utilizing the FastTrack Analytics reverse-calculation method to identify banked Completed Spark Hours (CSH).</p>
+            <div class="formula-box">
+                <span style="display:block; color:#64748b; font-size:0.7rem; text-transform:uppercase; margin-bottom:10px;">The Equation</span>
+                <code style="font-size: 1.8rem; color: var(--accent-cyan);">CSH = R - ((D * 24 + H) * S)</code>
             </div>
-            <div>
-                <p><strong style="color: #d6a048;">D / H:</strong> Days & Hours Remaining (UI Data)</p>
-                <p><strong style="color: #d6a048;">CSH:</strong> Final Banked Spark Hours</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="case-study" style="background: linear-gradient(145deg, #1a2a47, #132549); border: 2px solid #d6a048; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">
-        <div style="background: #d6a048; color: #0f1f3d; padding: 15px 30px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem;">
-            Case Study: Gregory Heights Node
-        </div>
-        
-        <div style="padding: 40px;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+        <section class="case-study" style="border-color: var(--accent-gold);">
+            <div class="case-header" style="background: var(--accent-gold); color: #0f1f3d;">Case Study: Gregory Heights Node</div>
+            <div class="case-content">
+                <img src="assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights">
                 <div>
-                    <img src="assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights" style="width: 100%; border-radius: 10px; border: 1px solid #4b5563; box-shadow: 0 5px 15px rgba(0,0,0,0.5);">
-                </div>
-                <div>
-                    <h3 style="color: #d6a048; margin-top: 0; text-transform: uppercase;">The Challenge</h3>
-                    <p style="line-height: 1.6; color: #cbd5e1;">Identifying construction progress during variable staking shifts. To maintain the 15% participant reward structure for <strong>Trade N Build</strong>, we needed exact CSH data to ensure fair distribution of rewards upon completion.</p>
-                    
-                    <h3 style="color: #d6a048; text-transform: uppercase;">The Application</h3>
-                    <p style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; border: 1px dashed #4b5563;">
-                        Requirement (R): 1,200 SH<br>
-                        Remaining: 4 Days, 10 Hours<br>
-                        Current Stake (S): 2.5 Spark<br><br>
-                        Result: <strong>935.00 CSH Completed</strong>
-                    </p>
+                    <h4 style="color: var(--accent-gold); margin-top:0;">Outcome</h4>
+                    <p style="font-size: 0.9rem;">Optimized reward distribution for Trade N Build participants. Exact CSH tracking ensures fair 15% reward splits upon project completion.</p>
                 </div>
             </div>
+        </section>
 
-            <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid #4b5563; text-align: center;">
-                <p style="font-size: 1.1rem; color: #d6a048; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
-                    Strategic Outcome: Maximum Efficiency & Automated Transparency
-                </p>
-                <p style="color: #94a3b8; max-width: 800px; margin: 0 auto;">
-                    By applying this logic, Raytown Construction reduced project tracking time by 40% and provided 100% transparent data to all project stakeholders in the FastTrack Community Center.
-                </p>
+        <section class="case-study" style="border-color: var(--accent-cyan);">
+            <div class="case-header" style="background: #1e3966; color: var(--accent-cyan); border-bottom: 2px solid var(--accent-cyan);">Case Study: Raytown University</div>
+            <div class="case-content">
+                <div>
+                    <h4 style="color: var(--accent-cyan); margin-top:0;">Outcome</h4>
+                    <p style="font-size: 0.9rem;">Large-scale architectural alignment across adjacent parcels. Synchronized staking schedules result in zero "Dead Spark" time.</p>
+                </div>
+                <img src="assets/images/Raytown_University.png" alt="Raytown University">
             </div>
-        </div>
-    </section>
-
-</div>
-    <section class="case-study" style="background: linear-gradient(145deg, #0f1f3d, #1a2a47); border: 2px solid #00f2ff; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6); margin-top: 3rem;">
-    <div style="background: #1e3966; color: #00f2ff; padding: 15px 30px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: 1.2rem; border-bottom: 2px solid #00f2ff;">
-        Case Study: Raytown University Campus Node
+        </section>
     </div>
-    
-    <div style="padding: 40px;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-            <div>
-                <h3 style="color: #00f2ff; margin-top: 0; text-transform: uppercase;">The Challenge</h3>
-                <p style="line-height: 1.6; color: #cbd5e1;">Coordinating a multi-parcel "Campus" build requires synchronized completion dates. Using the <strong>Reverse SH Formula</strong>, we managed the "staggered staking" method—moving Spark from finished small structures onto larger ongoing builds without losing a single hour of productivity.</p>
-                
-                <h3 style="color: #00f2ff; text-transform: uppercase;">The Application</h3>
-                <p style="background: rgba(0,242,255,0.05); padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; border: 1px dashed #00f2ff;">
-                    Node Requirement (ΣR): 8,500 SH<br>
-                    Current Phase: Phase 2 Assembly<br>
-                    Efficiency Rating: 98.4%<br><br>
-                    Result: <strong>Zero "Dead Spark" Time</strong>
-                </p>
-            </div>
-            <div>
-                <img src="assets/images/Raytown_University.png" alt="Raytown University Campus" style="width: 100%; border-radius: 10px; border: 1px solid #3c5483; box-shadow: 0 5px 15px rgba(0,0,0,0.5);">
-            </div>
-        </div>
 
-        <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid #3c5483; text-align: center;">
-            <p style="font-size: 1.1rem; color: #00f2ff; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
-                Outcome: Large-Scale Architectural Alignment
-            </p>
-            <p style="color: #94a3b8; max-width: 800px; margin: 0 auto;">
-                By utilizing the <strong>FastTrack Community Center</strong> for coordination, Raytown Construction ensured that every property owner in the node contributed to a single, high-utility aesthetic, maximizing the node's future rating.
-            </p>
-        </div>
-    </div>
-</section>
+</body>
+</html>
