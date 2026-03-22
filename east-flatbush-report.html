@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>East Flatbush Market Report | FastTrack Insights</title>
+    
+    <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
+    
+    <style>
+        :root {
+            --bg-dark: #0f1f3d; 
+            --bg-card: #132549; 
+            --text-main: #e2e8f0; 
+            --text-muted: #94a3b8;
+            --accent: #d6a048; 
+            --border-color: #4b5563; 
+            --status-open: #4ade80; 
+        }
+
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.8; }
+        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .header-logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 50px; height: 50px; }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .nav-links a:hover { color: var(--accent); }
+
+        .report-container { max-width: 1000px; margin: 3rem auto; padding: 0 5%; position: relative; }
+        .back-link { display: inline-block; color: var(--text-muted); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.3s; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .back-link:hover { color: var(--accent); }
+        .back-link::before { content: '← '; }
+        
+        .report-header { margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); }
+        .report-tag { display: inline-block; color: #60a5fa; background-color: rgba(96, 165, 250, 0.1); border: 1px solid rgba(96, 165, 250, 0.4); padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem; }
+        .report-title { font-size: 2.8rem; margin: 0 0 1.2rem 0; line-height: 1.2; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px;}
+        .report-meta { color: var(--text-muted); font-size: 1rem; }
+
+        .report-body p { margin-bottom: 1.8rem; color: #cbd5e1; font-size: 1.1rem; line-height: 1.8; }
+        .report-body h2 { color: var(--text-main); border-left: 4px solid var(--accent); padding-left: 1rem; margin-top: 3.5rem; margin-bottom: 1.5rem; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px;}
+
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0 3rem 0; }
+        .data-card { background-color: var(--bg-card); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .data-card h4 { margin: 0 0 0.5rem 0; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .data-card span { display: block; font-size: 2.2rem; font-weight: bold; color: var(--accent); }
+        .data-card .sub-text { font-size: 0.9rem; color: var(--text-muted); font-weight: normal; margin-top: 0.3rem; }
+
+        .highlight-box { background: linear-gradient(135deg, rgba(19, 37, 73, 0.8) 0%, rgba(15, 31, 61, 0.9) 100%); border: 1px solid var(--accent); padding: 2rem; border-radius: 8px; margin: 3rem 0; }
+        .highlight-box h3 { color: var(--accent); margin-top: 0; text-transform: uppercase; letter-spacing: 1px; }
+
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 5rem; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+
+    <header>
+        <div class="header-logo">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
+            <h1>RAYTOWN CONSTRUCTION</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="insights.html" style="color: var(--accent);">FastTrack Insights</a>
+            <a href="portal.html">Builder Portal</a>
+            <a href="events.html">Events</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
+        </div>
+    </header>
+
+    <main class="report-container">
+        <a href="insights.html" class="back-link">Back to Insights</a>
+
+        <header class="report-header">
+            <span class="report-tag">PREMIUM NODE ACQUISITION</span>
+            <h1 class="report-title">East Flatbush Report: The Sold-Out Coastal Hub</h1>
+            <div class="report-meta">
+                Location: Brooklyn, NY | Data Sourced: March 2026
+            </div>
+        </header>
+
+        <article class="report-body">
+            
+            <p>While the World Engine Collective drives massive construction and utility growth in the Midwest, our East Coast footprint in East Flatbush, Brooklyn tells a completely different economic story. This is a highly contested, fully minted territory where secondary market volume dictates the rules of engagement.</p>
+            <p>For players operating within the Collective, East Flatbush represents a premium tier of asset holding and high-stakes trading.</p>
+
+            <h2>1. Absolute Scarcity</h2>
+            <p>The initial land rush in East Flatbush is entirely over. With zero unminted properties remaining, the only way into this Brooklyn district is through strategic negotiation and secondary market acquisitions.</p>
+            
+            <div class="data-grid">
+                <div class="data-card">
+                    <h4>Minting Status</h4>
+                    <span>100%</span>
+                    <div class="sub-text">Sold Out (0 Unminted)</div>
+                </div>
+                <div class="data-card">
+                    <h4>Total Properties</h4>
+                    <span>11,599</span>
+                    <div class="sub-text">Parcels in Node</div>
+                </div>
+                <div class="data-card">
+                    <h4>Currently Owned</h4>
+                    <span>10,117</span>
+                    <div class="sub-text">Highly Consolidated Holding</div>
+                </div>
+            </div>
+
+            <h2>2. The Premium Valuation Markups</h2>
+            <p>Because there is no primary supply left, sellers command absolute authority over pricing. The floor price sits just under 10k UPX, but the median price reveals the true cost of doing business in Brooklyn.</p>
+
+            <div class="data-grid">
+                <div class="data-card">
+                    <h4>Floor Price</h4>
+                    <span>9,999 <span style="font-size: 1rem;">UPX</span></span>
+                    <div class="sub-text">426% Floor Markup</div>
+                </div>
+                <div class="data-card">
+                    <h4>Median Price</h4>
+                    <span>50,000 <span style="font-size: 1rem;">UPX</span></span>
+                    <div class="sub-text">3,561% Median Markup</div>
+                </div>
+                <div class="data-card">
+                    <h4>Fiat Median</h4>
+                    <span>$29.95 <span style="font-size: 1rem;">USD</span></span>
+                    <div class="sub-text">1,891% USD Markup</div>
+                </div>
+            </div>
+
+            <h2>3. Transaction Spikes & Liquid Capital</h2>
+            <p>Despite the high barrier to entry, capital is actively flowing through this node. During a major surge in late February 2026, secondary market transactions alone approached nearly <strong>4 Million UPX spent</strong> in a single tracked window. This indicates aggressive portfolio consolidation by heavy hitters looking to establish local dominance.</p>
+
+            <div class="highlight-box">
+                <h3>The Dual-Node Strategy</h3>
+                <p>The World Engine Collective operates on balance.</p>
+                <p style="margin-bottom: 0;"><strong>Raytown</strong> acts as our high-velocity development and construction hub, offering affordable entry points and massive utility upside. <strong>East Flatbush</strong> acts as our premium asset reserve. By utilizing FASTTRACK TOOLs to identify the rare sub-10k UPX properties hitting the Brooklyn floor, we can secure highly liquid, elite assets while funding our midwestern expansion.</p>
+            </div>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
+
+</body>
+</html>
