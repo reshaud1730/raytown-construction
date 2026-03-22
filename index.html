@@ -250,7 +250,104 @@
         <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; font-size: 1.1rem; line-height: 1.7;">Stop guessing where to build or what to trade. Partner with Raytown Construction to leverage premier metaverse analytics and turn digital lots into thriving, high-utility developments.</p>
         <a href="https://discord.gg/BeVnv48x" class="button" target="_blank">Break Ground on Discord</a>
     </section>
+<style>
+        /* Team Section Styles */
+        .team-section { padding: 5rem 5%; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .team-section h2 { font-size: 2.5rem; color: var(--text-main); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        .team-section > p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 3.5rem; }
 
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; text-align: left; }
+        
+        .profile-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-top: 5px solid var(--accent); border-radius: 8px; padding: 2.5rem; position: relative; transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .profile-card:hover { transform: translateY(-5px); }
+        
+        .profile-card.sincere { border-top-color: #60a5fa; }
+        
+        .profile-header { margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; }
+        .profile-name { font-size: 2rem; color: var(--text-main); margin: 0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
+        .profile-title { color: var(--accent); font-size: 1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0.3rem; }
+        .profile-card.sincere .profile-title { color: #60a5fa; }
+
+        .profile-node { display: inline-block; background-color: rgba(255,255,255,0.05); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem; color: #cbd5e1; margin-top: 0.8rem; border: 1px solid rgba(255,255,255,0.1);}
+
+        .profile-stats { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .stat-box { background-color: rgba(15, 31, 61, 0.6); padding: 0.8rem 1rem; border-radius: 6px; flex: 1; min-width: 90px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--text-main); }
+        .stat-box label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+        .profile-bio { color: #cbd5e1; line-height: 1.7; font-size: 1rem; margin-bottom: 1.5rem; }
+        
+        .profile-quote { font-style: italic; color: var(--text-muted); border-left: 3px solid var(--border-color); padding-left: 1rem; font-size: 0.95rem; }
+    </style>
+
+    <section class="team-section">
+        <h2>Meet the Collective Leadership</h2>
+        <p>The architects behind the nodes. We build the communities we want to play in.</p>
+
+        <div class="team-grid">
+            
+            <div class="profile-card">
+                <div class="profile-header">
+                    <h3 class="profile-name">JahReshaud</h3>
+                    <div class="profile-title">Raytown Node Ambassador & Founder</div>
+                    <div class="profile-node">📍 Raytown Hub, Kansas City, MO</div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-box">
+                        <span>14.5M</span>
+                        <label>Net Worth</label>
+                    </div>
+                    <div class="stat-box">
+                        <span>581</span>
+                        <label>Properties</label>
+                    </div>
+                    <div class="stat-box">
+                        <span style="color: var(--accent);">41.2k</span>
+                        <label>Staked Sparklet</label>
+                    </div>
+                </div>
+
+                <div class="profile-bio">
+                    The driving force behind Raytown Construction and the creator of the TNB economy. JahReshaud focuses on high-velocity development, creating accessible entry points for new builders, and pushing the utility score of Kansas City to the absolute limit.
+                </div>
+                <div class="profile-quote">
+                    "Trade N Build isn't just a token; it's a lifestyle. We secure the land, we drop the spark, and we elevate the entire community together."
+                </div>
+            </div>
+
+            <div class="profile-card sincere">
+                <div class="profile-header">
+                    <h3 class="profile-name">Sincere87</h3>
+                    <div class="profile-title">East Flatbush Community Lead</div>
+                    <div class="profile-node">📍 East Flatbush, Brooklyn, NY</div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-box">
+                        <span>3.7M</span>
+                        <label>Net Worth</label>
+                    </div>
+                    <div class="stat-box">
+                        <span>158</span>
+                        <label>Properties</label>
+                    </div>
+                    <div class="stat-box">
+                        <span style="color: #60a5fa;">21.7k</span>
+                        <label>Staked Sparklet</label>
+                    </div>
+                </div>
+
+                <div class="profile-bio">
+                    The cornerstone of our premium coastal operations. Sincere87 manages the World Engine Collective's footprint in one of Upland's most competitive, 100%-minted districts. He specializes in high-stakes asset acquisition and securing the Brooklyn block.
+                </div>
+                <div class="profile-quote">
+                    "When the map is completely sold out, strategy is everything. We aren't just holding properties; we are establishing a legacy on the East Coast."
+                </div>
+            </div>
+
+        </div>
+    </section>
     <footer>
         <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
     </footer>
