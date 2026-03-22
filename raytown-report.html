@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raytown Market Report | FastTrack Insights</title>
+    
+    <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
+    
+    <style>
+        :root {
+            --bg-dark: #0f1f3d; 
+            --bg-card: #132549; 
+            --text-main: #e2e8f0; 
+            --text-muted: #94a3b8;
+            --accent: #d6a048; 
+            --border-color: #4b5563; 
+            --status-open: #4ade80; 
+        }
+
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.8; }
+        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .header-logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 50px; height: 50px; }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .nav-links a:hover { color: var(--accent); }
+
+        .report-container { max-width: 1000px; margin: 3rem auto; padding: 0 5%; position: relative; }
+        .back-link { display: inline-block; color: var(--text-muted); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.3s; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .back-link:hover { color: var(--accent); }
+        .back-link::before { content: '← '; }
+        
+        .report-header { margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); }
+        .report-tag { display: inline-block; color: var(--accent); background-color: rgba(214, 160, 72, 0.1); border: 1px solid rgba(214, 160, 72, 0.4); padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem; }
+        .report-title { font-size: 2.8rem; margin: 0 0 1.2rem 0; line-height: 1.2; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px;}
+        .report-meta { color: var(--text-muted); font-size: 1rem; }
+
+        .report-body p { margin-bottom: 1.8rem; color: #cbd5e1; font-size: 1.1rem; line-height: 1.8; }
+        .report-body h2 { color: var(--text-main); border-left: 4px solid var(--accent); padding-left: 1rem; margin-top: 3.5rem; margin-bottom: 1.5rem; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px;}
+
+        /* Data Grid Styling */
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0 3rem 0; }
+        .data-card { background-color: var(--bg-card); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .data-card h4 { margin: 0 0 0.5rem 0; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .data-card span { display: block; font-size: 2.2rem; font-weight: bold; color: var(--accent); }
+        .data-card .sub-text { font-size: 0.9rem; color: var(--text-muted); font-weight: normal; margin-top: 0.3rem; }
+
+        .highlight-box { background: linear-gradient(135deg, rgba(19, 37, 73, 0.8) 0%, rgba(15, 31, 61, 0.9) 100%); border: 1px solid var(--accent); padding: 2rem; border-radius: 8px; margin: 3rem 0; }
+        .highlight-box h3 { color: var(--accent); margin-top: 0; text-transform: uppercase; letter-spacing: 1px; }
+
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 5rem; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+
+    <header>
+        <div class="header-logo">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
+            <h1>RAYTOWN CONSTRUCTION</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="insights.html" style="color: var(--accent);">FastTrack Insights</a>
+            <a href="portal.html">Builder Portal</a>
+            <a href="events.html">Events</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
+        </div>
+    </header>
+
+    <main class="report-container">
+        <a href="insights.html" class="back-link">Back to Insights</a>
+
+        <header class="report-header">
+            <span class="report-tag">NODE ANALYSIS</span>
+            <h1 class="report-title">Raytown Market Report: Construction & Yield Trends</h1>
+            <div class="report-meta">
+                Location: Kansas City, MO | Data Sourced: March 2026
+            </div>
+        </header>
+
+        <article class="report-body">
+            
+            <p>Raytown has officially cemented itself as one of the most highly active and lucrative developmental nodes in Kansas City. Recent data scans indicate a massive influx of secondary market volume, stabilizing floor prices, and a highly competitive minting environment.</p>
+            <p>For investors and builders alike, understanding the data below is critical for timing acquisitions and maximizing yield through the FASTTRACK TOOLs system.</p>
+
+            <h2>1. Supply, Demand & Ownership</h2>
+            <p>Raytown is currently operating at a sweet spot for development. It is mature enough to have established value, but still offers raw land for strategic developers to acquire.</p>
+            
+            <div class="data-grid">
+                <div class="data-card">
+                    <h4>Total Properties</h4>
+                    <span>11,606</span>
+                    <div class="sub-text">Total Parcels in Node</div>
+                </div>
+                <div class="data-card">
+                    <h4>Minting Status</h4>
+                    <span>62%</span>
+                    <div class="sub-text">Excluding Locked</div>
+                </div>
+                <div class="data-card">
+                    <h4>Currently Owned</h4>
+                    <span>5,718</span>
+                    <div class="sub-text">Active Holder Properties</div>
+                </div>
+            </div>
+
+            <h2>2. Valuation & Floor Pricing</h2>
+            <p>The health of a neighborhood is defined by its floor price stability and markup percentages. Raytown is displaying incredibly strong signals, with secondary market sellers confidently commanding heavy markups over original mint prices.</p>
+
+            <div class="data-grid">
+                <div class="data-card">
+                    <h4>Floor Price</h4>
+                    <span>12,000 <span style="font-size: 1rem;">UPX</span></span>
+                    <div class="sub-text">103% Floor Markup</div>
+                </div>
+                <div class="data-card">
+                    <h4>Median Price</h4>
+                    <span>26,000 <span style="font-size: 1rem;">UPX</span></span>
+                    <div class="sub-text">211% Median Markup</div>
+                </div>
+                <div class="data-card">
+                    <h4>Fiat Floor</h4>
+                    <span>$3.74 <span style="font-size: 1rem;">USD</span></span>
+                    <div class="sub-text">$22.00 USD Median</div>
+                </div>
+            </div>
+
+            <h2>3. Transaction Volume & Market Liquidity</h2>
+            <p>Volume is the ultimate indicator of a node's pulse. Looking at transaction data leading into mid-March 2026, Raytown experienced an explosive surge in secondary market purchases.</p>
+            <p>UPX spent on the secondary market skyrocketed, approaching nearly <strong>3 Million UPX</strong> in a single tracked period. This sharp upward trajectory in total transactions (peaking alongside secondary market spends) proves that Raytown is not just a holding zone—it is an actively traded, high-liquidity district.</p>
+
+            <div class="highlight-box">
+                <h3>The Raytown Construction Strategy</h3>
+                <p>What does this data mean for the World Engine Collective and Raytown Construction?</p>
+                <p style="margin-bottom: 0;">With over 1,300 properties currently listed for sale in UPX, there is ample opportunity for strategic node clustering. The 211% median markup proves that buyers are willing to pay a premium for well-positioned real estate. Our focus remains on acquiring undervalued floor properties (near the 12,000 UPX mark), deploying targeted Sparklet to construct high-utility structures, and forcing the neighborhood utility score even higher.</p>
+            </div>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
+
+</body>
+</html>
