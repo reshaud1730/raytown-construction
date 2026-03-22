@@ -181,13 +181,16 @@
             const totalReq = parseFloat(document.getElementById('total_req').value);
             const d = parseFloat(document.getElementById('days_left').value) || 0;
             const h = parseFloat(document.getElementById('hours_left').value) || 0;
-            const spark = parseFloat(document.getElementById('staked_spark').value);
+            const sparkletInput = parseFloat(document.getElementById('staked_spark').value);
             const display = document.getElementById('results-display');
 
-            if (totalReq > 0 && spark > 0) {
-                // Formula: (Days * 24 + Hours) * Spark = Remaining SH
+            if (totalReq > 0 && sparkletInput > 0) {
+                // Convert Sparklet to True Spark (divide by 1000)
+                const trueSpark = sparkletInput / 1000;
+
+                // Formula: (Days * 24 + Hours) * True Spark = Remaining SH
                 const totalHoursLeft = (d * 24) + h;
-                const remainingSH = totalHoursLeft * spark;
+                const remainingSH = totalHoursLeft * trueSpark;
                 
                 // Formula: Total - Remaining = Completed
                 const completedSH = totalReq - remainingSH;
@@ -200,9 +203,7 @@
                 
                 display.style.display = 'block';
             } else {
-                alert("Calculation Error: Please enter Total Requirement and Staked Spark.");
+                alert("Calculation Error: Please enter Total Requirement and Staked Sparklet.");
             }
         }
     </script>
-</body>
-</html>
