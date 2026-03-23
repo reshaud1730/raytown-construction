@@ -42,4 +42,426 @@
         .champion-badge { flex: 1; max-width: 300px; display: flex; justify-content: center; }
         .champion-badge img { width: 100%; max-width: 280px; border-radius: 50%; box-shadow: 0 0 25px rgba(0, 242, 255, 0.3); border: 4px solid #132549; }
         .champion-details { flex: 2; }
-        .champion-details h3 { color: var(--accent); font-size: 2.2rem; text-transform: uppercase;
+        .champion-details h3 { color: var(--accent); font-size: 2.2rem; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 0.5rem 0; text-shadow: 0 0 15px rgba(214, 160, 72, 0.4); line-height: 1.1; }
+        .champion-details h4 { color: #00f2ff; font-size: 1.2rem; margin: 0 0 1.5rem 0; letter-spacing: 1px; text-transform: uppercase; }
+        .champion-desc { color: #e2e8f0; margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.6; }
+        .stat-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.4); padding: 1rem 1.5rem; margin-bottom: 0.8rem; border-radius: 6px; border-left: 4px solid #00f2ff; }
+        .stat-row .date { color: var(--text-muted); font-weight: bold; font-size: 1rem; }
+        .stat-row .time { color: #fff; font-family: monospace; font-size: 1.2rem; font-weight: bold; }
+        .reward-box { margin-top: 2rem; background: rgba(214, 160, 72, 0.1); border: 1px solid rgba(214, 160, 72, 0.3); padding: 1.2rem; border-radius: 6px; color: var(--accent); font-weight: bold; font-size: 1.15rem; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- AKL REGISTRATION & PIT STOP STYLES --- */
+        .akl-info-box { background: rgba(255, 183, 197, 0.05); border: 1px solid rgba(255, 183, 197, 0.3); padding: 2rem; border-radius: 8px; margin-bottom: 3rem; text-align: center; }
+        .tier-card { background: var(--bg-card); border-radius: 8px; padding: 2.5rem 2rem; text-align: center; transition: transform 0.3s; position: relative; overflow: hidden; }
+        .tier-card:hover { transform: translateY(-5px); }
+        .btn-register { display: block; padding: 1.2rem; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border: none; width: 100%; font-size: 1rem; transition: filter 0.3s; }
+        .btn-register:hover { filter: brightness(1.1); }
+        .prize-pool-box { background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 6px; margin: 1.5rem 0; border: 1px dashed rgba(255,255,255,0.2); }
+        .pit-stop-promo { background: linear-gradient(90deg, #132549 0%, #0f1f3d 100%); border: 1px solid var(--border-color); border-left: 6px solid var(--accent); border-radius: 8px; padding: 2rem; margin-top: 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+        .pit-stop-btn { display: inline-block; background: transparent; border: 2px solid var(--accent); color: var(--accent); padding: 1rem 2rem; border-radius: 4px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; transition: all 0.3s; text-align: center; }
+        .pit-stop-btn:hover { background: var(--accent); color: #0f1f3d; }
+
+        /* --- LEADERBOARD STYLES --- */
+        .leaderboard-container { margin-top: 5rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+        .leaderboard-header { background: rgba(0,0,0,0.3); padding: 1.5rem; text-align: center; border-bottom: 1px solid var(--border-color); }
+        .tier-section { padding: 2rem; border-bottom: 1px solid var(--border-color); }
+        .tier-section:last-child { border-bottom: none; }
+        .tier-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        
+        .lb-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .lb-table th { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; padding: 1rem; border-bottom: 1px solid var(--border-color); }
+        .lb-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: #fff; font-weight: 500; }
+        .lb-table tr:last-child td { border-bottom: none; }
+        
+        /* The Top 6 Cutoff Glow */
+        .top-cut td { background: rgba(74, 222, 128, 0.05); }
+        .top-cut td:first-child { border-left: 3px solid #4ade80; color: #4ade80; font-weight: bold; }
+        .cutoff-row td { border-bottom: 2px dashed #4ade80 !important; }
+
+        /* --- EVENT CARD STYLES --- */
+        .event-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-left: 6px solid var(--accent); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease; margin-bottom: 2.5rem; margin-top: 2rem;}
+        .event-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(214, 160, 72, 0.1); }
+        .event-content { padding: 2.5rem; flex-grow: 1; }
+        .event-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;}
+        .event-title-group h3 { margin: 0 0 0.5rem 0; font-size: 1.6rem; color: var(--text-main); text-transform: uppercase; }
+        .event-tag { display: inline-block; background-color: var(--tag-bg); color: #4ade80; padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; border: 1px solid rgba(74, 222, 128, 0.2); }
+        .event-date-box { background-color: var(--event-date-bg); border: 1px solid rgba(214, 160, 72, 0.3); padding: 0.8rem 1.5rem; border-radius: 6px; text-align: center; min-width: 100px;}
+        .event-date-box .month { display: block; color: var(--accent); font-weight: bold; text-transform: uppercase; font-size: 0.9rem;}
+        .event-date-box .day { display: block; color: var(--text-main); font-size: 1.8rem; font-weight: bold; line-height: 1.1;}
+        .event-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; background-color: rgba(15, 31, 61, 0.5); padding: 1.5rem; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.05);}
+        .detail-item strong { display: block; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.3rem;}
+        .detail-item span { color: var(--text-main); font-weight: bold;}
+        .detail-item .highlight { color: var(--accent); }
+        .action-link { display: inline-block; margin-top: 1.5rem; color: var(--accent); text-decoration: none; font-weight: bold; text-transform: uppercase; transition: color 0.3s;}
+        
+        /* --- MODAL STYLES --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--bg-card); border: 2px solid var(--accent); border-radius: 8px; padding: 3rem; width: 90%; max-width: 500px; position: relative; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; background: none; border: none; }
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input { width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; box-sizing: border-box; }
+        .form-group input:focus { outline: none; border-color: var(--accent); }
+
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
+            <h1>RAYTOWN CONSTRUCTION</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="insights.html">FastTrack Insights</a>
+            <a href="portal.html">Builder Portal</a>
+            <a href="events.html" style="color: var(--accent);">Events</a>
+            <a href="store.html">Store</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h2>World Engine Collective Events</h2>
+        <p>The central hub for official tournaments, league racing, and community networking within the Raytown operational zone.</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="champion-banner">
+            <div class="champion-badge">
+                <img src="assets/images/time_trial_crown.png" alt="Back-to-Back Champion Badge">
+            </div>
+            <div class="champion-details">
+                <h3>Legendary Achievement</h3>
+                <h4>World Engine Time Trials</h4>
+                <p class="champion-desc">
+                    From the bath to the blacktop, the speed is undeniable! Join us in congratulating <strong>Batistoo</strong> for securing 1st Place in the World Engine Time Trials for <strong>TWO CONSECUTIVE WEEKENDS!</strong> 🏁🔥
+                </p>
+                <div class="stat-row">
+                    <span class="date">🥇 March 15th, 2026</span>
+                    <span class="time">03:54.379</span>
+                </div>
+                <div class="stat-row">
+                    <span class="date">🥇 March 22nd, 2026</span>
+                    <span class="time">05:52.979</span>
+                </div>
+                <div class="reward-box">
+                    💰 Total Reward: 180 TNB + Bragging Rights!
+                </div>
+            </div>
+        </div>
+
+        <div class="akl-section" style="margin-top: 4rem;">
+            <div class="akl-info-box">
+                <h2 style="font-size: 2.2rem; color: #ffb7c5; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 1rem 0; text-shadow: 0 0 10px rgba(255, 183, 197, 0.3);">🌸 AKL: Blossom Season 🌸</h2>
+                <p style="color: #e2e8f0; font-size: 1.1rem; max-width: 800px; margin: 0 auto 1.5rem; line-height: 1.6;">
+                    <strong>A 5-Week Championship Tournament.</strong> Race for 4 weeks to accumulate points across the grid. In Week 5, the <strong>Top 6 point-holders</strong> in each tier will face off in the Ultimate Championship Race.
+                </p>
+                <div style="background: rgba(214, 160, 72, 0.1); border: 1px solid var(--accent); padding: 1rem; border-radius: 6px; display: inline-block;">
+                    <strong style="color: var(--accent); font-size: 1.1rem;">🎁 FASTTRACK TOOLS BONUS:</strong> 
+                    <span style="color: #cbd5e1;">The Top 3 finishers in EVERY tier will receive undisclosed bonus prizes!</span>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="tier-card" style="border: 1px solid #4ade80; border-top: 5px solid #4ade80;">
+                    <h3 style="color: #4ade80; font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Amateur Tier</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--text-main); margin-bottom: 0.5rem;">1,500 <span style="font-size: 1.2rem; color: var(--text-muted);">UPX</span></div>
+                    <div class="prize-pool-box">
+                        <div style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Estimated Prize Pool</div>
+                        <div style="color: #4ade80; font-size: 1.5rem; font-weight: bold; font-family: monospace;">18,000 UPX</div>
+                    </div>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 2rem; min-height: 40px;">Perfect for new racers testing their karts.</p>
+                    <button class="btn-register" style="background: #4ade80; color: #0f1f3d;" onclick="openModal('Amateur', '1,500 UPX')">Register Now (12 Spots Left)</button>
+                </div>
+
+                <div class="tier-card" style="border: 1px solid #00f2ff; border-top: 5px solid #00f2ff;">
+                    <h3 style="color: #00f2ff; font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Achieving Tier</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--text-main); margin-bottom: 0.5rem;">3,000 <span style="font-size: 1.2rem; color: var(--text-muted);">UPX</span></div>
+                    <div class="prize-pool-box">
+                        <div style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Estimated Prize Pool</div>
+                        <div style="color: #00f2ff; font-size: 1.5rem; font-weight: bold; font-family: monospace;">36,000 UPX</div>
+                    </div>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 2rem; min-height: 40px;">For experienced drivers stepping up the stakes.</p>
+                    <button class="btn-register" style="background: #00f2ff; color: #0f1f3d;" onclick="openModal('Achieving', '3,000 UPX')">Register Now (12 Spots Left)</button>
+                </div>
+
+                <div class="tier-card" style="border: 1px solid var(--accent); border-top: 5px solid var(--accent);">
+                    <h3 style="color: var(--accent); font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Advanced Tier</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--text-main); margin-bottom: 0.5rem;">9,000 <span style="font-size: 1.2rem; color: var(--text-muted);">UPX</span></div>
+                    <div class="prize-pool-box">
+                        <div style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Estimated Prize Pool</div>
+                        <div style="color: var(--accent); font-size: 1.5rem; font-weight: bold; font-family: monospace;">108,000 UPX</div>
+                    </div>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 2rem; min-height: 40px;">Elite racers only. High stakes and massive payouts.</p>
+                    <button class="btn-register" style="background: var(--accent); color: #0f1f3d;" onclick="openModal('Advanced', '9,000 UPX')">Register Now (12 Spots Left)</button>
+                </div>
+            </div>
+
+            <div class="pit-stop-promo">
+                <div style="flex: 2; min-width: 300px;">
+                    <h3 style="color: var(--text-main); font-size: 1.6rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">🏎️ FastTrack Pit Stop Registration</h3>
+                    <p style="color: var(--accent); font-family: monospace; font-size: 1rem; margin: 0 0 1rem 0;">📍 8521 MAYWOOD AVE, KANSAS CITY, MO</p>
+                    <p style="color: #cbd5e1; font-size: 1rem; margin: 0; line-height: 1.6;">Official tournament entry fees are paid via Metaventure purchases. Visit our official Raytown Pit Stop and purchase the basic racing power-up priced for your specific tier to lock in your grid position!</p>
+                </div>
+                <div style="flex: 1; text-align: right; min-width: 200px;">
+                    <a href="https://play.upland.me/" target="_blank" class="pit-stop-btn">Visit Metaventure</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaderboard-container">
+            <div class="leaderboard-header">
+                <h2 style="color: #ffb7c5; font-size: 2rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255, 183, 197, 0.2);">Official Standings</h2>
+                <p style="color: var(--text-muted); margin: 0.5rem 0 0 0;">Top 6 in each tier advance to the Week 5 Championship.</p>
+            </div>
+
+            <div class="tier-section">
+                <h3 class="tier-title"><span style="color: #4ade80;">🟢</span> AMATEUR TIER</h3>
+                <div style="overflow-x: auto;">
+                    <table class="lb-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Driver (Upland ID)</th>
+                                <th>Pts</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="top-cut"><td>1</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>2</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>3</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>4</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>5</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut cutoff-row"><td>6</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            
+                            <tr><td>7</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>8</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>9</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>10</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>11</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>12</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tier-section">
+                <h3 class="tier-title"><span style="color: #00f2ff;">🔵</span> ACHIEVING TIER</h3>
+                <div style="overflow-x: auto;">
+                    <table class="lb-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Driver (Upland ID)</th>
+                                <th>Pts</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="top-cut"><td>1</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>2</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>3</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>4</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>5</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut cutoff-row"><td>6</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr><td>7</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>8</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>9</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>10</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>11</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>12</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tier-section">
+                <h3 class="tier-title"><span style="color: var(--accent);">🟡</span> ADVANCED TIER</h3>
+                <div style="overflow-x: auto;">
+                    <table class="lb-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Driver (Upland ID)</th>
+                                <th>Pts</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="top-cut"><td>1</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>2</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>3</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>4</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut"><td>5</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr class="top-cut cutoff-row"><td>6</td><td>Pending Registration</td><td>0</td><td>Championship Contender</td></tr>
+                            <tr><td>7</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>8</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>9</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>10</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>11</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                            <tr><td>12</td><td>Pending Registration</td><td>0</td><td>Elimination Zone</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="weekly-events-section" style="margin-top: 6rem;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 style="font-size: 2.2rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.5rem;">Weekly Community Events</h2>
+                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 700px; margin: 0 auto;">Free-to-play survival runs and high-stakes weekend time trials to keep your skills sharp.</p>
+            </div>
+
+            <article class="event-card">
+                <div class="event-content">
+                    <div class="event-header">
+                        <div class="event-title-group">
+                            <span class="event-tag">Free Community Event</span>
+                            <h3>Zombie Attack</h3>
+                        </div>
+                        <div class="event-date-box">
+                            <span class="month">TUE - THU</span>
+                            <span class="day">Weekly</span>
+                        </div>
+                    </div>
+                    <p><strong>The Mission:</strong> 3 Survivors vs. The Horde (JahReshaud, Sincere87, & The MAGE). No store purchase is required to participate in this free community survival run!</p>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <strong>Entry Fee</strong>
+                            <span style="color: #4ade80;">FREE</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>1st - 3rd Place Loot</strong>
+                            <span class="highlight">60 TNB / 50 TNB / 40 TNB</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>4th - 6th Place Loot</strong>
+                            <span class="highlight">30 TNB / 20 TNB / 10 TNB</span>
+                        </div>
+                    </div>
+                    <a href="https://discord.gg/BeVnv48x" class="action-link" target="_blank">Join Discord to Survive</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-content">
+                    <div class="event-header">
+                        <div class="event-title-group">
+                            <span class="event-tag" style="color: var(--accent); border-color: rgba(214, 160, 72, 0.2); background-color: rgba(214, 160, 72, 0.05);">High Stakes Racing</span>
+                            <h3>Triple Threat Time Trials</h3>
+                        </div>
+                        <div class="event-date-box">
+                            <span class="month">FRI - SUN</span>
+                            <span class="day">Weekly</span>
+                        </div>
+                    </div>
+                    <p><strong>The Stakes:</strong> All rewards are TRIPLED! Lock in your best times over the weekend and secure massive payouts in the World Engine.</p>
+                    <div class="event-details">
+                        <div class="detail-item">
+                            <strong>Entry Fee</strong>
+                            <span>45 TNB <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);">(via /buy item)</span></span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>1st Place Payout</strong>
+                            <span class="highlight">180 TNB!</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Payday</strong>
+                            <span>Every Monday Morning (CST)</span>
+                        </div>
+                    </div>
+                    <a href="https://discord.gg/BeVnv48x" class="action-link" target="_blank">Enter the Time Trials</a>
+                </div>
+            </article>
+        </div>
+
+    </div>
+
+    <div id="regModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h3 style="color: #fff; font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Secure Your Spot</h3>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Fill out this form so we can log your details. Entry fees are paid by purchasing your tier's power-up at the Pit Stop.</p>
+            
+            <form id="registrationForm" onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label>Selected Tier</label>
+                    <input type="text" id="tierInput" readonly style="background: rgba(255,255,255,0.05); color: var(--accent); font-weight: bold;">
+                </div>
+                <div class="form-group">
+                    <label>Entry Fee Required</label>
+                    <input type="text" id="feeInput" readonly style="background: rgba(255,255,255,0.05); color: #4ade80; font-family: monospace;">
+                </div>
+                <div class="form-group">
+                    <label>Upland Username</label>
+                    <input type="text" id="uplandName" placeholder="e.g. Batistoo" required>
+                </div>
+                <div class="form-group">
+                    <label>Discord Handle</label>
+                    <input type="text" id="discordName" placeholder="e.g. racer#1234" required>
+                </div>
+                
+                <button type="submit" style="width: 100%; background: var(--accent); color: #0f1f3d; padding: 1.2rem; border: none; border-radius: 4px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; margin-top: 1rem;">Reserve My Slot</button>
+            </form>
+            
+            <div id="successMessage" style="display: none; text-align: center; padding: 1rem 0;">
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">✅</div>
+                <h4 style="color: #4ade80; font-size: 1.5rem; margin: 0 0 1rem 0;">Registration Logged!</h4>
+                <p style="color: #e2e8f0; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                    Your details are in our system. <strong>To officially lock your slot, you must pay your entry fee by purchasing your tier's power-up.</strong>
+                </p>
+                
+                <div style="background: rgba(214, 160, 72, 0.1); border: 1px solid var(--accent); padding: 1rem; border-radius: 6px; text-align: left; margin-bottom: 1.5rem;">
+                    <h5 style="color: var(--accent); margin: 0 0 0.5rem 0; font-size: 1rem; text-transform: uppercase;">🏎️ Final Step: Buy Your Entry Ticket!</h5>
+                    <p style="color: #cbd5e1; font-size: 0.85rem; margin: 0; line-height: 1.5;">Travel to the <strong>FASTTRACK PIT STOP</strong> at <strong style="color: #fff;">8521 Maywood Ave, Kansas City, MO</strong> and purchase the basic racing power-up priced at your tier's entry fee. Once purchased, your spot on the grid is officially secured!</p>
+                </div>
+
+                <button onclick="closeModal()" style="background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 0.8rem 2rem; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
+
+    <script>
+        const modal = document.getElementById('regModal');
+        const form = document.getElementById('registrationForm');
+        const successMsg = document.getElementById('successMessage');
+        const tierInput = document.getElementById('tierInput');
+        const feeInput = document.getElementById('feeInput');
+
+        function openModal(tier, fee) {
+            tierInput.value = tier + ' Tier';
+            feeInput.value = fee;
+            form.style.display = 'block';
+            successMsg.style.display = 'none';
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            form.reset();
+        }
+
+        function submitForm(e) {
+            e.preventDefault(); 
+            form.style.display = 'none';
+            successMsg.style.display = 'block';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
