@@ -126,18 +126,42 @@
         .button { display: inline-block; background-color: var(--accent); color: #0f1f3d; padding: 1.2rem 2.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; transition: background-color 0.3s ease, transform 0.2s ease; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 20px rgba(214, 160, 72, 0.2); }
         .button:hover { background-color: var(--accent-hover); transform: scale(1.02); }
 
-        /* Team Section Styles */
-        .team-section { padding: 5rem 5%; max-width: 1200px; margin: 0 auto; text-align: center; }
+        /* --- UPDATED TEAM SECTION WITH MONUMENTS --- */
+        .team-section { padding: 5rem 5%; max-width: 1400px; margin: 0 auto; text-align: center; }
         .team-section h2 { font-size: 2.5rem; color: var(--text-main); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
         .team-section > p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 3.5rem; }
 
-        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; text-align: left; }
+        .team-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; text-align: left; }
+        @media (min-width: 1024px) {
+            .team-grid { grid-template-columns: 1fr 1fr; }
+        }
         
-        .profile-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-top: 5px solid var(--accent); border-radius: 8px; padding: 2.5rem; position: relative; transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .profile-card { 
+            background-color: var(--bg-card); 
+            border: 1px solid var(--border-color); 
+            border-top: 5px solid var(--accent); 
+            border-radius: 8px; 
+            padding: 2.5rem; 
+            position: relative; 
+            transition: transform 0.3s ease; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }
+        @media (min-width: 600px) {
+            .profile-card { flex-direction: row; align-items: flex-start; }
+        }
+        
         .profile-card:hover { transform: translateY(-5px); }
-        
         .profile-card.sincere { border-top-color: #60a5fa; }
         
+        /* Monument Image Styles */
+        .profile-monument { flex: 0 0 200px; text-align: center; }
+        .profile-monument img { width: 100%; max-width: 200px; border-radius: 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.05); }
+        
+        .profile-content { flex: 1; }
         .profile-header { margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; }
         .profile-name { font-size: 2rem; color: var(--text-main); margin: 0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
         .profile-title { color: var(--accent); font-size: 1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0.3rem; }
@@ -146,12 +170,11 @@
         .profile-node { display: inline-block; background-color: rgba(255,255,255,0.05); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem; color: #cbd5e1; margin-top: 0.8rem; border: 1px solid rgba(255,255,255,0.1);}
 
         .profile-stats { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-        .stat-box { background-color: rgba(15, 31, 61, 0.6); padding: 0.8rem 1rem; border-radius: 6px; flex: 1; min-width: 90px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .stat-box { background-color: rgba(15, 31, 61, 0.6); padding: 0.8rem 1rem; border-radius: 6px; flex: 1; min-width: 80px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
         .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--text-main); }
         .stat-box label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
         .profile-bio { color: #cbd5e1; line-height: 1.7; font-size: 1rem; margin-bottom: 1.5rem; }
-        
         .profile-quote { font-style: italic; color: var(--text-muted); border-left: 3px solid var(--border-color); padding-left: 1rem; font-size: 0.95rem; }
 
         /* --- REFERRAL PROMO BLOCK --- */
@@ -182,7 +205,7 @@
 
     <header>
         <div class="header-logo">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
+            <img src="https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
@@ -198,7 +221,7 @@
 
     <section class="hero">
         <div class="hero-banner-container">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build circular logo" class="hero-banner-image" onerror="this.style.display='none'">
+            <img src="https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build circular logo" class="hero-banner-image" onerror="this.style.display='none'">
             <div class="hero-content">
                 <h2>Engineering the Metaverse</h2>
                 <p>Raytown Construction don't just place buildings; we engineer digital communities. Our strategies leverage strategic property acquisition and precise development analytics from the <strong>FASTTRACK TOOLs</strong> system.</p>
@@ -228,7 +251,7 @@
     <section class="spotlight-section">
         <div class="spotlight-container">
             <div class="spotlight-image-wrapper">
-                <img src="assets/images/Prime_Builder.png" alt="World Engine Prime Builder Badge" class="spotlight-image" onerror="this.style.display='none'">
+                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Prime_Builder.png" alt="World Engine Prime Builder Badge" class="spotlight-image" onerror="this.style.display='none'">
             </div>
             <div class="spotlight-content">
                 <span class="tag">World Engine Dispatch: Community Spotlight</span>
@@ -257,7 +280,25 @@
         <h2 class="section-title">Active Developments & Portfolio<span>(Recent Raytown Builds in Upland)</span></h2>
         <div class="portfolio-grid">
             <div class="portfolio-card">
-                <img src="assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights Development" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
+                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights Development" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Commercial Zoning</span>
+                    <h3>Gregory Heights Development</h3>
+                    <p>A high-density district optimized for maximum foot traffic, featuring strategically placed Metaventures, multi-story residential blocks, and active retail storefronts.</p>
+                </div>
+            </div>
+
+            <div class="portfolio-card">
+                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Raytown_University.png" alt="Raytown University Campus" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
+                <div class="portfolio-content">
+                    <span class="portfolio-tag">Master Planning</span>
+                    <h3>Raytown University Campus</h3>
+                    <p>A massive, cohesive community node build. This project demonstrates large-scale architectural alignment and efficient Sparklet deployment across multiple adjacent parcels.</p>
+                </div>
+            </div>
+
+            <div class="portfolio-card">
+                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Raytown_neighborhood.png" alt="Raytown Strategic Node Map" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
                 <div class="portfolio-content">
                     <span class="portfolio-tag">Commercial Zoning</span>
                     <h3>Gregory Heights Development</h3>
@@ -291,75 +332,89 @@
         <a href="https://discord.gg/BeVnv48x" class="button" target="_blank">Break Ground on Discord</a>
     </section>
 
+    <!-- UPDATED TEAM SECTION WITH MONUMENTS -->
     <section class="team-section">
         <h2>Meet the Collective Leadership</h2>
         <p>The architects behind the nodes. We build the communities we want to play in.</p>
 
         <div class="team-grid">
             
+            <!-- JahReshaud Card -->
             <div class="profile-card">
-                <div class="profile-header">
-                    <h3 class="profile-name">JahReshaud</h3>
-                    <div class="profile-title">Raytown Node Ambassador & Founder</div>
-                    <div class="profile-node">📍 Raytown Hub, Kansas City, MO</div>
+                <div class="profile-monument">
+                    <img src="https://reshaud1730.github.io/raytown-construction/assets/images/FTC_PILLAR.png" alt="FTC HQ Monument" onerror="this.style.display='none'">
                 </div>
-                
-                <div class="profile-stats">
-                    <div class="stat-box">
-                        <span>14.5M</span>
-                        <label>Net Worth</label>
+                <div class="profile-content">
+                    <div class="profile-header">
+                        <h3 class="profile-name">JahReshaud</h3>
+                        <div class="profile-title">Raytown Node Ambassador & Founder</div>
+                        <div class="profile-node">📍 Raytown Hub, Kansas City, MO</div>
                     </div>
-                    <div class="stat-box">
-                        <span>581</span>
-                        <label>Properties</label>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-box">
+                            <span>14.5M</span>
+                            <label>Net Worth</label>
+                        </div>
+                        <div class="stat-box">
+                            <span>581</span>
+                            <label>Properties</label>
+                        </div>
+                        <div class="stat-box">
+                            <span style="color: var(--accent);">41.2k</span>
+                            <label>Staked Sparklet</label>
+                        </div>
                     </div>
-                    <div class="stat-box">
-                        <span style="color: var(--accent);">41.2k</span>
-                        <label>Staked Sparklet</label>
-                    </div>
-                </div>
 
-                <div class="profile-bio">
-                    The driving force behind Raytown Construction and the creator of the TNB economy. JahReshaud focuses on high-velocity development, creating accessible entry points for new builders, and pushing the utility score of Kansas City to the absolute limit.
-                </div>
-                <div class="profile-quote">
-                    "Trade N Build isn't just a token; it's a lifestyle. We secure the land, we drop the spark, and we elevate the entire community together."
+                    <div class="profile-bio">
+                        The driving force behind Raytown Construction and the creator of the TNB economy. JahReshaud focuses on high-velocity development, creating accessible entry points for new builders, and pushing the utility score of Kansas City to the absolute limit.
+                    </div>
+                    <div class="profile-quote">
+                        "Trade N Build isn't just a token; it's a lifestyle. We secure the land, we drop the spark, and we elevate the entire community together."
+                    </div>
                 </div>
             </div>
 
+            <!-- Sincere87 Card -->
             <div class="profile-card sincere">
-                <div class="profile-header">
-                    <h3 class="profile-name">Sincere87</h3>
-                    <div class="profile-title">East Flatbush Community Lead</div>
-                    <div class="profile-node">📍 East Flatbush, Brooklyn, NY</div>
+                <div class="profile-monument">
+                    <img src="https://reshaud1730.github.io/raytown-construction/assets/images/EFBDS_PILLAR.png" alt="Deadshift Node Monument" onerror="this.style.display='none'">
                 </div>
-                
-                <div class="profile-stats">
-                    <div class="stat-box">
-                        <span>3.7M</span>
-                        <label>Net Worth</label>
+                <div class="profile-content">
+                    <div class="profile-header">
+                        <h3 class="profile-name">Sincere87</h3>
+                        <div class="profile-title">East Flatbush Community Lead</div>
+                        <div class="profile-node">📍 East Flatbush, Brooklyn, NY</div>
                     </div>
-                    <div class="stat-box">
-                        <span>158</span>
-                        <label>Properties</label>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-box">
+                            <span>3.7M</span>
+                            <label>Net Worth</label>
+                        </div>
+                        <div class="stat-box">
+                            <span>158</span>
+                            <label>Properties</label>
+                        </div>
+                        <div class="stat-box">
+                            <span style="color: #60a5fa;">21.7k</span>
+                            <label>Staked Sparklet</label>
+                        </div>
                     </div>
-                    <div class="stat-box">
-                        <span style="color: #60a5fa;">21.7k</span>
-                        <label>Staked Sparklet</label>
-                    </div>
-                </div>
 
-                <div class="profile-bio">
-                    The cornerstone of our premium coastal operations. Sincere87 manages the World Engine Collective's footprint in one of Upland's most competitive, 100%-minted districts. He specializes in high-stakes asset acquisition and securing the Brooklyn block.
-                </div>
-                <div class="profile-quote">
-                    "When the map is completely sold out, strategy is everything. We aren't just holding properties; we are establishing a legacy on the East Coast."
+                    <div class="profile-bio">
+                        The cornerstone of our premium coastal operations. Sincere87 manages the World Engine Collective's footprint in one of Upland's most competitive, 100%-minted districts. He specializes in high-stakes asset acquisition and securing the Brooklyn block.
+                    </div>
+                    <div class="profile-quote">
+                        "When the map is completely sold out, strategy is everything. We aren't just holding properties; we are establishing a legacy on the East Coast."
+                    </div>
                 </div>
             </div>
 
         </div>
     </section>
 
+    <!-- UPLAND REFERRAL SECTION -->
     <section class="referral-section">
         <div class="referral-promo">
             <div class="referral-content">
