@@ -21,7 +21,6 @@
         }
 
         body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
-        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
         header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .header-logo { display: flex; align-items: center; gap: 12px; }
@@ -56,4 +55,156 @@
         .reward-box { margin-top: 2rem; background: rgba(214, 160, 72, 0.1); border: 1px solid rgba(214, 160, 72, 0.3); padding: 1.2rem; border-radius: 6px; color: var(--accent); font-weight: bold; font-size: 1.15rem; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- EVENT CARD STYLES --- */
-        .event-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-left: 6px solid var(--accent); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; md:flex-row; transition: transform 0.3s ease, box-shadow 0.3s ease
+        .event-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-left: 6px solid var(--accent); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; margin-bottom: 2.5rem; }
+        .event-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(214, 160, 72, 0.1); }
+        
+        .event-content { padding: 2.5rem; flex-grow: 1; }
+        
+        .event-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;}
+        .event-title-group h3 { margin: 0 0 0.5rem 0; font-size: 1.6rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px;}
+        .event-tag { display: inline-block; background-color: var(--tag-bg); color: #4ade80; padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.8px; border: 1px solid rgba(74, 222, 128, 0.2); }
+        
+        .event-date-box { background-color: var(--event-date-bg); border: 1px solid rgba(214, 160, 72, 0.3); padding: 0.8rem 1.5rem; border-radius: 6px; text-align: center; min-width: 100px;}
+        .event-date-box .month { display: block; color: var(--accent); font-weight: bold; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px;}
+        .event-date-box .day { display: block; color: var(--text-main); font-size: 1.8rem; font-weight: bold; line-height: 1.1;}
+
+        .event-card p { color: #cbd5e1; font-size: 1.05rem; margin-bottom: 1.5rem; line-height: 1.7;}
+        
+        .event-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; background-color: rgba(15, 31, 61, 0.5); padding: 1.5rem; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.05);}
+        .detail-item strong { display: block; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem;}
+        .detail-item span { color: var(--text-main); font-weight: bold;}
+        .detail-item .highlight { color: var(--accent); }
+
+        .action-link { display: inline-block; margin-top: 1.5rem; color: var(--accent); text-decoration: none; font-weight: bold; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.3s;}
+        .action-link:hover { color: var(--accent-hover); }
+        .action-link::after { content: ' →'; margin-left: 6px; }
+
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; position: relative; }
+
+        @media (max-width: 768px) {
+            .event-header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
+            <h1>RAYTOWN CONSTRUCTION</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="insights.html">FastTrack Insights</a>
+            <a href="portal.html">Builder Portal</a>
+            <a href="events.html" style="color: var(--accent);">Events</a>
+            <a href="store.html">Store</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h2>World Engine Collective Events</h2>
+        <p>The central hub for official tournaments, league racing, and community networking within the Raytown operational zone.</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="champion-banner">
+            <div class="champion-badge">
+                <img src="assets/images/time_trial_crown.png" alt="Back-to-Back Champion Badge">
+            </div>
+            <div class="champion-details">
+                <h3>Legendary Achievement</h3>
+                <h4>World Engine Time Trials</h4>
+                
+                <p class="champion-desc">
+                    From the bath to the blacktop, the speed is undeniable! Join us in congratulating <strong>Batistoo</strong> for securing 1st Place in the World Engine Time Trials for <strong>TWO CONSECUTIVE WEEKENDS!</strong> 🏁🔥
+                </p>
+                
+                <div class="stat-row">
+                    <span class="date">🥇 March 15th, 2026</span>
+                    <span class="time">03:54.379</span>
+                </div>
+                <div class="stat-row">
+                    <span class="date">🥇 March 22nd, 2026</span>
+                    <span class="time">05:52.979</span>
+                </div>
+
+                <div class="reward-box">
+                    💰 Total Reward: 180 TNB + Bragging Rights!
+                </div>
+            </div>
+        </div>
+
+        <article class="event-card">
+            <div class="event-content">
+                <div class="event-header">
+                    <div class="event-title-group">
+                        <span class="event-tag">Free Community Event</span>
+                        <h3>Zombie Attack</h3>
+                    </div>
+                    <div class="event-date-box">
+                        <span class="month">TUE - THU</span>
+                        <span class="day">Weekly</span>
+                    </div>
+                </div>
+                <p><strong>The Mission:</strong> 3 Survivors vs. The Horde (JahReshaud, Sincere87, & The MAGE). No store purchase is required to participate in this free community survival run!</p>
+                <div class="event-details">
+                    <div class="detail-item">
+                        <strong>Entry Fee</strong>
+                        <span style="color: #4ade80;">FREE</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>1st - 3rd Place Loot</strong>
+                        <span class="highlight">60 TNB / 50 TNB / 40 TNB</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>4th - 6th Place Loot</strong>
+                        <span class="highlight">30 TNB / 20 TNB / 10 TNB</span>
+                    </div>
+                </div>
+                <a href="https://discord.gg/BeVnv48x" class="action-link" target="_blank">Join Discord to Survive</a>
+            </div>
+        </article>
+
+        <article class="event-card">
+            <div class="event-content">
+                <div class="event-header">
+                    <div class="event-title-group">
+                        <span class="event-tag" style="color: var(--accent); border-color: rgba(214, 160, 72, 0.2); background-color: rgba(214, 160, 72, 0.05);">High Stakes Racing</span>
+                        <h3>Triple Threat Time Trials</h3>
+                    </div>
+                    <div class="event-date-box">
+                        <span class="month">FRI - SUN</span>
+                        <span class="day">Weekly</span>
+                    </div>
+                </div>
+                <p><strong>The Stakes:</strong> All rewards are TRIPLED! Lock in your best times over the weekend and secure massive payouts in the World Engine.</p>
+                <div class="event-details">
+                    <div class="detail-item">
+                        <strong>Entry Fee</strong>
+                        <span>45 TNB <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);">(via /buy item)</span></span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>1st Place Payout</strong>
+                        <span class="highlight">180 TNB!</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Payday</strong>
+                        <span>Every Monday Morning (CST)</span>
+                    </div>
+                </div>
+                <a href="https://discord.gg/BeVnv48x" class="action-link" target="_blank">Enter the Time Trials</a>
+            </div>
+        </article>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
+
+</body>
+</html>
