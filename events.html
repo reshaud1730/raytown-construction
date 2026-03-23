@@ -36,7 +36,6 @@
 
         .container { max-width: 1000px; margin: 0 auto; padding: 4rem 5%; }
         
-        /* --- BATISTOO CHAMPION BANNER STYLES --- */
         .champion-banner { background: linear-gradient(135deg, #0f1f3d 0%, #132549 100%); border: 2px solid var(--accent); border-radius: 12px; padding: 2.5rem; margin-bottom: 4rem; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 10px 30px rgba(214, 160, 72, 0.15); gap: 2rem; }
         @media (min-width: 768px) { .champion-banner { flex-direction: row; text-align: left; } }
         .champion-badge { flex: 1; max-width: 300px; display: flex; justify-content: center; }
@@ -50,7 +49,6 @@
         .stat-row .time { color: #fff; font-family: monospace; font-size: 1.2rem; font-weight: bold; }
         .reward-box { margin-top: 2rem; background: rgba(214, 160, 72, 0.1); border: 1px solid rgba(214, 160, 72, 0.3); padding: 1.2rem; border-radius: 6px; color: var(--accent); font-weight: bold; font-size: 1.15rem; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- AKL REGISTRATION STYLES --- */
         .akl-info-box { background: rgba(255, 183, 197, 0.05); border: 1px solid rgba(255, 183, 197, 0.3); padding: 2rem; border-radius: 8px; margin-bottom: 3rem; text-align: center; }
         .tier-card { background: var(--bg-card); border-radius: 8px; padding: 2.5rem 2rem; text-align: center; transition: transform 0.3s; position: relative; overflow: hidden; }
         .tier-card:hover { transform: translateY(-5px); }
@@ -58,7 +56,6 @@
         .btn-register:hover { filter: brightness(1.1); }
         .prize-pool-box { background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 6px; margin: 1.5rem 0; border: 1px dashed rgba(255,255,255,0.2); }
 
-        /* --- MODAL STYLES --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-content { background: var(--bg-card); border: 2px solid var(--accent); border-radius: 8px; padding: 3rem; width: 90%; max-width: 500px; position: relative; }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; background: none; border: none; }
@@ -68,7 +65,6 @@
         .form-group input, .form-group select { width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; font-size: 1rem; box-sizing: border-box; }
         .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--accent); }
 
-        /* --- PIT STOP PROMO STYLES --- */
         .pit-stop-promo { background: linear-gradient(90deg, #132549 0%, #0f1f3d 100%); border: 1px solid var(--border-color); border-left: 6px solid var(--accent); border-radius: 8px; padding: 2rem; margin-top: 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
         .pit-stop-btn { display: inline-block; background: transparent; border: 2px solid var(--accent); color: var(--accent); padding: 1rem 2rem; border-radius: 4px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; transition: all 0.3s; text-align: center; }
         .pit-stop-btn:hover { background: var(--accent); color: #0f1f3d; }
@@ -151,7 +147,6 @@
                     </div>
                     
                     <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 2rem; min-height: 60px;">Perfect for new racers looking to test their karts and learn the tracks.</p>
-                    
                     <button class="btn-register" style="background: #4ade80; color: #0f1f3d;" onclick="openModal('Amateur', '1,500 UPX')">Register Now (12 Spots Left)</button>
                 </div>
 
@@ -166,7 +161,6 @@
                     </div>
                     
                     <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 2rem; min-height: 60px;">The mid-weight division. For experienced drivers stepping up the competition.</p>
-                    
                     <button class="btn-register" style="background: #00f2ff; color: #0f1f3d;" onclick="openModal('Achieving', '3,000 UPX')">Register Now (12 Spots Left)</button>
                 </div>
 
@@ -181,7 +175,6 @@
                     </div>
                     
                     <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 2rem; min-height: 60px;">The heavy hitters. Elite racers only. High stakes and massive payouts.</p>
-                    
                     <button class="btn-register" style="background: var(--accent); color: #0f1f3d;" onclick="openModal('Advanced', '9,000 UPX')">Register Now (12 Spots Left)</button>
                 </div>
 
@@ -189,9 +182,9 @@
 
             <div class="pit-stop-promo">
                 <div style="flex: 2; min-width: 300px;">
-                    <h3 style="color: var(--text-main); font-size: 1.6rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">🏎️ FastTrack Pit Stop</h3>
+                    <h3 style="color: var(--text-main); font-size: 1.6rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">🏎️ FastTrack Pit Stop Registration</h3>
                     <p style="color: var(--accent); font-family: monospace; font-size: 1rem; margin: 0 0 1rem 0;">📍 8521 MAYWOOD AVE, KANSAS CITY, MO</p>
-                    <p style="color: #cbd5e1; font-size: 1rem; margin: 0; line-height: 1.6;">Don't hit the starting line empty-handed. Visit our official Raytown Racing Metaventure to buy and sell racing legits. We have basic power-ups stocked and priced specifically for your AKL tier!</p>
+                    <p style="color: #cbd5e1; font-size: 1rem; margin: 0; line-height: 1.6;">Official tournament entry fees are paid via Metaventure purchases. Visit our official Raytown Pit Stop and purchase the basic racing power-up priced for your specific tier to lock in your grid position!</p>
                 </div>
                 <div style="flex: 1; text-align: right; min-width: 200px;">
                     <a href="https://play.upland.me/" target="_blank" class="pit-stop-btn">Visit Metaventure</a>
@@ -206,7 +199,7 @@
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
             <h3 style="color: #fff; font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Secure Your Spot</h3>
-            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Fill out this form to lock in your position on the grid. Entry fees are handled in-game.</p>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Fill out this form so we can log your details. Entry fees are paid by purchasing your tier's power-up at the Pit Stop.</p>
             
             <form id="registrationForm" onsubmit="submitForm(event)">
                 <div class="form-group">
@@ -231,14 +224,14 @@
             
             <div id="successMessage" style="display: none; text-align: center; padding: 1rem 0;">
                 <div style="font-size: 3rem; margin-bottom: 0.5rem;">✅</div>
-                <h4 style="color: #4ade80; font-size: 1.5rem; margin: 0 0 1rem 0;">Slot Reserved!</h4>
+                <h4 style="color: #4ade80; font-size: 1.5rem; margin: 0 0 1rem 0;">Registration Logged!</h4>
                 <p style="color: #e2e8f0; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                    Your registration has been logged. To finalize your entry, please send your UPX entry fee to <strong>JahReshaud</strong> or <strong>Sincere87</strong> in-game. We will ping you in Discord once verified!
+                    Your details are in our system. <strong>To officially lock your slot, you must pay your entry fee by purchasing your tier's power-up.</strong>
                 </p>
                 
                 <div style="background: rgba(214, 160, 72, 0.1); border: 1px solid var(--accent); padding: 1rem; border-radius: 6px; text-align: left; margin-bottom: 1.5rem;">
-                    <h5 style="color: var(--accent); margin: 0 0 0.5rem 0; font-size: 1rem; text-transform: uppercase;">🏎️ Next Step: Gear Up!</h5>
-                    <p style="color: #cbd5e1; font-size: 0.85rem; margin: 0; line-height: 1.5;">Head over to the <strong>FASTTRACK PIT STOP</strong> metaventure at <strong style="color: #fff;">8521 Maywood Ave, Kansas City, MO</strong> to grab basic racing power-ups priced perfectly for your tier!</p>
+                    <h5 style="color: var(--accent); margin: 0 0 0.5rem 0; font-size: 1rem; text-transform: uppercase;">🏎️ Final Step: Buy Your Entry Ticket!</h5>
+                    <p style="color: #cbd5e1; font-size: 0.85rem; margin: 0; line-height: 1.5;">Travel to the <strong>FASTTRACK PIT STOP</strong> at <strong style="color: #fff;">8521 Maywood Ave, Kansas City, MO</strong> and purchase the basic racing power-up priced at your tier's entry fee. Once purchased, your spot on the grid is officially secured!</p>
                 </div>
 
                 <button onclick="closeModal()" style="background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 0.8rem 2rem; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Close</button>
@@ -257,5 +250,30 @@
         const tierInput = document.getElementById('tierInput');
         const feeInput = document.getElementById('feeInput');
 
-        // Open modal and pre-fill the tier and fee
-        function openModal(tier
+        function openModal(tier, fee) {
+            tierInput.value = tier + ' Tier';
+            feeInput.value = fee;
+            form.style.display = 'block';
+            successMsg.style.display = 'none';
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            form.reset();
+        }
+
+        function submitForm(e) {
+            e.preventDefault(); 
+            form.style.display = 'none';
+            successMsg.style.display = 'block';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
