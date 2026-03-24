@@ -3,207 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raytown Construction: Trade N Build | Builder Portal</title>
+    <title>Builder Portal | Raytown Construction</title>
+    
+    <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
+    
     <style>
         :root {
-            --bg-dark: #0f1f3d;
-            --accent-cyan: #00f2ff;
-            --text-glowing: #00e0ed;
-            --metal-shine: rgba(255,255,255,0.25);
-            --metal-shadow: rgba(0,0,0,0.6);
-            --metal-texture: url('https://www.transparenttextures.com/patterns/brushed-alum.png');
-            --accent-gold: #d6a048;
+            --bg-dark: #0f1f3d; 
+            --bg-card: #132549; 
+            --text-main: #e2e8f0; 
+            --text-muted: #94a3b8;
+            --accent: #d6a048; 
+            --accent-hover: #b0843a;
+            --border-color: #4b5563; 
         }
 
-        body {
-            font-family: 'Montserrat', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-dark);
-            /* Background uses your asset folder */
-            background-image: url('assets/images/lowpoly_space_background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: white;
-            margin: 0; padding: 0;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh;
-        }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
 
-        /* --- Header --- */
-        header { width: 100%; box-sizing: border-box; background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid #4b5563; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        /* --- NAVIGATION --- */
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .header-logo { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { width: 40px; height: 40px; }
-        header h1 { margin: 0; font-size: 1.4rem; color: #e2e8f0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .nav-links a { color: #e2e8f0; text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.85rem; text-transform: uppercase; }
-        .nav-links a:hover { color: var(--accent-gold); }
+        .logo-icon { width: 50px; height: 50px; }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* --- The Metallic Calculator Console --- */
-        .calculator-frame {
-            width: 440px;
-            background: linear-gradient(135deg, #abb1b8 0%, #d1d9e6 45%, #e1e9f6 55%, #c0c6d0 100%);
-            border: 4px solid #a4adb8;
-            border-radius: 20px 20px 40px 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 3px 6px rgba(255,255,255,0.6);
-            position: relative;
-            padding: 20px;
-            margin: 3rem auto;
-            z-index: 10;
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- SECURITY GATE (THE LOCK SCREEN) --- */
+        #security-gate {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(180deg, #0f1f3d 0%, #132549 100%);
         }
 
-        .calculator-frame::after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: var(--metal-texture); opacity: 0.05; pointer-events: none; }
-
-        .grid-panel {
-            background-color: #121e3c;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%232a4e7f' fill-opacity='0.1' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.25v12l11 6.5 11-6.5v-12l-11-6.5-11 6.5zm0-12.5L1 3.25V1.25h12.99l13 7.5V11.25l-11-6.5-11 6.5-13-7.5zm0 30l1 1.5v12h12.99l13-7.5v-2l-11 6.5-11-6.5-13 7.5zm22-30l1-1.5v-2H13.99l-13 7.5v2l11-6.5 11 6.5 1-1.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            border-radius: 10px;
-            border: 2px solid #3c5483;
-            padding: 15px;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.7);
+        .lock-icon { font-size: 4rem; margin-bottom: 1rem; color: var(--accent); text-shadow: 0 0 20px rgba(214, 160, 72, 0.4); }
+        
+        .security-box {
+            background-color: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 3rem;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(214, 160, 72, 0.15);
         }
 
-        .brand-bar {
-            background: linear-gradient(to right, #203e7c, #0d1e41, #203e7c);
-            color: #d6eaff; text-align: center; padding: 8px; border-radius: 6px;
-            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;
-            border: 1px solid #4a6da7; margin-bottom: 15px;
+        .security-box h2 { color: #fff; margin-top: 0; font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; }
+        .security-box p { color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem; }
+        .security-box p strong { color: var(--text-main); }
+
+        .passcode-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            box-sizing: border-box;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+        .passcode-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 15px rgba(214, 160, 72, 0.3); }
+
+        .verify-btn {
+            background-color: var(--accent);
+            color: #0f1f3d;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .verify-btn:hover { background-color: var(--accent-hover); transform: translateY(-2px); }
+
+        .error-msg { color: #ff6b6b; margin-top: 1rem; font-weight: bold; display: none; text-transform: uppercase; letter-spacing: 1px; }
+
+        .discord-prompt { margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted); }
+        .discord-prompt a { color: var(--accent); text-decoration: none; font-weight: bold; }
+        .discord-prompt a:hover { text-decoration: underline; }
+
+        /* --- ACTUAL PORTAL CONTENT (HIDDEN BY DEFAULT) --- */
+        #portal-content {
+            display: none; /* Hidden until verified */
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .display-node {
-            background: linear-gradient(135deg, #d4dbe4 0%, #e8eef6 50%, #ccd3de 100%);
-            border-radius: 8px; border: 1px solid #7d858f; padding: 12px;
-            position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 2px 2px rgba(255,255,255,0.7);
-            margin-bottom: 10px;
-        }
+        .welcome-banner { background: var(--bg-card); border-left: 5px solid var(--accent); padding: 2rem; border-radius: 8px; margin-bottom: 3rem; }
+        .welcome-banner h2 { margin: 0 0 0.5rem 0; color: var(--accent); text-transform: uppercase; }
+        .welcome-banner p { margin: 0; color: var(--text-main); font-size: 1.1rem; }
 
-        .display-node label { display: block; font-size: 0.6rem; color: #1a2f57; margin-bottom: 5px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
-
-        .data-input {
-            width: 100%; box-sizing: border-box; background: #070d18;
-            border: 2px solid #2e4d82; border-radius: 6px;
-            color: var(--text-glowing); font-size: 1.4rem; font-weight: 900;
-            text-align: center; padding: 8px 0; outline: none;
-            text-shadow: 0 0 10px var(--accent-cyan);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
-        }
-
-        .action-button-container { display: flex; justify-content: center; margin-top: 15px; }
-        .calculate-btn {
-            background: linear-gradient(to bottom, #7da1d1 0%, #1e5ba9 48%, #164687 52%, #2a6fcc 100%);
-            color: white; font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
-            padding: 12px 30px; border-radius: 12px; border: 2px solid #4a6da7; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5); width: 100%;
-        }
-
-        .calculate-btn:hover { box-shadow: 0 0 15px var(--accent-cyan); filter: brightness(1.1); }
-
-        /* Results Display Section */
-        #results-display { margin-top: 15px; background: rgba(0, 242, 255, 0.05); border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 15px; display: none; text-align: center; }
-        .res-main-label { color: #a1b8d5; font-size: 0.7rem; text-transform: uppercase; }
-        .res-main-val { color: var(--accent-cyan); font-size: 2rem; font-weight: 900; text-shadow: 0 0 15px var(--accent-cyan); margin: 5px 0; display: block; }
-
-        /* Rivets and Nodes for Metal Look */
-        .rivet { width: 4px; height: 4px; background: #90a1b6; border-radius: 50%; position: absolute; box-shadow: inset 0 1px 1px rgba(0,0,0,0.5); }
-        .rivet-tl { top: 4px; left: 4px; } .rivet-tr { top: 4px; right: 4px; } .rivet-bl { bottom: 4px; left: 4px; } .rivet-br { bottom: 4px; right: 4px; }
-        .metal-node { width: 10px; height: 10px; border-radius: 50%; background: #1a2a47; border: 2px solid #5a79ad; position: absolute; }
-        .metal-node-tl { top: 15px; left: 15px; } .metal-node-tr { top: 15px; right: 15px; }
-
-        footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: 0.8rem; border-top: 1px solid #4b5563; background: rgba(15, 31, 61, 0.9); width: 100%; }
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; }
     </style>
 </head>
 <body>
 
+    <!-- NAVIGATION -->
     <header>
         <div class="header-logo">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Logo" class="logo-icon">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
-<div class="nav-links">
+        <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="insights.html">FastTrack Insights</a>
-            <a href="portal.html">Builder Portal</a>
+            <a href="portal.html" style="color: var(--accent);">Builder Portal</a>
             <a href="events.html">Events</a>
-            <a href="store.html">Store</a> <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
-            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
+            <a href="store.html">Store</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem;">FastTrack Tools</a>
         </div>
     </header>
 
-    <div class="calculator-frame">
-        <div class="metal-node metal-node-tl"></div><div class="metal-node metal-node-tr"></div>
+    <!-- THE SECURITY GATE -->
+    <div id="security-gate">
+        <div class="lock-icon">🛡️</div>
+        <div class="security-box">
+            <h2>Restricted Node</h2>
+            <p>This portal is exclusively for <strong>World Engine Collective Members</strong> and verified <strong>Raytown Residents</strong>.</p>
+            
+            <input type="password" id="passcode" class="passcode-input" placeholder="ENTER DISPATCH CODE" onkeypress="handleKeyPress(event)">
+            <button class="verify-btn" onclick="verifyCode()">Authenticate</button>
+            
+            <div id="error-msg" class="error-msg">❌ Access Denied: Invalid Code</div>
+
+            <div class="discord-prompt">
+                Need clearance? Join the <a href="https://discord.gg/BeVnv48x" target="_blank">Discord Server</a> to get verified and receive your dispatch code.
+            </div>
+        </div>
+    </div>
+
+    <!-- THE SECURE PORTAL CONTENT -->
+    <div id="portal-content">
+        <div class="welcome-banner">
+            <h2>Identity Verified. Welcome Builder.</h2>
+            <p>You have successfully accessed the Raytown Construction secure portal. All operational dispatch tools and resident resources are active below.</p>
+        </div>
         
-        <img src="assets/images/fasttracktools_crest_logo.png" alt="FastTrack" style="width: 100px; display: block; margin: 0 auto 10px; filter: drop-shadow(0 0 5px var(--accent-cyan));">
+        <!-- Add your secure portal content here later! (Forms, exclusive links, etc.) -->
+        <div style="text-align: center; color: var(--text-muted); padding: 4rem; border: 2px dashed var(--border-color); border-radius: 8px;">
+            <h3>[ SECURE MODULES LOADING... ]</h3>
+            <p>Place your exclusive community content, private guides, or specific operational links inside this section.</p>
+            <button onclick="lockPortal()" style="margin-top: 2rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 0.5rem 1rem; cursor: pointer;">Lock Terminal (Sign Out)</button>
+        </div>
+    </div>
 
-        <div class="grid-panel">
-            <div class="brand-bar">RTC CONSTRUCTION PORTAL</div>
-
-            <div class="display-node">
-                <div class="rivet rivet-tl"></div><div class="rivet rivet-tr"></div>
-                <div class="rivet rivet-bl"></div><div class="rivet rivet-br"></div>
-                <label>Total Project Requirement (SH)</label>
-                <input type="number" id="total_req" class="data-input" placeholder="0000">
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div class="display-node">
-                    <label>Days Left</label>
-                    <input type="number" id="days_left" class="data-input" placeholder="0">
-                </div>
-                <div class="display-node">
-                    <label>Hours Left</label>
-                    <input type="number" id="hours_left" class="data-input" placeholder="0">
-                </div>
-            </div>
-
-            <div class="display-node">
-                <label>Current Staked Spark</label>
-                <input type="number" id="staked_spark" step="0.01" class="data-input" placeholder="1.00">
-            </div>
-
-            <div id="results-display">
-                <span class="res-main-label">Completed Spark Hours</span>
-                <span id="res_completed" class="res-main-val">0.00</span>
-                <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #a1b8d5; border-top: 1px solid #2e4d82; padding-top: 8px;">
-                    <span>Rem: <span id="res_rem_sh" style="color:var(--accent-gold)">0</span> SH</span>
-                    <span>Progress: <span id="res_percent" style="color:var(--accent-gold)">0</span>%</span>
-                </div>
-            </div>
-            
-          <div class="action-button-container" style="flex-direction: column; gap: 15px;">
-                <button class="calculate-btn" onclick="runRTCReverse()">RUN PROGRESS ANALYSIS</button>
-                <a href="project_manager.html" class="calculate-btn" style="display: block; box-sizing: border-box; background: linear-gradient(to bottom, #4a6da7 0%, #1a2f57 100%); text-align: center; text-decoration: none; border-color: #5a79ad;">LAUNCH FASTTRACK PROJECT MANAGER</a>
-            </div>
-            
-        </div> </div> <footer>
-        <p>&copy; 2026 Raytown Construction | Powered by FASTTRACK TOOLs</p>
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
     </footer>
 
+    <!-- SECURITY SCRIPT -->
     <script>
-        function runRTCReverse() {
-            const totalReq = parseFloat(document.getElementById('total_req').value);
-            const d = parseFloat(document.getElementById('days_left').value) || 0;
-            const h = parseFloat(document.getElementById('hours_left').value) || 0;
-            const sparkletInput = parseFloat(document.getElementById('staked_spark').value);
-            const display = document.getElementById('results-display');
+        // --- SET YOUR SECRET CODE HERE ---
+        const SECRET_CODE = "TNB2026"; 
+        // ---------------------------------
 
-            if (totalReq > 0 && sparkletInput > 0) {
-                // Convert Sparklet to True Spark (divide by 1000)
-                const trueSpark = sparkletInput / 1000;
+        const gate = document.getElementById('security-gate');
+        const portal = document.getElementById('portal-content');
+        const errorMsg = document.getElementById('error-msg');
+        const inputField = document.getElementById('passcode');
 
-                // Formula: (Days * 24 + Hours) * True Spark = Remaining SH
-                const totalHoursLeft = (d * 24) + h;
-                const remainingSH = totalHoursLeft * trueSpark;
-                
-                // Formula: Total - Remaining = Completed
-                const completedSH = totalReq - remainingSH;
-                const percent = (completedSH / totalReq) * 100;
+        // Check if they already unlocked it on a previous visit
+        window.onload = function() {
+            if (localStorage.getItem("raytownPortalAccess") === "granted") {
+                unlockPortal();
+            }
+        };
 
-                // Update UI Nodes
-                document.getElementById('res_completed').innerText = completedSH.toFixed(2);
-                document.getElementById('res_rem_sh').innerText = Math.max(0, remainingSH.toFixed(2));
-                document.getElementById('res_percent').innerText = Math.max(0, percent.toFixed(1));
-                
-                display.style.display = 'block';
+        function verifyCode() {
+            const userInput = inputField.value.trim().toUpperCase();
+            
+            if (userInput === SECRET_CODE.toUpperCase()) {
+                // Success!
+                localStorage.setItem("raytownPortalAccess", "granted");
+                unlockPortal();
             } else {
-                alert("Calculation Error: Please enter Total Requirement and Staked Sparklet.");
+                // Failed!
+                errorMsg.style.display = "block";
+                inputField.value = ""; // Clear input
+                
+                // Shake animation for failure
+                gate.style.transform = "translateX(-10px)";
+                setTimeout(() => gate.style.transform = "translateX(10px)", 100);
+                setTimeout(() => gate.style.transform = "translateX(-10px)", 200);
+                setTimeout(() => gate.style.transform = "translateX(0)", 300);
+            }
+        }
+
+        function unlockPortal() {
+            gate.style.display = "none";
+            portal.style.display = "block";
+        }
+
+        function lockPortal() {
+            localStorage.removeItem("raytownPortalAccess");
+            portal.style.display = "none";
+            gate.style.display = "flex";
+            errorMsg.style.display = "none";
+            inputField.value = "";
+        }
+
+        // Allow pressing "Enter" to submit
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                verifyCode();
             }
         }
     </script>
+</body>
+</html>
