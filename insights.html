@@ -9,20 +9,36 @@
     
     <style>
         :root {
+            /* Base Colors */
             --bg-dark: #0f1f3d; 
             --bg-card: #132549; 
+            --bg-panel: #121e3c;
             --text-main: #e2e8f0; 
             --text-muted: #94a3b8;
             --accent: #d6a048; 
             --accent-hover: #b0843a;
             --border-color: #4b5563; 
             --tag-bg: #4b5563; 
+            
+            /* Tech Dashboard Colors */
+            --accent-cyan: #00f2ff;
+            --border-tech: #2e4d82;
+            --glow-cyan: rgba(0, 242, 255, 0.4);
         }
 
         body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
-        .bg-overlay { background-color: rgba(15, 31, 61, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        
+        /* Background overlays for tech feel */
+        .bg-overlay { 
+            background-color: rgba(15, 31, 61, 0.95); 
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 242, 255, 0.03), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(214, 160, 72, 0.03), transparent 25%);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+        }
 
-        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        /* --- HEADER --- */
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         .header-logo { display: flex; align-items: center; gap: 12px; }
         .logo-icon { width: 50px; height: 50px; }
         header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
@@ -30,22 +46,71 @@
         .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
         .nav-links a:hover { color: var(--accent); }
 
+        /* --- HERO SECTION --- */
         .page-header { padding: 5rem 5% 3rem; text-align: center; border-bottom: 2px solid var(--border-color); background: linear-gradient(180deg, #132549 0%, #0f1f3d 100%); }
         .page-header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
         .page-header p { color: var(--text-muted); font-size: 1.25rem; max-width: 650px; margin: 0 auto; line-height: 1.7; }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 5%; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 3rem 5%; }
+        
+        .section-title { font-size: 1.8rem; color: #fff; border-bottom: 1px solid var(--border-tech); padding-bottom: 0.5rem; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+
+        /* --- DASHBOARD WIDGETS --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .data-panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-tech);
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .data-panel:hover { transform: translateY(-5px); border-color: var(--accent-cyan); box-shadow: 0 10px 30px var(--glow-cyan); }
+        
+        .data-panel::before { content: ''; position: absolute; top: 0; left: 0; width: 40px; height: 4px; background: var(--accent-cyan); }
+        .data-panel::after { content: ''; position: absolute; bottom: 0; right: 0; width: 40px; height: 4px; background: var(--accent); }
+
+        .panel-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.8rem; }
+        .panel-title { font-size: 1.1rem; font-weight: bold; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; margin: 0; line-height: 1.3;}
+        .panel-icon { color: var(--accent-cyan); font-size: 1.5rem; }
+
+        /* Widget Specifics */
+        .calc-group { margin-bottom: 1rem; }
+        .calc-group label { display: block; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
+        .calc-input-wrapper { display: flex; align-items: center; background: var(--bg-dark); border: 1px solid var(--border-tech); border-radius: 6px; padding: 0.5rem 1rem; }
+        .calc-input-wrapper input { background: transparent; border: none; color: var(--accent-cyan); font-size: 1.3rem; font-weight: bold; width: 100%; outline: none; font-family: monospace; }
+        .calc-input-wrapper span { color: #fff; font-weight: bold; margin-left: 10px; font-size: 0.9rem;}
+
+        .metric-display { text-align: center; padding: 1rem 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
+        .metric-value { font-size: 3.5rem; font-weight: 900; color: var(--accent); line-height: 1; text-shadow: 0 0 15px rgba(214, 160, 72, 0.4); margin-bottom: 0.5rem; }
+        .metric-label { color: var(--accent-cyan); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-family: monospace; }
+
+        .dist-row { margin-bottom: 1.2rem; }
+        .dist-labels { display: flex; justify-content: space-between; margin-bottom: 0.3rem; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; }
+        .dist-bar-bg { width: 100%; height: 12px; background: rgba(0,0,0,0.5); border-radius: 6px; overflow: hidden; border: 1px solid var(--border-tech); }
+        .dist-bar-fill { height: 100%; border-radius: 6px; }
+
+        /* --- REPORT CARDS --- */
         .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
 
-        .report-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, border-color 0.3s ease; }
-        .report-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 0 15px rgba(214, 160, 72, 0.05);}
-        .report-content { padding: 2.5rem; flex-grow: 1; }
-
-        .report-tag { display: inline-block; background-color: var(--tag-bg); color: var(--accent); padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.8px; border: 1px solid rgba(214, 160, 72, 0.1); }
-        .report-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--text-main); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;}
-        .report-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 1.8rem; line-height: 1.7;}
+        .insight-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 2.5rem; display: flex; flex-direction: column; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+        .insight-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 0 15px rgba(214, 160, 72, 0.15);}
         
-        .read-more { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .insight-tag { display: inline-block; background-color: var(--tag-bg); color: var(--accent); padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.8px; border: 1px solid rgba(214, 160, 72, 0.1); width: max-content;}
+        .insight-card h3 { margin-top: 0; font-size: 1.5rem; color: var(--text-main); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .insight-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 1.8rem; line-height: 1.7; flex-grow: 1;}
+        
+        .read-more { color: var(--accent); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto;}
         .read-more:hover { color: var(--accent-hover); }
         .read-more::after { content: ' →'; margin-left: 6px; font-weight: bold;}
 
@@ -58,15 +123,16 @@
 
     <header>
         <div class="header-logo">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build Logo" class="logo-icon">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build Logo" class="logo-icon" onerror="this.style.display='none'">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
        <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="insights.html">FastTrack Insights</a>
+            <a href="insights.html" style="color: var(--accent); text-shadow: 0 0 10px rgba(214, 160, 72, 0.4);">FastTrack Insights</a>
             <a href="portal.html">Builder Portal</a>
             <a href="events.html">Events</a>
-            <a href="store.html">Store</a> <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="store.html">Store</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
             <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
         </div>
     </header>
@@ -77,31 +143,113 @@
     </div>
 
     <div class="container">
-       <div class="insights-grid">
+        
+        <h3 class="section-title"><span style="color: var(--accent-cyan);">//</span> LIVE TELEMETRY</h3>
+        <div class="dashboard-grid">
+
+            <div class="data-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">Currency<br>Exchange</h3>
+                    <span class="panel-icon">⚖️</span>
+                </div>
+                
+                <div class="calc-group">
+                    <label>Input UPX Volume</label>
+                    <div class="calc-input-wrapper">
+                        <input type="number" id="upxInput" value="4000" oninput="calculateUSD()">
+                        <span>UPX</span>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; color: var(--border-tech); margin: 5px 0;">▼</div>
+
+                <div class="calc-group" style="margin-bottom: 0;">
+                    <label>Fiat Equivalent</label>
+                    <div class="calc-input-wrapper" style="border-color: var(--accent);">
+                        <span style="color: var(--accent); margin-right: 5px; margin-left: 0;">$</span>
+                        <input type="text" id="usdOutput" value="2.00" readonly style="color: var(--accent);">
+                        <span>USD</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">Generator<br>Split</h3>
+                    <span class="panel-icon">📊</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1.5rem; line-height: 1.4;">Standardized revenue distribution for the RTC Generator Fleet.</p>
+
+                <div class="dist-row">
+                    <div class="dist-labels">
+                        <span style="color: var(--accent-cyan);">Subcontractors</span>
+                        <span style="color: var(--accent-cyan);">85%</span>
+                    </div>
+                    <div class="dist-bar-bg">
+                        <div class="dist-bar-fill" style="width: 85%; background: var(--accent-cyan); box-shadow: 0 0 10px var(--glow-cyan);"></div>
+                    </div>
+                </div>
+
+                <div class="dist-row" style="margin-top: 1.5rem; margin-bottom: 0;">
+                    <div class="dist-labels">
+                        <span style="color: var(--accent);">Company Retainer</span>
+                        <span style="color: var(--accent);">15%</span>
+                    </div>
+                    <div class="dist-bar-bg">
+                        <div class="dist-bar-fill" style="width: 15%; background: var(--accent); box-shadow: 0 0 10px rgba(214, 160, 72, 0.4);"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">Trade & Build<br>Protocol</h3>
+                    <span class="panel-icon">🏗️</span>
+                </div>
+                
+                <div class="metric-display">
+                    <div class="metric-value">15%</div>
+                    <div class="metric-label">Reward Target</div>
+                </div>
+            </div>
+
+            <div class="data-panel">
+                <div class="panel-header">
+                    <h3 class="panel-title">Network<br>Activity</h3>
+                    <span class="panel-icon">⚡</span>
+                </div>
+                
+                <div class="metric-display" style="padding-bottom: 0;">
+                    <div class="metric-value" style="color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.3); font-size: 2.8rem;">MAX</div>
+                    <div class="metric-label" style="color: var(--accent);">Uppie Velocity Index</div>
+                </div>
+            </div>
+
+        </div>
+
+        <h3 class="section-title" style="margin-top: 2rem;"><span style="color: var(--accent-cyan);">//</span> MARKET REPORTS</h3>
+        <div class="insights-grid">
             
             <div class="insight-card">
                 <span class="insight-tag" style="background-color: rgba(74, 222, 128, 0.1); color: #4ade80; border-color: rgba(74, 222, 128, 0.2);">LIVE DATA</span>
                 <h3>OPERATIONS LEDGER & DISPATCH</h3>
                 <p>Real-time data synchronization pulling directly from the FastTrack Tools ecosystem and active Discord deployment status.</p>
-                <a href="report-template.html" class="read-more">VIEW LIVE LEDGER &rarr;</a>
+                <a href="report-template.html" class="read-more">VIEW LIVE LEDGER</a>
             </div>
 
             <div class="insight-card">
                 <span class="insight-tag">NODE ANALYSIS</span>
                 <h3>RAYTOWN MARKET REPORT: CONSTRUCTION & YIELD TRENDS</h3>
                 <p>A deep dive into the Raytown, Kansas City node. This report tracks the direct correlation between recent structural developments, FastTrack deployment, and the shifting UPX floor prices within the district.</p>
-                <a href="raytown-report.html" class="read-more">READ FULL REPORT &rarr;</a>
+                <a href="raytown-report.html" class="read-more">READ FULL REPORT</a>
             </div>
 
             <div class="insight-card">
                 <span class="insight-tag" style="color: #60a5fa; border-color: rgba(96, 165, 250, 0.2); background-color: rgba(96, 165, 250, 0.05);">PREMIUM NODE</span>
                 <h3>EAST FLATBUSH REPORT: THE SOLD-OUT COASTAL HUB</h3>
                 <p>An analysis of the premium Brooklyn market. With 100% of properties minted and median markups surpassing 3,500%, this report details strategic entry into a high-barrier, highly liquid district.</p>
-                <a href="east-flatbush-report.html" class="read-more">READ FULL REPORT &rarr;</a>
+                <a href="east-flatbush-report.html" class="read-more">READ FULL REPORT</a>
             </div>
-
-        </div>
-            </article>
 
         </div>
     </div>
@@ -110,5 +258,21 @@
         <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
     </footer>
 
+    <script>
+        // UPX to USD Calculator Logic
+        // Defined Exchange Rate: 4000 UPX = $2.00 USD
+        function calculateUSD() {
+            const upxInput = document.getElementById('upxInput').value;
+            const usdOutput = document.getElementById('usdOutput');
+            
+            if (upxInput && upxInput >= 0) {
+                // (UPX / 4000) * 2
+                const calculatedUSD = (parseFloat(upxInput) / 4000) * 2;
+                usdOutput.value = calculatedUSD.toFixed(2);
+            } else {
+                usdOutput.value = "0.00";
+            }
+        }
+    </script>
 </body>
 </html>
