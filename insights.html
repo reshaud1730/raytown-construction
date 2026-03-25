@@ -63,13 +63,6 @@
             gap: 2rem;
             margin-bottom: 4rem;
         }
-        
-        .wide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
 
         .data-panel {
             background-color: var(--bg-panel);
@@ -92,7 +85,6 @@
         .panel-title { font-size: 1.1rem; font-weight: bold; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; margin: 0; line-height: 1.3;}
         .panel-icon { color: var(--accent-cyan); font-size: 1.5rem; }
 
-        /* Widget Specifics */
         .calc-group { margin-bottom: 1rem; }
         .calc-group label { display: block; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
         .calc-input-wrapper { display: flex; align-items: center; background: var(--bg-dark); border: 1px solid var(--border-tech); border-radius: 6px; padding: 0.5rem 1rem; }
@@ -102,20 +94,6 @@
         .metric-display { text-align: center; padding: 1rem 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
         .metric-value { font-size: 3.5rem; font-weight: 900; color: var(--accent); line-height: 1; text-shadow: 0 0 15px rgba(214, 160, 72, 0.4); margin-bottom: 0.5rem; }
         .metric-label { color: var(--accent-cyan); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-family: monospace; }
-
-        /* Custom Range Slider */
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin: 15px 0; }
-        input[type=range]:focus { outline: none; }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; cursor: pointer; background: var(--bg-dark); border-radius: 4px; border: 1px solid var(--border-tech); }
-        input[type=range]::-webkit-slider-thumb { height: 24px; width: 24px; border-radius: 50%; background: var(--accent-cyan); cursor: pointer; -webkit-appearance: none; margin-top: -9px; box-shadow: 0 0 10px var(--glow-cyan); }
-        
-        /* Utility List */
-        .utility-list { list-style: none; padding: 0; margin: 0; }
-        .utility-list li { padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: flex-start; gap: 12px; }
-        .utility-list li:last-child { border-bottom: none; }
-        .utility-icon { color: var(--success-green); font-size: 1.2rem; line-height: 1.2; }
-        .utility-text { color: var(--text-main); font-size: 0.95rem; }
-        .utility-text strong { color: var(--accent-cyan); }
 
         /* --- REPORT CARDS --- */
         .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
@@ -146,6 +124,7 @@
        <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="insights.html" style="color: var(--accent); text-shadow: 0 0 10px rgba(214, 160, 72, 0.4);">FastTrack Insights</a>
+            <a href="generator.html">Hardware</a>
             <a href="portal.html">Builder Portal</a>
             <a href="events.html">Events</a>
             <a href="store.html">Store</a>
@@ -161,12 +140,12 @@
 
     <div class="container">
         
-        <h3 class="section-title"><span style="color: var(--accent-cyan);">//</span> LIVE TELEMETRY</h3>
+        <h3 class="section-title"><span style="color: var(--accent-cyan);">//</span> LIVE MARKET TELEMETRY</h3>
         <div class="dashboard-grid">
 
             <div class="data-panel">
                 <div class="panel-header">
-                    <h3 class="panel-title">Currency<br>Exchange</h3>
+                    <h3 class="panel-title">Currency Exchange</h3>
                     <span class="panel-icon">⚖️</span>
                 </div>
                 
@@ -190,142 +169,25 @@
                 </div>
             </div>
 
-            <div class="data-panel" style="justify-content: space-between;">
-                <div class="panel-header" style="margin-bottom: 0.5rem;">
-                    <h3 class="panel-title">RTC Green<br>Generator</h3>
-                    <span class="panel-icon">🔋</span>
-                </div>
-                
-                <div style="text-align: center; margin: 0.5rem 0 1.5rem 0; flex-grow: 1; display: flex; align-items: center; justify-content: center;">
-                    <img src="assets/images/gr_gen.png" alt="RTC Green Generator" style="max-width: 190px; width: 100%; height: auto; filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.4)); border-radius: 8px;" onerror="this.style.display='none'">
-                </div>
-
-                <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1rem; line-height: 1.4; text-align: center;">Required hardware for FastTrack participation. <strong>Only 20 available!</strong></p>
-
-                <div style="padding: 0 0 0.8rem 0; text-align: left; border-bottom: 1px dashed rgba(255,255,255,0.1); margin-bottom: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                        <div>
-                            <div style="color: var(--accent-cyan); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.2rem;">Hardware Cost</div>
-                            <div style="font-size: 2rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2); line-height: 1;">50,000 <span style="font-size: 0.9rem; color: var(--text-muted);">UPX</span></div>
-                        </div>
-                    </div>
-                    <div style="color: var(--success-green); font-size: 0.8rem; font-weight: bold; margin-top: 0.5rem; text-transform: uppercase;">✨ 9% Discount for W.E.C. Members</div>
-                </div>
-
-                <div style="background: rgba(0,0,0,0.3); padding: 0.8rem 1rem; border-radius: 6px; border-left: 3px solid var(--accent); margin-bottom: 0;">
-                    <div style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.2rem;">Management Fee</div>
-                    <div style="font-size: 1.1rem; font-weight: bold; color: var(--text-main); line-height: 1;">5,000 UPX <span style="font-size: 0.75rem; font-weight: normal; color: var(--text-muted);">/ Month</span></div>
-                    <div style="color: var(--success-green); font-size: 0.75rem; font-weight: bold; margin-top: 0.4rem; text-transform: uppercase;">✨ First 3 Months Waived</div>
-                </div>
-            </div>
-
             <div class="data-panel">
                 <div class="panel-header">
-                    <h3 class="panel-title">Dispatch<br>Economics</h3>
-                    <span class="panel-icon">⚡</span>
+                    <h3 class="panel-title">Network Activity</h3>
+                    <span class="panel-icon">🛰️</span>
                 </div>
                 
-                <div class="metric-display">
-                    <div class="metric-value">4 <span style="font-size: 1.2rem; color: var(--accent-cyan);">UPX/SPH</span></div>
-                    <div class="metric-label">Residential Base Rate</div>
+                <div class="metric-display" style="padding-bottom: 0;">
+                    <div class="metric-value" style="color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.3); font-size: 3rem;">MAX</div>
+                    <div class="metric-label" style="color: var(--accent);">Uppie Velocity Index</div>
                 </div>
 
-                <p style="text-align: center; color: var(--success-green); font-size: 0.8rem; margin-top: auto; margin-bottom: 0; background: rgba(74, 222, 128, 0.05); padding: 0.8rem; border-radius: 6px; border: 1px solid rgba(74, 222, 128, 0.2); font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">
-                    🟢 Instant Payouts Post-Validation
+                <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 1.5rem; margin-bottom: 0; line-height: 1.4;">
+                    Tracking structural momentum across all active Raytown and East Flatbush construction nodes.
                 </p>
             </div>
 
         </div>
 
-        <h3 class="section-title"><span style="color: var(--accent-cyan);">//</span> GENERATOR UTILITIES & ROI MATRIX</h3>
-        <div class="wide-grid">
-            
-            <div class="data-panel">
-                <div class="panel-header">
-                    <h3 class="panel-title">License Benefits & Workflow</h3>
-                    <span class="panel-icon">⚙️</span>
-                </div>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">The RTC Green Generator is your exclusive key to the FastTrack Community Eco-system. Purchasing this license unlocks the following capabilities:</p>
-                
-                <ul class="utility-list">
-                    <li>
-                        <span class="utility-icon">✔</span>
-                        <span class="utility-text"><strong>Fee Waiver:</strong> Keep 100% of your gross earnings for the first 3 months. The 5,000 UPX management fee is entirely waived.</span>
-                    </li>
-                    <li>
-                        <span class="utility-icon">✔</span>
-                        <span class="utility-text"><strong>Full Ecosystem Access:</strong> Enter the active network of Raytown Construction sub-stakers.</span>
-                    </li>
-                    <li>
-                        <span class="utility-icon">✔</span>
-                        <span class="utility-text"><strong>Software Integration:</strong> Includes an exclusive access code to the FASTTRACK TOOLs platform.</span>
-                    </li>
-                    <li>
-                        <span class="utility-icon">✔</span>
-                        <span class="utility-text"><strong>Dispatch Board:</strong> Direct access to the live dispatch system to claim residential builds at a guaranteed 4 UPX/SPH.</span>
-                    </li>
-                    <li>
-                        <span class="utility-icon">✔</span>
-                        <span class="utility-text"><strong>Custom Contracts:</strong> The option to accept non-residential projects and custom workflows for negotiated flat rates.</span>
-                    </li>
-                    <li>
-                        <span class="utility-icon">✔</span>
-                        <span class="utility-text"><strong>Zero-Wait Capital:</strong> Guaranteed instant UPX payouts immediately following stake validation.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="data-panel" style="border-color: var(--accent);">
-                <div class="panel-header" style="border-bottom-color: rgba(214, 160, 72, 0.2);">
-                    <h3 class="panel-title" style="color: var(--accent);">Profitability Calculator</h3>
-                    <span class="panel-icon" style="color: var(--accent);">📈</span>
-                </div>
-                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">Calculate your return on investment based on active Spark staking. Assumes 24/7 uptime for a 30-day billing cycle at 4 UPX/SPH.</p>
-
-                <div class="calc-group">
-                    <label style="display: flex; justify-content: space-between;">
-                        <span>Active Spark Deployed</span>
-                        <span id="sparkLabel" style="color: var(--accent-cyan); font-weight: bold; font-size: 1rem;">2.00 Spark</span>
-                    </label>
-                    <input type="range" id="sparkInput" min="0.1" max="45.0" step="0.1" value="2.0" oninput="calculateROI()">
-                </div>
-
-                <div style="background: rgba(0,0,0,0.4); border-radius: 8px; padding: 1.5rem; margin-top: 1.5rem; border: 1px solid var(--border-tech);">
-                    
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Monthly Gross:</span>
-                        <span style="color: #fff; font-weight: bold;" id="monthlyGross">0 UPX</span>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Management Fee:</span>
-                        <div style="text-align: right;">
-                            <div style="color: var(--success-green); font-weight: bold; font-size: 0.9rem;">0 UPX (Months 1-3)</div>
-                            <div style="color: #ef4444; font-weight: bold; font-size: 0.8rem; margin-top: 2px;">-5,000 UPX (Month 4+)</div>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; margin-bottom: 8px;">
-                        <span style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: bold;">Net (Months 1-3):</span>
-                        <span style="color: var(--success-green); font-size: 1.1rem; font-weight: bold;" id="monthlyNetEarly">0 UPX</span>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: var(--accent); font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Net (Month 4+):</span>
-                        <span style="color: var(--accent); font-size: 1.4rem; font-weight: 900;" id="monthlyNet">0 UPX</span>
-                    </div>
-
-                </div>
-
-                <div id="roiStatus" style="text-align: center; padding: 1rem; margin-top: 1.5rem; border-radius: 6px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                    Awaiting Input...
-                </div>
-
-            </div>
-
-        </div>
-
-        <h3 class="section-title"><span style="color: var(--accent-cyan);">//</span> MARKET REPORTS</h3>
+        <h3 class="section-title"><span style="color: var(--accent-cyan);">//</span> STRATEGIC MARKET REPORTS</h3>
         <div class="insights-grid">
             
             <div class="insight-card">
@@ -370,73 +232,8 @@
             }
         }
 
-        // Generator ROI Calculator Logic
-        function calculateROI() {
-            const sparkInputEl = document.getElementById('sparkInput');
-            if(!sparkInputEl) return;
-            
-            const sparkValue = parseFloat(sparkInputEl.value) || 0;
-            document.getElementById('sparkLabel').innerText = sparkValue.toFixed(2) + " Spark";
-
-            // Monthly Gross (Spark * 24 hours * 30 days * 4 UPX)
-            const monthlySPH = sparkValue * 24 * 30;
-            const grossUPX = monthlySPH * 4;
-            
-            // Net Earnings
-            const netEarly = grossUPX; // Months 1-3 (No Fee)
-            const netLater = grossUPX - 5000; // Month 4+ (5000 UPX Fee)
-
-            // Update UI Displays
-            document.getElementById('monthlyGross').innerText = Math.round(grossUPX).toLocaleString() + " UPX";
-            document.getElementById('monthlyNetEarly').innerText = "+" + Math.round(netEarly).toLocaleString() + " UPX";
-            
-            const netDisplay = document.getElementById('monthlyNet');
-            if (netLater > 0) {
-                netDisplay.innerText = "+" + Math.round(netLater).toLocaleString() + " UPX";
-                netDisplay.style.color = "var(--success-green)";
-            } else {
-                netDisplay.innerText = Math.round(netLater).toLocaleString() + " UPX";
-                netDisplay.style.color = "#ef4444";
-            }
-
-            // Payoff Logic (Hardware = 50,000 UPX)
-            const profitFirst3Months = netEarly * 3;
-            const dailyEarly = netEarly / 30;
-            const dailyLater = netLater / 30;
-
-            if (profitFirst3Months >= 50000) {
-                const daysToPayoff = Math.ceil(50000 / dailyEarly);
-                setROIStatus(true, "Hardware ROI achieved in " + daysToPayoff + " days!");
-            } else {
-                const remainingCost = 50000 - profitFirst3Months;
-                if (netLater > 0) {
-                    const additionalDays = Math.ceil(remainingCost / dailyLater);
-                    const totalDays = 90 + additionalDays;
-                    setROIStatus(true, "Hardware ROI achieved in " + totalDays + " days");
-                } else {
-                    setROIStatus(false, "Increase stake to sustain profitability after Month 3");
-                }
-            }
-        }
-
-        function setROIStatus(isProfitable, message) {
-            const statusDisplay = document.getElementById('roiStatus');
-            if(isProfitable) {
-                statusDisplay.style.background = "rgba(74, 222, 128, 0.1)";
-                statusDisplay.style.borderColor = "rgba(74, 222, 128, 0.3)";
-                statusDisplay.style.color = "var(--success-green)";
-            } else {
-                statusDisplay.style.background = "rgba(239, 68, 68, 0.1)";
-                statusDisplay.style.borderColor = "rgba(239, 68, 68, 0.3)";
-                statusDisplay.style.color = "#ef4444";
-            }
-            statusDisplay.innerText = message;
-        }
-
-        // Initialize calculators on page load
         window.onload = function() {
             calculateUSD();
-            calculateROI();
         };
     </script>
 </body>
