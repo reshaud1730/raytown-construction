@@ -106,7 +106,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 2.5rem;
-            margin-bottom: 5rem;
+            margin-bottom: 3rem;
         }
 
         .vision-panel {
@@ -139,6 +139,21 @@
         .feature-icon { font-size: 1.2rem; line-height: 1.2; }
         .feature-text h4 { margin: 0 0 0.3rem 0; color: #fff; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         .feature-text p { margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+
+        /* --- TRADING POST LOCATION --- */
+        .location-banner {
+            background: rgba(0, 242, 255, 0.05);
+            border: 1px solid var(--border-tech);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .location-banner h3 { color: var(--accent-cyan); margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.1rem;}
+        .location-banner p.address { color: #fff; font-size: 1.5rem; margin: 0; font-weight: bold; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .location-banner p.desc { color: var(--text-muted); font-size: 0.95rem; margin: 0.8rem 0 0 0; max-width: 600px; margin-left: auto; margin-right: auto;}
 
         /* --- TIMELINE SECTION --- */
         .timeline { position: relative; max-width: 900px; margin: 0 auto; padding: 2rem 0; }
@@ -239,10 +254,6 @@
                         </div>
                     </li>
                 </ul>
-                
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="generator.html" style="background: var(--success-green); color: #0f1f3d; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem;">Acquire Hardware</a>
-                </div>
             </div>
 
             <div class="vision-panel panel-client">
@@ -274,12 +285,14 @@
                         </div>
                     </li>
                 </ul>
-                
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="https://discord.gg/BeVnv48x" target="_blank" style="background: var(--accent); color: #0f1f3d; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem;">Submit a Project</a>
-                </div>
             </div>
 
+        </div>
+
+        <div class="location-banner">
+            <h3>📍 Official FastTrack Trading Post</h3>
+            <p class="address">5500 Raytown Rd, Raytown, Kansas City</p>
+            <p class="desc">Visit our in-game node to acquire your Hardware Generators or fund your upcoming construction project via RTC Asset purchases.</p>
         </div>
 
         <h3 class="section-title" style="margin-top: 4rem;"><span style="color: var(--accent-cyan);">//</span> FLEET ESCALATION PHASES</h3>
