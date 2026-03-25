@@ -215,6 +215,7 @@
                 <div style="background: rgba(0,0,0,0.3); padding: 0.8rem 1rem; border-radius: 6px; border-left: 3px solid var(--accent); margin-bottom: 0;">
                     <div style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.2rem;">Management Fee</div>
                     <div style="font-size: 1.1rem; font-weight: bold; color: var(--text-main); line-height: 1;">5,000 UPX <span style="font-size: 0.75rem; font-weight: normal; color: var(--text-muted);">/ Month</span></div>
+                    <div style="color: var(--success-green); font-size: 0.75rem; font-weight: bold; margin-top: 0.4rem; text-transform: uppercase;">✨ First 3 Months Waived</div>
                 </div>
             </div>
 
@@ -247,6 +248,10 @@
                 <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">The RTC Green Generator is your exclusive key to the FastTrack Community Eco-system. Purchasing this license unlocks the following capabilities:</p>
                 
                 <ul class="utility-list">
+                    <li>
+                        <span class="utility-icon">✔</span>
+                        <span class="utility-text"><strong>Fee Waiver:</strong> Keep 100% of your gross earnings for the first 3 months. The 5,000 UPX management fee is entirely waived.</span>
+                    </li>
                     <li>
                         <span class="utility-icon">✔</span>
                         <span class="utility-text"><strong>Full Ecosystem Access:</strong> Enter the active network of Raytown Construction sub-stakers.</span>
@@ -294,18 +299,26 @@
                     
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
                         <span style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Management Fee:</span>
-                        <span style="color: #ef4444; font-weight: bold;">-5,000 UPX</span>
+                        <div style="text-align: right;">
+                            <div style="color: var(--success-green); font-weight: bold; font-size: 0.9rem;">0 UPX (Months 1-3)</div>
+                            <div style="color: #ef4444; font-weight: bold; font-size: 0.8rem; margin-top: 2px;">-5,000 UPX (Month 4+)</div>
+                        </div>
                     </div>
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                        <span style="color: var(--accent); font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Net Monthly Profit:</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; margin-bottom: 8px;">
+                        <span style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: bold;">Net (Months 1-3):</span>
+                        <span style="color: var(--success-green); font-size: 1.1rem; font-weight: bold;" id="monthlyNetEarly">+2,880 UPX</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--accent); font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Net (Month 4+):</span>
                         <span style="color: var(--accent); font-size: 1.4rem; font-weight: 900;" id="monthlyNet">-2,120 UPX</span>
                     </div>
 
                 </div>
 
                 <div id="roiStatus" style="text-align: center; padding: 1rem; margin-top: 1.5rem; border-radius: 6px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                    Increase stake to reach profitability
+                    Increase stake to sustain profitability after Month 3
                 </div>
 
             </div>
@@ -331,79 +344,4 @@
 
             <div class="insight-card">
                 <span class="insight-tag" style="color: #60a5fa; border-color: rgba(96, 165, 250, 0.2); background-color: rgba(96, 165, 250, 0.05);">PREMIUM NODE</span>
-                <h3>EAST FLATBUSH REPORT: THE SOLD-OUT COASTAL HUB</h3>
-                <p>An analysis of the premium Brooklyn market. With 100% of properties minted and median markups surpassing 3,500%, this report details strategic entry into a high-barrier, highly liquid district.</p>
-                <a href="east-flatbush-report.html" class="read-more">READ FULL REPORT</a>
-            </div>
-
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
-    </footer>
-
-    <script>
-        // UPX to USD Calculator Logic
-        function calculateUSD() {
-            const upxInput = document.getElementById('upxInput').value;
-            const usdOutput = document.getElementById('usdOutput');
-            
-            if (upxInput && upxInput >= 0) {
-                // (UPX / 4000) * 2
-                const calculatedUSD = (parseFloat(upxInput) / 4000) * 2;
-                usdOutput.value = calculatedUSD.toFixed(2);
-            } else {
-                usdOutput.value = "0.00";
-            }
-        }
-
-        // Generator ROI Calculator Logic
-        function calculateROI() {
-            const sparkValue = parseFloat(document.getElementById('sparkInput').value);
-            document.getElementById('sparkLabel').innerText = sparkValue.toFixed(2) + " Spark";
-
-            // Math: Spark * 24 hours * 30 days = Monthly SPH
-            const monthlySPH = sparkValue * 24 * 30;
-            
-            // Math: Monthly SPH * 4 UPX = Gross UPX
-            const grossUPX = monthlySPH * 4;
-            
-            // Math: Gross UPX - 5000 Monthly Fee = Net Profit
-            const netUPX = grossUPX - 5000;
-
-            document.getElementById('monthlyGross').innerText = Math.round(grossUPX).toLocaleString() + " UPX";
-            
-            const netDisplay = document.getElementById('monthlyNet');
-            const statusDisplay = document.getElementById('roiStatus');
-
-            if (netUPX > 0) {
-                netDisplay.innerText = "+" + Math.round(netUPX).toLocaleString() + " UPX";
-                netDisplay.style.color = "var(--success-green)";
-                
-                // Calculate days to pay off the 50,000 UPX Generator
-                const dailyNet = netUPX / 30;
-                const daysToPayoff = Math.ceil(50000 / dailyNet);
-                
-                statusDisplay.style.background = "rgba(74, 222, 128, 0.1)";
-                statusDisplay.style.borderColor = "rgba(74, 222, 128, 0.3)";
-                statusDisplay.style.color = "var(--success-green)";
-                statusDisplay.innerText = "Hardware ROI achieved in " + daysToPayoff + " days";
-            } else {
-                netDisplay.innerText = Math.round(netUPX).toLocaleString() + " UPX";
-                netDisplay.style.color = "#ef4444"; // Red for negative
-                
-                statusDisplay.style.background = "rgba(239, 68, 68, 0.1)";
-                statusDisplay.style.borderColor = "rgba(239, 68, 68, 0.3)";
-                statusDisplay.style.color = "#ef4444";
-                statusDisplay.innerText = "Increase stake to reach profitability";
-            }
-        }
-
-        // Run calculation on load to set initial state
-        window.onload = function() {
-            calculateROI();
-        };
-    </script>
-</body>
-</html>
+                <h3>EAST
