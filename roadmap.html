@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Map | Raytown Construction</title>
+    
+    <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
+    
+    <style>
+        :root {
+            /* Base Colors */
+            --bg-dark: #0f1f3d; 
+            --bg-card: #132549; 
+            --bg-panel: #121e3c;
+            --text-main: #e2e8f0; 
+            --text-muted: #94a3b8;
+            --accent: #d6a048; 
+            --accent-hover: #b0843a;
+            --border-color: #4b5563; 
+            --tag-bg: #4b5563; 
+            
+            /* Tech Dashboard Colors */
+            --accent-cyan: #00f2ff;
+            --border-tech: #2e4d82;
+            --glow-cyan: rgba(0, 242, 255, 0.4);
+            --success-green: #4ade80;
+        }
+
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
+        
+        .bg-overlay { 
+            background-color: rgba(15, 31, 61, 0.95); 
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 242, 255, 0.03), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(214, 160, 72, 0.03), transparent 25%);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+        }
+
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .header-logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 50px; height: 50px; }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .nav-links a:hover { color: var(--accent); }
+
+        .page-header { padding: 5rem 5% 3rem; text-align: center; border-bottom: 2px solid var(--border-color); background: linear-gradient(180deg, #132549 0%, #0f1f3d 100%); }
+        .page-header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
+        .page-header p { color: var(--accent-cyan); font-size: 1.25rem; max-width: 800px; margin: 0 auto; line-height: 1.7; font-family: monospace;}
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 3rem 5%; }
+        
+        .section-title { font-size: 1.8rem; color: #fff; border-bottom: 1px solid var(--border-tech); padding-bottom: 0.5rem; margin-bottom: 2.5rem; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+
+        /* --- DUAL VISION GRID --- */
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .vision-panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-tech);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .vision-panel:hover { transform: translateY(-5px); }
+        
+        /* Sub-Staker Specific Styling */
+        .panel-staker { border-top: 5px solid var(--success-green); }
+        .panel-staker:hover { border-color: var(--success-green); box-shadow: 0 10px 30px rgba(74, 222, 128, 0.15); }
+        .staker-icon { background: rgba(74, 222, 128, 0.1); color: var(--success-green); padding: 1rem; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem auto; border: 1px solid rgba(74, 222, 128, 0.3); }
+
+        /* Client Specific Styling */
+        .panel-client { border-top: 5px solid var(--accent); }
+        .panel-client:hover { border-color: var(--accent); box-shadow: 0 10px 30px rgba(214, 160, 72, 0.15); }
+        .client-icon { background: rgba(214, 160, 72, 0.1); color: var(--accent); padding: 1rem; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem auto; border: 1px solid rgba(214, 160, 72, 0.3); }
+
+        .vision-title { font-size: 1.8rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; margin-bottom: 1rem; }
+        .vision-subtitle { text-align: center; color: var(--text-muted); font-size: 1rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        .feature-list { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
+        .feature-list li { padding: 1rem 0; display: flex; align-items: flex-start; gap: 15px; }
+        .feature-icon { font-size: 1.2rem; line-height: 1.2; }
+        .feature-text h4 { margin: 0 0 0.3rem 0; color: #fff; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .feature-text p { margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+
+        /* --- TIMELINE SECTION --- */
+        .timeline { position: relative; max-width: 900px; margin: 0 auto; padding: 2rem 0; }
+        .timeline::after { content: ''; position: absolute; width: 4px; background-color: var(--border-tech); top: 0; bottom: 0; left: 50%; margin-left: -2px; border-radius: 4px; }
+        
+        .timeline-item { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; box-sizing: border-box; }
+        .timeline-item.left { left: 0; text-align: right; }
+        .timeline-item.right { left: 50%; }
+        
+        .timeline-item::after { content: ''; position: absolute; width: 20px; height: 20px; right: -13px; background-color: var(--bg-dark); border: 4px solid var(--accent-cyan); top: 15px; border-radius: 50%; z-index: 1; box-shadow: 0 0 10px var(--glow-cyan); }
+        .timeline-item.right::after { left: -14px; }
+
+        .timeline-content { padding: 1.5rem; background-color: var(--bg-panel); position: relative; border-radius: 8px; border: 1px solid var(--border-tech); transition: transform 0.3s; }
+        .timeline-content:hover { transform: scale(1.02); border-color: var(--accent-cyan); }
+        .timeline-content h3 { margin: 0 0 0.5rem 0; color: #fff; text-transform: uppercase; font-size: 1.2rem; }
+        .timeline-content span { color: var(--accent-cyan); font-family: monospace; font-size: 0.85rem; display: block; margin-bottom: 1rem; }
+        .timeline-content p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+
+        /* Mobile tweaks for timeline */
+        @media screen and (max-width: 768px) {
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
+            .timeline-item.left { left: 0; }
+            .timeline-item.right { left: 0; }
+            .timeline-item.left::after, .timeline-item.right::after { left: 18px; }
+            .vision-grid { grid-template-columns: 1fr; }
+        }
+
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; position: relative; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+
+    <header>
+        <div class="header-logo">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
+            <h1>RAYTOWN CONSTRUCTION</h1>
+        </div>
+       <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="insights.html">FastTrack Insights</a>
+            <a href="generator.html">Hardware</a>
+            <a href="roadmap.html" style="color: var(--accent-cyan); text-shadow: 0 0 10px var(--glow-cyan);">Road Map</a>
+            <a href="portal.html">Builder Portal</a>
+            <a href="events.html">Events</a>
+            <a href="store.html">Store</a>
+            <a href="https://discord.gg/BeVnv48x" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h2>Strategic Road Map</h2>
+        <p>// BRIDGING THE GAP BETWEEN CAPITAL INVESTORS AND DIGITAL WORKFORCES</p>
+    </div>
+
+    <div class="container">
+        
+        <h3 class="section-title"><span style="color: var(--accent-cyan);">//</span> THE DUAL VISION</h3>
+        <div class="vision-grid">
+
+            <div class="vision-panel panel-staker">
+                <div class="staker-icon">⚡</div>
+                <div class="vision-title">The Sub-Staker Ecosystem</div>
+                <div class="vision-subtitle">Empowering digital creators with guaranteed yield, premium software tools, and frictionless workflows.</div>
+                
+                <ul class="feature-list">
+                    <li>
+                        <span class="feature-icon">🟢</span>
+                        <div class="feature-text">
+                            <h4 style="color: var(--success-green);">Zero-Friction Earnings</h4>
+                            <p>No more hunting for jobs or negotiating rates. Our Dispatch Board provides a steady stream of residential builds locked at a guaranteed 4 UPX/SPH.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">🟢</span>
+                        <div class="feature-text">
+                            <h4 style="color: var(--success-green);">Instant Liquidity</h4>
+                            <p>Cash flow is king. Upon stake validation, payouts are executed instantly. Your capital is never tied up waiting for manual ledger approvals.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">🟢</span>
+                        <div class="feature-text">
+                            <h4 style="color: var(--success-green);">Exclusive Tooling</h4>
+                            <p>Holding the RTC Green Generator grants you access to the FastTrack Tools platform, giving you the analytics edge to maximize your Spark efficiency.</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="generator.html" style="background: var(--success-green); color: #0f1f3d; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem;">Acquire Hardware</a>
+                </div>
+            </div>
+
+            <div class="vision-panel panel-client">
+                <div class="client-icon">🏙️</div>
+                <div class="vision-title">The Client Experience</div>
+                <div class="vision-title" style="font-size: 1.2rem; color: var(--accent); margin-top: -10px;">(General Contracting)</div>
+                <div class="vision-subtitle">Delivering precision Metaverse architecture without the headache of micro-managing individual builders.</div>
+                
+                <ul class="feature-list">
+                    <li>
+                        <span class="feature-icon">🏗️</span>
+                        <div class="feature-text">
+                            <h4 style="color: var(--accent);">We Are Your General Contractor</h4>
+                            <p>Stop wasting time messaging dozens of players to build your property. Hand the blueprint to us, and we deploy our managed fleet of sub-stakers to get it done.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">⏱️</span>
+                        <div class="feature-text">
+                            <h4 style="color: var(--accent);">Guaranteed Timelines</h4>
+                            <p>Because we control an internal ecosystem of incentivized builders with dedicated hardware, we forecast completion dates with absolute precision.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">💼</span>
+                        <div class="feature-text">
+                            <h4 style="color: var(--accent);">Flat-Rate Predictability</h4>
+                            <p>No surging prices or mid-build dropouts. You pay a negotiated flat rate, and we handle all the internal payroll, distributions, and workforce management.</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="https://discord.gg/BeVnv48x" target="_blank" style="background: var(--accent); color: #0f1f3d; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem;">Request a Build Quote</a>
+                </div>
+            </div>
+
+        </div>
+
+        <h3 class="section-title" style="margin-top: 4rem;"><span style="color: var(--accent-cyan);">//</span> DEVELOPMENT PHASES</h3>
+        
+        <div class="timeline">
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>Phase 1: Foundation & Dispatch</h3>
+                    <span>[ COMPLETED - FEB 2026 ]</span>
+                    <p>Establishment of the Raytown Construction brand, launch of the FastTrack Tools beta, and deployment of the initial automated Discord dispatch ledger.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content" style="border-color: var(--success-green); box-shadow: 0 0 15px rgba(74, 222, 128, 0.1);">
+                    <h3 style="color: var(--success-green);">Phase 2: The Hardware Rollout</h3>
+                    <span style="color: var(--text-muted);">[ CURRENT - MAR 2026 ]</span>
+                    <p>Minting and distribution of the 20 exclusive RTC Green Generators. Onboarding our first dedicated fleet of sub-stakers with the 3-month fee waiver initiative.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>Phase 3: Premium Node Expansion</h3>
+                    <span>[ IN DEVELOPMENT - Q3 2026 ]</span>
+                    <p>Scaling operations beyond Raytown into high-barrier markets (East Flatbush, NY). Securing massive commercial contracts and scaling the sub-staker fleet to meet demand.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>Phase 4: Full Automation (Mogulverse)</h3>
+                    <span>[ PROJECTED - Q4 2026 ]</span>
+                    <p>Integration of full API endpoints for 100% automated payouts, gamified builder leaderboards, and the launch of the Mogulverse business simulation overlay.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
+
+</body>
+</html>
