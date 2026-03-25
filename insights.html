@@ -285,16 +285,16 @@
                 <div class="calc-group">
                     <label style="display: flex; justify-content: space-between;">
                         <span>Active Spark Deployed</span>
-                        <span id="sparkLabel" style="color: var(--accent-cyan); font-weight: bold; font-size: 1rem;">1.00 Spark</span>
+                        <span id="sparkLabel" style="color: var(--accent-cyan); font-weight: bold; font-size: 1rem;">2.00 Spark</span>
                     </label>
-                    <input type="range" id="sparkInput" min="0.1" max="5.0" step="0.1" value="1.0" oninput="calculateROI()">
+                    <input type="range" id="sparkInput" min="0.1" max="45.0" step="0.1" value="2.0" oninput="calculateROI()">
                 </div>
 
                 <div style="background: rgba(0,0,0,0.4); border-radius: 8px; padding: 1.5rem; margin-top: 1.5rem; border: 1px solid var(--border-tech);">
                     
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                         <span style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Monthly Gross:</span>
-                        <span style="color: #fff; font-weight: bold;" id="monthlyGross">2,880 UPX</span>
+                        <span style="color: #fff; font-weight: bold;" id="monthlyGross">0 UPX</span>
                     </div>
                     
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
@@ -307,18 +307,18 @@
                     
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; margin-bottom: 8px;">
                         <span style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: bold;">Net (Months 1-3):</span>
-                        <span style="color: var(--success-green); font-size: 1.1rem; font-weight: bold;" id="monthlyNetEarly">+2,880 UPX</span>
+                        <span style="color: var(--success-green); font-size: 1.1rem; font-weight: bold;" id="monthlyNetEarly">0 UPX</span>
                     </div>
 
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="color: var(--accent); font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Net (Month 4+):</span>
-                        <span style="color: var(--accent); font-size: 1.4rem; font-weight: 900;" id="monthlyNet">-2,120 UPX</span>
+                        <span style="color: var(--accent); font-size: 1.4rem; font-weight: 900;" id="monthlyNet">0 UPX</span>
                     </div>
 
                 </div>
 
                 <div id="roiStatus" style="text-align: center; padding: 1rem; margin-top: 1.5rem; border-radius: 6px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                    Increase stake to sustain profitability after Month 3
+                    Awaiting Input...
                 </div>
 
             </div>
@@ -344,4 +344,100 @@
 
             <div class="insight-card">
                 <span class="insight-tag" style="color: #60a5fa; border-color: rgba(96, 165, 250, 0.2); background-color: rgba(96, 165, 250, 0.05);">PREMIUM NODE</span>
-                <h3>EAST
+                <h3>EAST FLATBUSH REPORT: THE SOLD-OUT COASTAL HUB</h3>
+                <p>An analysis of the premium Brooklyn market. With 100% of properties minted and median markups surpassing 3,500%, this report details strategic entry into a high-barrier, highly liquid district.</p>
+                <a href="east-flatbush-report.html" class="read-more">READ FULL REPORT</a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
+
+    <script>
+        // UPX to USD Calculator Logic
+        function calculateUSD() {
+            const upxInput = document.getElementById('upxInput').value;
+            const usdOutput = document.getElementById('usdOutput');
+            
+            if (upxInput && !isNaN(upxInput) && upxInput >= 0) {
+                const calculatedUSD = (parseFloat(upxInput) / 4000) * 2;
+                usdOutput.value = calculatedUSD.toFixed(2);
+            } else {
+                usdOutput.value = "0.00";
+            }
+        }
+
+        // Generator ROI Calculator Logic
+        function calculateROI() {
+            const sparkInputEl = document.getElementById('sparkInput');
+            if(!sparkInputEl) return;
+            
+            const sparkValue = parseFloat(sparkInputEl.value) || 0;
+            document.getElementById('sparkLabel').innerText = sparkValue.toFixed(2) + " Spark";
+
+            // Monthly Gross (Spark * 24 hours * 30 days * 4 UPX)
+            const monthlySPH = sparkValue * 24 * 30;
+            const grossUPX = monthlySPH * 4;
+            
+            // Net Earnings
+            const netEarly = grossUPX; // Months 1-3 (No Fee)
+            const netLater = grossUPX - 5000; // Month 4+ (5000 UPX Fee)
+
+            // Update UI Displays
+            document.getElementById('monthlyGross').innerText = Math.round(grossUPX).toLocaleString() + " UPX";
+            document.getElementById('monthlyNetEarly').innerText = "+" + Math.round(netEarly).toLocaleString() + " UPX";
+            
+            const netDisplay = document.getElementById('monthlyNet');
+            if (netLater > 0) {
+                netDisplay.innerText = "+" + Math.round(netLater).toLocaleString() + " UPX";
+                netDisplay.style.color = "var(--success-green)";
+            } else {
+                netDisplay.innerText = Math.round(netLater).toLocaleString() + " UPX";
+                netDisplay.style.color = "#ef4444";
+            }
+
+            // Payoff Logic (Hardware = 50,000 UPX)
+            const profitFirst3Months = netEarly * 3;
+            const dailyEarly = netEarly / 30;
+            const dailyLater = netLater / 30;
+
+            if (profitFirst3Months >= 50000) {
+                const daysToPayoff = Math.ceil(50000 / dailyEarly);
+                setROIStatus(true, "Hardware ROI achieved in " + daysToPayoff + " days!");
+            } else {
+                const remainingCost = 50000 - profitFirst3Months;
+                if (netLater > 0) {
+                    const additionalDays = Math.ceil(remainingCost / dailyLater);
+                    const totalDays = 90 + additionalDays;
+                    setROIStatus(true, "Hardware ROI achieved in " + totalDays + " days");
+                } else {
+                    setROIStatus(false, "Increase stake to sustain profitability after Month 3");
+                }
+            }
+        }
+
+        function setROIStatus(isProfitable, message) {
+            const statusDisplay = document.getElementById('roiStatus');
+            if(isProfitable) {
+                statusDisplay.style.background = "rgba(74, 222, 128, 0.1)";
+                statusDisplay.style.borderColor = "rgba(74, 222, 128, 0.3)";
+                statusDisplay.style.color = "var(--success-green)";
+            } else {
+                statusDisplay.style.background = "rgba(239, 68, 68, 0.1)";
+                statusDisplay.style.borderColor = "rgba(239, 68, 68, 0.3)";
+                statusDisplay.style.color = "#ef4444";
+            }
+            statusDisplay.innerText = message;
+        }
+
+        // Initialize calculators on page load
+        window.onload = function() {
+            calculateUSD();
+            calculateROI();
+        };
+    </script>
+</body>
+</html>
