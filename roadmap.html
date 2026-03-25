@@ -123,12 +123,10 @@
         
         .vision-panel:hover { transform: translateY(-5px); }
         
-        /* Sub-Staker Specific Styling */
         .panel-staker { border-top: 5px solid var(--success-green); }
         .panel-staker:hover { border-color: var(--success-green); box-shadow: 0 10px 30px rgba(74, 222, 128, 0.15); }
         .staker-icon { background: rgba(74, 222, 128, 0.1); color: var(--success-green); padding: 1rem; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem auto; border: 1px solid rgba(74, 222, 128, 0.3); }
 
-        /* Client Specific Styling */
         .panel-client { border-top: 5px solid var(--accent); }
         .panel-client:hover { border-color: var(--accent); box-shadow: 0 10px 30px rgba(214, 160, 72, 0.15); }
         .client-icon { background: rgba(214, 160, 72, 0.1); color: var(--accent); padding: 1rem; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem auto; border: 1px solid rgba(214, 160, 72, 0.3); }
@@ -153,16 +151,15 @@
         .timeline-item::after { content: ''; position: absolute; width: 20px; height: 20px; right: -13px; background-color: var(--bg-dark); border: 4px solid var(--accent-cyan); top: 15px; border-radius: 50%; z-index: 1; box-shadow: 0 0 10px var(--glow-cyan); }
         .timeline-item.right::after { left: -14px; }
 
-        .timeline-content { padding: 1.5rem; background-color: var(--bg-panel); position: relative; border-radius: 8px; border: 1px solid var(--border-tech); transition: transform 0.3s; }
+        .timeline-content { padding: 2rem; background-color: var(--bg-panel); position: relative; border-radius: 12px; border: 1px solid var(--border-tech); transition: transform 0.3s; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-align: left; }
         .timeline-content:hover { transform: scale(1.02); border-color: var(--accent-cyan); }
         
-        /* New Header Layout for Timeline Nodes with Images */
-        .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-bottom: 1rem; }
-        .timeline-header h3 { margin: 0 0 0.5rem 0; color: #fff; text-transform: uppercase; font-size: 1.2rem; }
-        .timeline-header span { color: var(--accent-cyan); font-family: monospace; font-size: 0.85rem; display: block; }
-        .timeline-image { max-height: 70px; border-radius: 6px; }
+        /* Banner Image Styling */
+        .timeline-banner { width: 100%; height: auto; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.1); background-color: #1a2942; }
         
-        .timeline-content p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+        .timeline-content h3 { margin: 0 0 0.5rem 0; color: #fff; text-transform: uppercase; font-size: 1.3rem; letter-spacing: 1px; }
+        .timeline-content span { color: var(--accent-cyan); font-family: monospace; font-size: 0.9rem; display: block; margin-bottom: 1.2rem; font-weight: bold;}
+        .timeline-content p { margin: 0; color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
 
         @media screen and (max-width: 768px) {
             .timeline::after { left: 31px; }
@@ -172,8 +169,6 @@
             .timeline-item.left::after, .timeline-item.right::after { left: 18px; }
             .vision-grid { grid-template-columns: 1fr; }
             .vision-banner p { font-size: 1.5rem; }
-            .timeline-header { flex-direction: column-reverse; } /* Stacks image above title on mobile */
-            .timeline-item.left .timeline-header { flex-direction: column; align-items: flex-start; } /* Adjusts left nodes */
         }
 
         footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; position: relative; }
@@ -293,51 +288,35 @@
             
             <div class="timeline-item left">
                 <div class="timeline-content">
-                    <div class="timeline-header">
-                        <div>
-                            <h3>Phase 1: Foundation & Dispatch</h3>
-                            <span>[ COMPLETED - FEB 2026 ]</span>
-                        </div>
-                    </div>
+                    <h3 style="color: #fff;">Phase 1: Foundation & Dispatch</h3>
+                    <span style="color: var(--accent-cyan);">[ COMPLETED - FEB 2026 ]</span>
                     <p>Establishment of the Raytown Construction brand, launch of the FastTrack Tools beta, and deployment of the initial automated Discord dispatch ledger.</p>
                 </div>
             </div>
             
             <div class="timeline-item right">
                 <div class="timeline-content" style="border-color: var(--success-green); box-shadow: 0 0 15px rgba(74, 222, 128, 0.1);">
-                    <div class="timeline-header">
-                        <img src="assets/images/gr_gen.png" alt="RTC Green Generator" class="timeline-image" style="filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.5));" onerror="this.style.display='none'">
-                        <div style="text-align: right;">
-                            <h3 style="color: var(--success-green);">Phase 2: Green Hardware</h3>
-                            <span style="color: var(--text-muted);">[ CURRENT STAGE - 4 UPX/SPH ]</span>
-                        </div>
-                    </div>
+                    <img src="assets/images/gr_gen.png" alt="RTC Green Generator" class="timeline-banner" onerror="this.style.display='none'">
+                    <h3 style="color: var(--success-green);">Phase 2: Green Hardware</h3>
+                    <span style="color: var(--text-muted);">[ CURRENT STAGE - 4 UPX/SPH ]</span>
                     <p>Minting and distribution of the limited RTC Green Generators. <strong style="color: var(--success-green);">This entire supply must sell out before the next tier is unlocked.</strong></p>
                 </div>
             </div>
             
             <div class="timeline-item left">
-                <div class="timeline-content" style="border-color: var(--danger-red);">
-                    <div class="timeline-header">
-                        <div>
-                            <h3 style="color: var(--danger-red);">Phase 3: Red Fleet Expansion</h3>
-                            <span style="color: var(--text-muted);">[ LOCKED - PENDING GREEN SELLOUT ]</span>
-                        </div>
-                        <img src="assets/images/red_gen.png" alt="RTC Red Generator" class="timeline-image" style="filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));" onerror="this.style.display='none'">
-                    </div>
+                <div class="timeline-content" style="border-color: var(--danger-red); box-shadow: 0 0 15px rgba(239, 68, 68, 0.1);">
+                    <img src="assets/images/red_gen.png" alt="RTC Red Generator" class="timeline-banner" onerror="this.style.display='none'">
+                    <h3 style="color: var(--danger-red);">Phase 3: Red Fleet Expansion</h3>
+                    <span style="color: var(--text-muted);">[ LOCKED - PENDING GREEN SELLOUT ]</span>
                     <p>Once all Green Generators are secured, the doors open for the Red Generators, unlocking a highly escalated yield rate of <strong>5 UPX/SPH</strong> for advanced sub-stakers.</p>
                 </div>
             </div>
             
             <div class="timeline-item right">
-                <div class="timeline-content" style="border-color: var(--warning-yellow);">
-                    <div class="timeline-header">
-                        <img src="assets/images/yw_gen.png" alt="RTC Yellow Generator" class="timeline-image" style="filter: drop-shadow(0 0 8px rgba(234, 179, 8, 0.5));" onerror="this.style.display='none'">
-                        <div style="text-align: right;">
-                            <h3 style="color: var(--warning-yellow);">Phase 4: Yellow Fleet Apex</h3>
-                            <span style="color: var(--text-muted);">[ LOCKED - PENDING RED SELLOUT ]</span>
-                        </div>
-                    </div>
+                <div class="timeline-content" style="border-color: var(--warning-yellow); box-shadow: 0 0 15px rgba(234, 179, 8, 0.1);">
+                    <img src="assets/images/yw_gen.png" alt="RTC Yellow Generator" class="timeline-banner" onerror="this.style.display='none'">
+                    <h3 style="color: var(--warning-yellow);">Phase 4: Yellow Fleet Apex</h3>
+                    <span style="color: var(--text-muted);">[ LOCKED - PENDING RED SELLOUT ]</span>
                     <p>Following the complete sale of the Red Fleet, the exclusive Yellow Generators will be minted, offering our highest standard residential pay rate of <strong>6 UPX/SPH</strong>.</p>
                 </div>
             </div>
