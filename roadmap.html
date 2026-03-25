@@ -25,6 +25,8 @@
             --border-tech: #2e4d82;
             --glow-cyan: rgba(0, 242, 255, 0.4);
             --success-green: #4ade80;
+            --danger-red: #ef4444;
+            --warning-yellow: #eab308;
         }
 
         body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
@@ -52,6 +54,52 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 3rem 5%; }
         
         .section-title { font-size: 1.8rem; color: #fff; border-bottom: 1px solid var(--border-tech); padding-bottom: 0.5rem; margin-bottom: 2.5rem; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+
+        /* --- VISION BANNER --- */
+        .vision-banner {
+            background: linear-gradient(135deg, rgba(18, 30, 60, 0.9) 0%, rgba(15, 31, 61, 0.95) 100%);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 4rem 3rem;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
+            margin-bottom: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vision-banner::before {
+            content: '🏁';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.03;
+            top: -20px;
+            right: -20px;
+            transform: rotate(15deg);
+        }
+
+        .vision-banner h3 {
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin: 0 0 1rem 0;
+        }
+
+        .vision-banner p {
+            color: #fff;
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1.4;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+            text-transform: uppercase;
+        }
+
+        .vision-banner span.highlight {
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(214, 160, 72, 0.4);
+        }
 
         /* --- DUAL VISION GRID --- */
         .vision-grid {
@@ -107,11 +155,15 @@
 
         .timeline-content { padding: 1.5rem; background-color: var(--bg-panel); position: relative; border-radius: 8px; border: 1px solid var(--border-tech); transition: transform 0.3s; }
         .timeline-content:hover { transform: scale(1.02); border-color: var(--accent-cyan); }
-        .timeline-content h3 { margin: 0 0 0.5rem 0; color: #fff; text-transform: uppercase; font-size: 1.2rem; }
-        .timeline-content span { color: var(--accent-cyan); font-family: monospace; font-size: 0.85rem; display: block; margin-bottom: 1rem; }
+        
+        /* New Header Layout for Timeline Nodes with Images */
+        .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; margin-bottom: 1rem; }
+        .timeline-header h3 { margin: 0 0 0.5rem 0; color: #fff; text-transform: uppercase; font-size: 1.2rem; }
+        .timeline-header span { color: var(--accent-cyan); font-family: monospace; font-size: 0.85rem; display: block; }
+        .timeline-image { max-height: 70px; border-radius: 6px; }
+        
         .timeline-content p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
 
-        /* Mobile tweaks for timeline */
         @media screen and (max-width: 768px) {
             .timeline::after { left: 31px; }
             .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
@@ -119,6 +171,9 @@
             .timeline-item.right { left: 0; }
             .timeline-item.left::after, .timeline-item.right::after { left: 18px; }
             .vision-grid { grid-template-columns: 1fr; }
+            .vision-banner p { font-size: 1.5rem; }
+            .timeline-header { flex-direction: column-reverse; } /* Stacks image above title on mobile */
+            .timeline-item.left .timeline-header { flex-direction: column; align-items: flex-start; } /* Adjusts left nodes */
         }
 
         footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; position: relative; }
@@ -152,6 +207,11 @@
     </div>
 
     <div class="container">
+
+        <div class="vision-banner">
+            <h3>The RTC Core Vision</h3>
+            <p>To architect and fully build out <span class="highlight">competitive Metaverse Speedways</span>—completing every digital property along the track—in <span class="highlight">45 days or less</span>.</p>
+        </div>
         
         <h3 class="section-title"><span style="color: var(--accent-cyan);">//</span> THE DUAL VISION</h3>
         <div class="vision-grid">
@@ -159,28 +219,28 @@
             <div class="vision-panel panel-staker">
                 <div class="staker-icon">⚡</div>
                 <div class="vision-title">The Sub-Staker Ecosystem</div>
-                <div class="vision-subtitle">Empowering digital creators with guaranteed yield, premium software tools, and frictionless workflows.</div>
+                <div class="vision-subtitle">Empowering digital creators with guaranteed yield, locked-in lifetime upgrades, and zero-friction workflows.</div>
                 
                 <ul class="feature-list">
                     <li>
                         <span class="feature-icon">🟢</span>
                         <div class="feature-text">
-                            <h4 style="color: var(--success-green);">Zero-Friction Earnings</h4>
-                            <p>No more hunting for jobs or negotiating rates. Our Dispatch Board provides a steady stream of residential builds locked at a guaranteed 4 UPX/SPH.</p>
+                            <h4 style="color: var(--success-green);">The 45-Day Mission</h4>
+                            <p>Your objective is to make back your generator cost and achieve pure profit in 45 days or less. We provide the project volume and guaranteed UPX/SPH rates to ensure you hit that target.</p>
                         </div>
                     </li>
                     <li>
                         <span class="feature-icon">🟢</span>
                         <div class="feature-text">
-                            <h4 style="color: var(--success-green);">Instant Liquidity</h4>
-                            <p>Cash flow is king. Upon stake validation, payouts are executed instantly. Your capital is never tied up waiting for manual ledger approvals.</p>
+                            <h4 style="color: var(--success-green);">Guaranteed by the RTC-Treasury</h4>
+                            <p>Every purchase of a Raytown Construction Asset flows directly into the <strong>RTC-Treasury</strong>. This guarantees that capital is secured upfront, meaning sub-stakers are paid instantly upon stake validation—no matter what.</p>
                         </div>
                     </li>
                     <li>
                         <span class="feature-icon">🟢</span>
                         <div class="feature-text">
-                            <h4 style="color: var(--success-green);">Exclusive Tooling</h4>
-                            <p>Holding the RTC Green Generator grants you access to the FastTrack Tools platform, giving you the analytics edge to maximize your Spark efficiency.</p>
+                            <h4 style="color: var(--success-green);">Lifetime Upgrades & Standard Fees</h4>
+                            <p>Purchasing hardware locks you into all future system upgrades at no extra cost. <strong>All generator tiers</strong> include the first 3 months of management fees completely waived, followed by a standard 5,000 UPX/month fee across the board.</p>
                         </div>
                     </li>
                 </ul>
@@ -200,66 +260,85 @@
                     <li>
                         <span class="feature-icon">🏗️</span>
                         <div class="feature-text">
-                            <h4 style="color: var(--accent);">We Are Your General Contractor</h4>
-                            <p>Stop wasting time messaging dozens of players to build your property. Hand the blueprint to us, and we deploy our managed fleet of sub-stakers to get it done.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="feature-icon">⏱️</span>
-                        <div class="feature-text">
-                            <h4 style="color: var(--accent);">Guaranteed Timelines</h4>
-                            <p>Because we control an internal ecosystem of incentivized builders with dedicated hardware, we forecast completion dates with absolute precision.</p>
+                            <h4 style="color: var(--accent);">The 45-Day Speedway Build Out</h4>
+                            <p>Our overarching mission is to complete high-density district and speedway build-outs in 45 days or less. Hand the blueprint to us, and we deploy our managed fleet to get it done fast.</p>
                         </div>
                     </li>
                     <li>
                         <span class="feature-icon">💼</span>
                         <div class="feature-text">
-                            <h4 style="color: var(--accent);">Flat-Rate Predictability</h4>
-                            <p>No surging prices or mid-build dropouts. You pay a negotiated flat rate, and we handle all the internal payroll, distributions, and workforce management.</p>
+                            <h4 style="color: var(--accent);">Asset-Backed Budgets</h4>
+                            <p>Bring us your project and your budget. You fund the build by purchasing a dedicated Raytown Construction Asset, which secures our workforce and locks in your delivery timeline.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">⏱️</span>
+                        <div class="feature-text">
+                            <h4 style="color: var(--accent);">We Are Your General Contractor</h4>
+                            <p>Stop wasting time messaging dozens of unverified players. You pay the set budget via an RTC Asset, and we handle all the internal payroll, distributions, and workforce dispatching.</p>
                         </div>
                     </li>
                 </ul>
                 
                 <div style="text-align: center; margin-top: 2rem;">
-                    <a href="https://discord.gg/BeVnv48x" target="_blank" style="background: var(--accent); color: #0f1f3d; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem;">Request a Build Quote</a>
+                    <a href="https://discord.gg/BeVnv48x" target="_blank" style="background: var(--accent); color: #0f1f3d; padding: 0.8rem 1.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase; font-size: 0.9rem;">Submit a Project</a>
                 </div>
             </div>
 
         </div>
 
-        <h3 class="section-title" style="margin-top: 4rem;"><span style="color: var(--accent-cyan);">//</span> DEVELOPMENT PHASES</h3>
+        <h3 class="section-title" style="margin-top: 4rem;"><span style="color: var(--accent-cyan);">//</span> FLEET ESCALATION PHASES</h3>
         
         <div class="timeline">
             
             <div class="timeline-item left">
                 <div class="timeline-content">
-                    <h3>Phase 1: Foundation & Dispatch</h3>
-                    <span>[ COMPLETED - FEB 2026 ]</span>
+                    <div class="timeline-header">
+                        <div>
+                            <h3>Phase 1: Foundation & Dispatch</h3>
+                            <span>[ COMPLETED - FEB 2026 ]</span>
+                        </div>
+                    </div>
                     <p>Establishment of the Raytown Construction brand, launch of the FastTrack Tools beta, and deployment of the initial automated Discord dispatch ledger.</p>
                 </div>
             </div>
             
             <div class="timeline-item right">
                 <div class="timeline-content" style="border-color: var(--success-green); box-shadow: 0 0 15px rgba(74, 222, 128, 0.1);">
-                    <h3 style="color: var(--success-green);">Phase 2: The Hardware Rollout</h3>
-                    <span style="color: var(--text-muted);">[ CURRENT - MAR 2026 ]</span>
-                    <p>Minting and distribution of the 20 exclusive RTC Green Generators. Onboarding our first dedicated fleet of sub-stakers with the 3-month fee waiver initiative.</p>
+                    <div class="timeline-header">
+                        <img src="assets/images/gr_gen.png" alt="RTC Green Generator" class="timeline-image" style="filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.5));" onerror="this.style.display='none'">
+                        <div style="text-align: right;">
+                            <h3 style="color: var(--success-green);">Phase 2: Green Hardware</h3>
+                            <span style="color: var(--text-muted);">[ CURRENT STAGE - 4 UPX/SPH ]</span>
+                        </div>
+                    </div>
+                    <p>Minting and distribution of the limited RTC Green Generators. <strong style="color: var(--success-green);">This entire supply must sell out before the next tier is unlocked.</strong></p>
                 </div>
             </div>
             
             <div class="timeline-item left">
-                <div class="timeline-content">
-                    <h3>Phase 3: Premium Node Expansion</h3>
-                    <span>[ IN DEVELOPMENT - Q3 2026 ]</span>
-                    <p>Scaling operations beyond Raytown into high-barrier markets (East Flatbush, NY). Securing massive commercial contracts and scaling the sub-staker fleet to meet demand.</p>
+                <div class="timeline-content" style="border-color: var(--danger-red);">
+                    <div class="timeline-header">
+                        <div>
+                            <h3 style="color: var(--danger-red);">Phase 3: Red Fleet Expansion</h3>
+                            <span style="color: var(--text-muted);">[ LOCKED - PENDING GREEN SELLOUT ]</span>
+                        </div>
+                        <img src="assets/images/red_gen.png" alt="RTC Red Generator" class="timeline-image" style="filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));" onerror="this.style.display='none'">
+                    </div>
+                    <p>Once all Green Generators are secured, the doors open for the Red Generators, unlocking a highly escalated yield rate of <strong>5 UPX/SPH</strong> for advanced sub-stakers.</p>
                 </div>
             </div>
             
             <div class="timeline-item right">
-                <div class="timeline-content">
-                    <h3>Phase 4: Full Automation (Mogulverse)</h3>
-                    <span>[ PROJECTED - Q4 2026 ]</span>
-                    <p>Integration of full API endpoints for 100% automated payouts, gamified builder leaderboards, and the launch of the Mogulverse business simulation overlay.</p>
+                <div class="timeline-content" style="border-color: var(--warning-yellow);">
+                    <div class="timeline-header">
+                        <img src="assets/images/yw_gen.png" alt="RTC Yellow Generator" class="timeline-image" style="filter: drop-shadow(0 0 8px rgba(234, 179, 8, 0.5));" onerror="this.style.display='none'">
+                        <div style="text-align: right;">
+                            <h3 style="color: var(--warning-yellow);">Phase 4: Yellow Fleet Apex</h3>
+                            <span style="color: var(--text-muted);">[ LOCKED - PENDING RED SELLOUT ]</span>
+                        </div>
+                    </div>
+                    <p>Following the complete sale of the Red Fleet, the exclusive Yellow Generators will be minted, offering our highest standard residential pay rate of <strong>6 UPX/SPH</strong>.</p>
                 </div>
             </div>
 
