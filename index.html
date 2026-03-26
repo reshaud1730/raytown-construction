@@ -79,6 +79,19 @@
         .hero-content p { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2.5rem; line-height: 1.7; }
         .hero-content p strong { color: var(--accent); }
 
+        /* --- BUILDERS CHALLENGE BANNER --- */
+        .challenge-banner-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 5% 0 5%; }
+        .challenge-banner { background: linear-gradient(135deg, #0b1528 0%, #064e3b 100%); border: 2px solid #4ade80; border-radius: 12px; padding: 30px; display: flex; align-items: center; gap: 30px; box-shadow: 0 10px 30px rgba(74, 222, 128, 0.15); position: relative; overflow: hidden; }
+        .challenge-banner::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(74,222,128,0.05) 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .challenge-banner-img { flex: 0 0 200px; z-index: 1; text-align: center; }
+        .challenge-banner-img img { width: 100%; max-width: 200px; height: auto; border-radius: 8px; box-shadow: 0 0 20px rgba(74, 222, 128, 0.4); border: 1px solid #4ade80; }
+        .challenge-banner-content { z-index: 1; flex: 1; }
+        .challenge-tag { display: inline-block; background-color: rgba(74, 222, 128, 0.2); color: #4ade80; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; border: 1px solid rgba(74, 222, 128, 0.4); }
+        .challenge-banner-content h2 { margin: 0 0 10px 0; color: #ffffff; font-size: 2.2rem; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); line-height: 1.2; }
+        .challenge-banner-content p { color: #e2e8f0; font-size: 1.05rem; line-height: 1.6; margin-bottom: 20px; }
+        .challenge-btn { display: inline-block; background-color: #4ade80; color: #064e3b; padding: 12px 24px; text-decoration: none; font-weight: 900; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 5px 15px rgba(74, 222, 128, 0.3); }
+        .challenge-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74, 222, 128, 0.5); }
+
         .container { max-width: 1200px; margin: 0 auto; padding: 4rem 5%; }
         .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
         .section-title span { color: var(--accent); font-size: 1.1rem; display: block; font-weight: normal; margin-top: 5px; text-transform: none; letter-spacing: normal;}
@@ -196,6 +209,11 @@
             .hero-content { padding: 0 1rem; }
             .hero-content p { margin: 0 auto 2.5rem auto; }
             .spotlight-container { grid-template-columns: 1fr; gap: 2rem; }
+            
+            /* Responsive Challenge Banner */
+            .challenge-banner { flex-direction: column; text-align: center; padding: 20px; gap: 20px; }
+            .challenge-banner-img { flex: 0 0 auto; max-width: 150px; }
+            .challenge-banner-content h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -209,7 +227,7 @@
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
-            <a href="index.html">Home</a>
+            <a href="index.html" style="color: var(--accent);">Home</a>
             <a href="insights.html">FastTrack Insights</a>
             <a href="generator.html">Hardware</a>
             <a href="roadmap.html">Road Map</a>
@@ -232,6 +250,21 @@
         </div>
     </section>
 
+    <div class="challenge-banner-wrapper">
+        <div class="challenge-banner">
+            <div class="challenge-banner-img">
+                <img src="assets/images/green_generator.png" alt="RTC Green Generator" onerror="this.src='https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png'">
+            </div>
+            <div class="challenge-banner-content">
+                <span class="challenge-tag">LIVE NOW</span>
+                <h2>The Builders' Challenge</h2>
+                <p>
+                    The fleet is mobilizing. <strong>Green Generator Holders</strong> now have exclusive first access to deploy Sparklet, engage the FastTrack Engine, and secure guaranteed UPX payouts on our 45-Day Neighborhood Builds.
+                </p>
+                <a href="https://fasttracktools.pythonanywhere.com/public" class="challenge-btn" target="_blank">Access Live Ledger</a>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <h2 class="section-title">Development & Acquisition Services<span>(All decisions powered by FASTTRACK TOOLs)</span></h2>
         <div class="services-grid">
@@ -316,14 +349,12 @@
         <a href="https://discord.gg/BeVnv48x" class="button" target="_blank">Break Ground on Discord</a>
     </section>
 
-    <!-- UPDATED TEAM SECTION WITH MONUMENTS -->
     <section class="team-section">
         <h2>Meet the Collective Leadership</h2>
         <p>The architects behind the nodes. We build the communities we want to play in.</p>
 
         <div class="team-grid">
             
-            <!-- JahReshaud Card -->
             <div class="profile-card">
                 <div class="profile-monument">
                     <img src="https://reshaud1730.github.io/raytown-construction/assets/images/FTC_PILLAR.png" alt="FTC HQ Monument" onerror="this.style.display='none'">
@@ -359,7 +390,6 @@
                 </div>
             </div>
 
-            <!-- Sincere87 Card -->
             <div class="profile-card sincere">
                 <div class="profile-monument">
                     <img src="https://reshaud1730.github.io/raytown-construction/assets/images/EFBDS_PILLAR.png" alt="Deadshift Node Monument" onerror="this.style.display='none'">
@@ -398,7 +428,6 @@
         </div>
     </section>
 
-    <!-- UPLAND REFERRAL SECTION -->
     <section class="referral-section">
         <div class="referral-promo">
             <div class="referral-content">
