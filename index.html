@@ -23,6 +23,7 @@
             --accent: #d6a048; 
             --accent-hover: #b0843a;
             --border-color: #4b5563; 
+            --info-cyan: #00f2ff;
         }
 
         body {
@@ -91,6 +92,34 @@
         .challenge-banner-content p { color: #e2e8f0; font-size: 1.05rem; line-height: 1.6; margin-bottom: 20px; }
         .challenge-btn { display: inline-block; background-color: #4ade80; color: #064e3b; padding: 12px 24px; text-decoration: none; font-weight: 900; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 5px 15px rgba(74, 222, 128, 0.3); }
         .challenge-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74, 222, 128, 0.5); }
+
+        /* --- RESIDENT SUBSIDY SECTION --- */
+        .subsidy-container { max-width: 1200px; margin: 0 auto; padding: 2rem 5% 0 5%; }
+        .subsidy-card { 
+            background: rgba(0, 242, 255, 0.03); 
+            border: 1px solid var(--info-cyan); 
+            border-radius: 12px; 
+            padding: 25px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 20px;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+            position: relative;
+        }
+        .subsidy-text h3 { color: var(--info-cyan); margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 1px; font-size: 1.4rem; }
+        .subsidy-text p { margin: 0; color: var(--text-main); font-size: 0.95rem; max-width: 500px; }
+        .subsidy-rates { display: flex; gap: 15px; }
+        .rate-tag { 
+            background: #132549; 
+            border: 1px solid var(--border-color); 
+            padding: 10px 15px; 
+            border-radius: 6px; 
+            text-align: center; 
+            min-width: 100px;
+        }
+        .rate-tag strong { display: block; font-size: 1.2rem; color: #fff; line-height: 1; margin-bottom: 4px; }
+        .rate-tag span { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 4rem 5%; }
         .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
@@ -214,6 +243,10 @@
             .challenge-banner { flex-direction: column; text-align: center; padding: 20px; gap: 20px; }
             .challenge-banner-img { flex: 0 0 auto; max-width: 150px; }
             .challenge-banner-content h2 { font-size: 1.8rem; }
+
+            /* Responsive Subsidy Card */
+            .subsidy-card { flex-direction: column; text-align: center; padding: 20px; }
+            .subsidy-rates { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -253,7 +286,8 @@
     <div class="challenge-banner-wrapper">
         <div class="challenge-banner">
             <div class="challenge-banner-img">
-<video src="assets/images/green_generator.mp4" autoplay loop muted playsinline style="width: 100%; max-width: 200px; height: auto; border-radius: 8px; box-shadow: 0 0 20px rgba(74, 222, 128, 0.4); border: 1px solid #4ade80;"></video>            </div>
+                <video src="assets/images/green_generator.mp4" autoplay loop muted playsinline style="width: 100%; max-width: 200px; height: auto; border-radius: 8px; box-shadow: 0 0 20px rgba(74, 222, 128, 0.4); border: 1px solid #4ade80;"></video>
+            </div>
             <div class="challenge-banner-content">
                 <span class="challenge-tag">LIVE NOW</span>
                 <h2>The Builders' Challenge</h2>
@@ -264,6 +298,34 @@
             </div>
         </div>
     </div>
+
+    <div class="subsidy-container">
+        <div class="subsidy-card">
+            <div style="position: absolute; top: -12px; left: 25px; background: linear-gradient(135deg, #d6a048 0%, #b0843a 100%); color: #0f1f3d; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-transform: uppercase; letter-spacing: 0.5px;">
+                🏆 3-FOR-1 CHALLENGE
+            </div>
+
+            <div class="subsidy-text">
+                <h3>Raytown Resident Subsidy</h3>
+                <p>Own a home in Raytown? Build for just 3 UPX/SpH. Plus, refer 3 neighbors and your next project is <strong>100% FREE!</strong></p>
+                <p style="font-size: 0.8rem; color: var(--accent); margin-top: 10px; font-weight: bold; border-top: 1px solid rgba(214, 160, 72, 0.2); padding-top: 10px;">
+                    🤝 LEADERSHIP BONUS: Earn 1,000 UPX for every referral while tracking toward your free build.
+                </p>
+            </div>
+            <div class="subsidy-rates">
+                <div class="rate-tag" style="border-color: #4ade80;">
+                    <strong>3 UPX</strong>
+                    <span>Resident Rate</span>
+                </div>
+                <div class="rate-tag" style="border-color: var(--info-cyan);">
+                    <strong>4 UPX</strong>
+                    <span>Builder Payout</span>
+                </div>
+            </div>
+            <a href="https://discord.gg/BeVnv48x" target="_blank" class="challenge-btn" style="background: var(--info-cyan); color: #0f1f3d; padding: 12px 24px; font-size: 0.85rem;">Join Challenge</a>
+        </div>
+    </div>
+
     <div class="container">
         <h2 class="section-title">Development & Acquisition Services<span>(All decisions powered by FASTTRACK TOOLs)</span></h2>
         <div class="services-grid">
