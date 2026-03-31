@@ -80,7 +80,6 @@
         .hero-content p { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2.5rem; line-height: 1.7; }
         .hero-content p strong { color: var(--accent); }
 
-        /* --- BUILDERS CHALLENGE BANNER (UPDATED TO WINNERS) --- */
         .challenge-banner-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 5% 0 5%; }
         .challenge-banner { background: linear-gradient(135deg, #0b1528 0%, #1e1b4b 100%); border: 2px solid var(--accent); border-radius: 12px; padding: 30px; display: flex; align-items: center; gap: 30px; box-shadow: 0 10px 30px rgba(214, 160, 72, 0.15); position: relative; overflow: hidden; }
         .challenge-banner::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(214, 160, 72, 0.05) 0%, transparent 70%); z-index: 0; pointer-events: none; }
@@ -100,7 +99,6 @@
         .challenge-btn { display: inline-block; background-color: var(--accent); color: #0f1f3d; padding: 12px 24px; text-decoration: none; font-weight: 900; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 5px 15px rgba(214, 160, 72, 0.3); }
         .challenge-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(214, 160, 72, 0.5); }
 
-        /* --- RESIDENT SUBSIDY SECTION --- */
         .subsidy-container { max-width: 1200px; margin: 0 auto; padding: 2rem 5% 0 5%; }
         .subsidy-card { 
             background: rgba(0, 242, 255, 0.03); 
@@ -138,7 +136,6 @@
         .service-card h3 { color: var(--accent); margin-top: 0; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .service-card p { color: #cbd5e1; font-size: 1rem; margin-bottom: 0; line-height: 1.7; }
 
-        /* FastTrack Spotlight Section */
         .spotlight-section {
             padding: 5rem 5%;
             background: linear-gradient(135deg, rgba(19, 37, 73, 0.8) 0%, rgba(15, 31, 61, 0.9) 100%);
@@ -161,7 +158,6 @@
         .spotlight-content li::before { content: '⚡'; position: absolute; left: 0; color: var(--accent); }
         .spotlight-blockquote { border-left: 4px solid var(--accent); padding-left: 1.5rem; font-style: italic; color: var(--text-muted); font-size: 1.15rem; margin: 2rem 0 0 0; line-height: 1.6;}
         
-        /* Project Portfolio Styling */
         .portfolio-section { background-color: rgba(19, 37, 73, 0.4); padding: 5rem 5%; border-top: 2px solid var(--border-color); }
         .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
         .portfolio-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; transition: transform 0.3s ease, border-color 0.3s ease; }
@@ -175,15 +171,11 @@
         .button { display: inline-block; background-color: var(--accent); color: #0f1f3d; padding: 1.2rem 2.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; transition: background-color 0.3s ease, transform 0.2s ease; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 20px rgba(214, 160, 72, 0.2); }
         .button:hover { background-color: var(--accent-hover); transform: scale(1.02); }
 
-        /* --- UPDATED TEAM SECTION WITH MONUMENTS --- */
         .team-section { padding: 5rem 5%; max-width: 1400px; margin: 0 auto; text-align: center; }
         .team-section h2 { font-size: 2.5rem; color: var(--text-main); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
         .team-section > p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 3.5rem; }
 
-        .team-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; text-align: left; }
-        @media (min-width: 1024px) {
-            .team-grid { grid-template-columns: 1fr 1fr; }
-        }
+        .team-grid { display: flex; justify-content: center; }
         
         .profile-card { 
             background-color: var(--bg-card); 
@@ -191,6 +183,7 @@
             border-top: 5px solid var(--accent); 
             border-radius: 8px; 
             padding: 2.5rem; 
+            max-width: 700px;
             position: relative; 
             transition: transform 0.3s ease; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -200,13 +193,11 @@
             align-items: center;
         }
         @media (min-width: 600px) {
-            .profile-card { flex-direction: row; align-items: flex-start; }
+            .profile-card { flex-direction: row; align-items: flex-start; text-align: left; }
         }
         
         .profile-card:hover { transform: translateY(-5px); }
-        .profile-card.sincere { border-top-color: #60a5fa; }
         
-        /* Monument Image Styles */
         .profile-monument { flex: 0 0 200px; text-align: center; }
         .profile-monument img { width: 100%; max-width: 200px; border-radius: 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.05); }
         
@@ -214,7 +205,6 @@
         .profile-header { margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; }
         .profile-name { font-size: 2rem; color: var(--text-main); margin: 0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
         .profile-title { color: var(--accent); font-size: 1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0.3rem; }
-        .profile-card.sincere .profile-title { color: #60a5fa; }
 
         .profile-node { display: inline-block; background-color: rgba(255,255,255,0.05); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem; color: #cbd5e1; margin-top: 0.8rem; border: 1px solid rgba(255,255,255,0.1);}
 
@@ -226,7 +216,6 @@
         .profile-bio { color: #cbd5e1; line-height: 1.7; font-size: 1rem; margin-bottom: 1.5rem; }
         .profile-quote { font-style: italic; color: var(--text-muted); border-left: 3px solid var(--border-color); padding-left: 1rem; font-size: 0.95rem; }
 
-        /* --- REFERRAL PROMO BLOCK --- */
         .referral-section { padding: 4rem 5%; }
         .referral-promo { background: linear-gradient(135deg, #132549 0%, #0f1f3d 100%); border: 2px solid var(--accent); border-radius: 12px; padding: 4rem 2rem; text-align: center; margin: 0 auto; max-width: 900px; box-shadow: 0 10px 30px rgba(214, 160, 72, 0.15); position: relative; overflow: hidden; }
         .referral-promo::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(214, 160, 72, 0.05) 0%, transparent 60%); z-index: 0; pointer-events: none; }
@@ -239,20 +228,15 @@
 
         footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); position: relative; }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .hero-banner-container { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
             .hero-content { padding: 0 1rem; }
             .hero-content p { margin: 0 auto 2.5rem auto; }
             .spotlight-container { grid-template-columns: 1fr; gap: 2rem; }
-            
-            /* Responsive Challenge Banner */
             .challenge-banner { flex-direction: column; text-align: center; padding: 20px; gap: 20px; }
             .challenge-banner-img { flex: 0 0 auto; max-width: 150px; }
             .challenge-banner-content h2 { font-size: 1.8rem; }
             .winner-grid { grid-template-columns: 1fr; }
-
-            /* Responsive Subsidy Card */
             .subsidy-card { flex-direction: column; text-align: center; padding: 20px; }
             .subsidy-rates { width: 100%; justify-content: center; }
         }
@@ -264,7 +248,7 @@
 
     <header>
         <div class="header-logo">
-            <img src="https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
+            <img src="https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
@@ -282,7 +266,7 @@
 
     <section class="hero">
         <div class="hero-banner-container">
-            <img src="https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png" alt="Raytown Construction: Trade N Build circular logo" class="hero-banner-image" onerror="this.style.display='none'">
+            <img src="https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="hero-banner-image">
             <div class="hero-content">
                 <h2>Engineering the Metaverse</h2>
                 <p>Raytown Construction don't just place buildings; we engineer digital communities. Our strategies leverage strategic property acquisition and precise development analytics from the <strong>FASTTRACK TOOLs</strong> system.</p>
@@ -367,7 +351,7 @@
     <section class="spotlight-section">
         <div class="spotlight-container">
             <div class="spotlight-image-wrapper">
-                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Prime_Builder.png" alt="FastTrack Prime Builder Badge" class="spotlight-image" onerror="this.style.display='none'">
+                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Prime_Builder.png" alt="FastTrack Prime Builder Badge" class="spotlight-image">
             </div>
             <div class="spotlight-content">
                 <span class="tag">FastTrack Dispatch: Community Spotlight</span>
@@ -396,7 +380,7 @@
         <h2 class="section-title">Active Developments & Portfolio<span>(Recent Raytown Builds in Upland)</span></h2>
         <div class="portfolio-grid">
             <div class="portfolio-card">
-                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights Development" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
+                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Gregory_Heights_developmet.png" alt="Gregory Heights Development" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);">
                 <div class="portfolio-content">
                     <span class="portfolio-tag">Commercial Zoning</span>
                     <h3>Gregory Heights Development</h3>
@@ -405,7 +389,7 @@
             </div>
 
             <div class="portfolio-card">
-                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Raytown_University.png" alt="Raytown University Campus" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
+                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Raytown_University.png" alt="Raytown University Campus" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);">
                 <div class="portfolio-content">
                     <span class="portfolio-tag">Master Planning</span>
                     <h3>Raytown University Campus</h3>
@@ -414,7 +398,7 @@
             </div>
 
             <div class="portfolio-card">
-                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Raytown_neighborhood.png" alt="Raytown Strategic Node Map" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);" onerror="this.style.display='none'">
+                <img src="https://reshaud1730.github.io/raytown-construction/assets/images/Raytown_neighborhood.png" alt="Raytown Strategic Node Map" style="width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid var(--border-color);">
                 <div class="portfolio-content">
                     <span class="portfolio-tag">Strategic Acquisition</span>
                     <h3>Raytown Node Network</h3>
@@ -432,13 +416,13 @@
 
     <section class="team-section">
         <h2>Meet the FastTrack Leadership</h2>
-        <p>The architects behind the nodes. We build the communities we want to play in.</p>
+        <p>The architect behind the nodes. We build the communities we want to play in.</p>
 
         <div class="team-grid">
             
             <div class="profile-card">
                 <div class="profile-monument">
-                    <img src="https://reshaud1730.github.io/raytown-construction/assets/images/FTC_PILLAR.png" alt="FTC HQ Monument" onerror="this.style.display='none'">
+                    <img src="https://reshaud1730.github.io/raytown-construction/assets/images/FTC_PILLAR.png" alt="FTC HQ Monument">
                 </div>
                 <div class="profile-content">
                     <div class="profile-header">
@@ -467,41 +451,6 @@
                     </div>
                     <div class="profile-quote">
                         "Trade N Build isn't just a token; it's a lifestyle. We secure the land, we drop the spark, and we elevate the entire community together."
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-card sincere">
-                <div class="profile-monument">
-                    <img src="https://reshaud1730.github.io/raytown-construction/assets/images/EFBDS_PILLAR.png" alt="Deadshift Node Monument" onerror="this.style.display='none'">
-                </div>
-                <div class="profile-content">
-                    <div class="profile-header">
-                        <h3 class="profile-name">Sincere87</h3>
-                        <div class="profile-title">East Flatbush Community Lead</div>
-                        <div class="profile-node">📍 East Flatbush, Brooklyn, NY</div>
-                    </div>
-                    
-                    <div class="profile-stats">
-                        <div class="stat-box">
-                            <span>3.7M</span>
-                            <label>Net Worth</label>
-                        </div>
-                        <div class="stat-box">
-                            <span>158</span>
-                            <label>Properties</label>
-                        </div>
-                        <div class="stat-box">
-                            <span style="color: #60a5fa;">21.7k</span>
-                            <label>Staked Sparklet</label>
-                        </div>
-                    </div>
-
-                    <div class="profile-bio">
-                        The cornerstone of our premium coastal operations. Sincere87 manages the FastTrack Community Center's footprint in one of Upland's most competitive, 100%-minted districts. He specializes in high-stakes asset acquisition and securing the Brooklyn block.
-                    </div>
-                    <div class="profile-quote">
-                        "When the map is completely sold out, strategy is everything. We aren't just holding properties; we are establishing a legacy on the East Coast."
                     </div>
                 </div>
             </div>
