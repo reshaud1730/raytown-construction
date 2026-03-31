@@ -175,6 +175,7 @@
         .team-section h2 { font-size: 2.5rem; color: var(--text-main); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
         .team-section > p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 3.5rem; }
 
+        /* Modified team-grid to center the single profile card */
         .team-grid { display: flex; justify-content: center; }
         
         .profile-card { 
@@ -183,7 +184,7 @@
             border-top: 5px solid var(--accent); 
             border-radius: 8px; 
             padding: 2.5rem; 
-            max-width: 700px;
+            max-width: 750px; /* Increased for single profile prominence */
             position: relative; 
             transition: transform 0.3s ease; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -203,18 +204,18 @@
         
         .profile-content { flex: 1; }
         .profile-header { margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; }
-        .profile-name { font-size: 2rem; color: var(--text-main); margin: 0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
-        .profile-title { color: var(--accent); font-size: 1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0.3rem; }
+        .profile-name { font-size: 2.2rem; color: var(--text-main); margin: 0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
+        .profile-title { color: var(--accent); font-size: 1.1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0.3rem; }
 
         .profile-node { display: inline-block; background-color: rgba(255,255,255,0.05); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem; color: #cbd5e1; margin-top: 0.8rem; border: 1px solid rgba(255,255,255,0.1);}
 
         .profile-stats { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-        .stat-box { background-color: rgba(15, 31, 61, 0.6); padding: 0.8rem 1rem; border-radius: 6px; flex: 1; min-width: 80px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-        .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--text-main); }
-        .stat-box label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .stat-box { background-color: rgba(15, 31, 61, 0.6); padding: 0.8rem 1rem; border-radius: 6px; flex: 1; min-width: 100px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .stat-box span { display: block; font-size: 1.3rem; font-weight: bold; color: var(--text-main); }
+        .stat-box label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-        .profile-bio { color: #cbd5e1; line-height: 1.7; font-size: 1rem; margin-bottom: 1.5rem; }
-        .profile-quote { font-style: italic; color: var(--text-muted); border-left: 3px solid var(--border-color); padding-left: 1rem; font-size: 0.95rem; }
+        .profile-bio { color: #cbd5e1; line-height: 1.7; font-size: 1.05rem; margin-bottom: 1.5rem; }
+        .profile-quote { font-style: italic; color: var(--text-muted); border-left: 3px solid var(--border-color); padding-left: 1.5rem; font-size: 1rem; }
 
         .referral-section { padding: 4rem 5%; }
         .referral-promo { background: linear-gradient(135deg, #132549 0%, #0f1f3d 100%); border: 2px solid var(--accent); border-radius: 12px; padding: 4rem 2rem; text-align: center; margin: 0 auto; max-width: 900px; box-shadow: 0 10px 30px rgba(214, 160, 72, 0.15); position: relative; overflow: hidden; }
