@@ -95,6 +95,12 @@
         .metric-value { font-size: 3.5rem; font-weight: 900; color: var(--accent); line-height: 1; text-shadow: 0 0 15px rgba(214, 160, 72, 0.4); margin-bottom: 0.5rem; }
         .metric-label { color: var(--accent-cyan); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-family: monospace; }
 
+        /* Custom Scrollbar for Panel */
+        .scroll-panel::-webkit-scrollbar { width: 6px; }
+        .scroll-panel::-webkit-scrollbar-track { background: var(--bg-dark); border-radius: 4px; }
+        .scroll-panel::-webkit-scrollbar-thumb { background: var(--border-tech); border-radius: 4px; }
+        .scroll-panel::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
+
         /* --- REPORT CARDS --- */
         .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem; }
 
@@ -172,18 +178,92 @@
 
             <div class="data-panel">
                 <div class="panel-header">
-                    <h3 class="panel-title">Network Activity</h3>
-                    <span class="panel-icon">🛰️</span>
+                    <h3 class="panel-title">$TNB Yield Calculator</h3>
+                    <span class="panel-icon">⚡</span>
                 </div>
                 
-                <div class="metric-display" style="padding-bottom: 0;">
-                    <div class="metric-value" style="color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.3); font-size: 3rem;">MAX</div>
-                    <div class="metric-label" style="color: var(--accent);">Uppie Velocity Index</div>
+                <div class="scroll-panel" style="max-height: 220px; overflow-y: auto; padding-right: 15px; margin-bottom: 1.5rem;">
+                    
+                    <div class="calc-group">
+                        <label style="color: var(--success-green);">Green Gen ($25.00)</label>
+                        <div style="display: flex; gap: 10px;">
+                            <div class="calc-input-wrapper" style="flex: 1; padding: 0.3rem 0.8rem;">
+                                <input type="number" id="gPass" value="0" min="0" oninput="calculateTNBYield()">
+                                <span style="font-size: 0.65rem; color: var(--text-muted);">PASSIVE</span>
+                            </div>
+                            <div class="calc-input-wrapper" style="flex: 1; padding: 0.3rem 0.8rem; border-color: var(--accent);">
+                                <input type="number" id="gAct" value="0" min="0" oninput="calculateTNBYield()">
+                                <span style="font-size: 0.65rem; color: var(--accent);">ACTIVE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calc-group">
+                        <label style="color: #ef4444;">Red Gen ($37.50)</label>
+                        <div style="display: flex; gap: 10px;">
+                            <div class="calc-input-wrapper" style="flex: 1; padding: 0.3rem 0.8rem;">
+                                <input type="number" id="rPass" value="0" min="0" oninput="calculateTNBYield()">
+                                <span style="font-size: 0.65rem; color: var(--text-muted);">PASSIVE</span>
+                            </div>
+                            <div class="calc-input-wrapper" style="flex: 1; padding: 0.3rem 0.8rem; border-color: var(--accent);">
+                                <input type="number" id="rAct" value="0" min="0" oninput="calculateTNBYield()">
+                                <span style="font-size: 0.65rem; color: var(--accent);">ACTIVE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calc-group">
+                        <label style="color: #eab308;">Yellow Gen ($50.00)</label>
+                        <div style="display: flex; gap: 10px;">
+                            <div class="calc-input-wrapper" style="flex: 1; padding: 0.3rem 0.8rem;">
+                                <input type="number" id="yPass" value="0" min="0" oninput="calculateTNBYield()">
+                                <span style="font-size: 0.65rem; color: var(--text-muted);">PASSIVE</span>
+                            </div>
+                            <div class="calc-input-wrapper" style="flex: 1; padding: 0.3rem 0.8rem; border-color: var(--accent);">
+                                <input type="number" id="yAct" value="0" min="0" oninput="calculateTNBYield()">
+                                <span style="font-size: 0.65rem; color: var(--accent);">ACTIVE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calc-group">
+                        <label>Speedway Plots</label>
+                        <div style="display: flex; gap: 10px;">
+                            <div class="calc-input-wrapper" style="flex: 1; padding: 0.3rem 0.8rem;">
+                                <input type="number" id="tEmpty" value="0" min="0" oninput="calculateTNBYield()">
+                                <span style="font-size: 0.65rem; color: var(--text-muted);">EMPTY</span>
+                            </div>
+                            <div class="calc-input-wrapper" style="flex: 1; padding: 0.3rem 0.8rem;">
+                                <input type="number" id="tStruct" value="0" min="0" oninput="calculateTNBYield()">
+                                <span style="font-size: 0.65rem; color: var(--text-muted);">STRUCT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calc-group">
+                        <label>Monthly Ecosystem Revenue</label>
+                        <div class="calc-input-wrapper" style="padding: 0.3rem 0.8rem;">
+                            <span style="margin-left: 0; margin-right: 8px; color: var(--accent-cyan);">$</span>
+                            <input type="number" id="ecoRev" value="1000" min="0" oninput="calculateTNBYield()">
+                        </div>
+                    </div>
+
+                    <div class="calc-group" style="margin-bottom: 0;">
+                        <label>Previous Month Rev <span style="text-transform: none; font-size: 0.65rem;">(Safety Net)</span></label>
+                        <div class="calc-input-wrapper" style="padding: 0.3rem 0.8rem;">
+                            <span style="margin-left: 0; margin-right: 8px; color: var(--text-muted);">$</span>
+                            <input type="number" id="prevRev" value="1000" min="0" oninput="calculateTNBYield()" style="color: var(--text-muted);">
+                        </div>
+                    </div>
+
                 </div>
 
-                <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 1.5rem; margin-bottom: 0; line-height: 1.4;">
-                    Tracking structural momentum across all active FastTrack Community construction nodes.
-                </p>
+                <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem; text-align: center; margin-top: auto;">
+                    <div style="color: var(--accent-cyan); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; font-family: monospace;">Projected Monthly Returns</div>
+                    <div style="font-size: 2.8rem; font-weight: 900; color: var(--accent); line-height: 1; text-shadow: 0 0 15px rgba(214, 160, 72, 0.4);">
+                        <span id="tnbOutput">0.00</span> <span style="font-size: 1rem;">$TNB</span>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -233,8 +313,47 @@
             }
         }
 
+        // $TNB Yield Calculator Logic
+        function calculateTNBYield() {
+            let totalTNB = 0;
+
+            // Get Input Values (Fallback to 0 if empty)
+            const gPass = parseFloat(document.getElementById('gPass').value) || 0;
+            const gAct = parseFloat(document.getElementById('gAct').value) || 0;
+            
+            const rPass = parseFloat(document.getElementById('rPass').value) || 0;
+            const rAct = parseFloat(document.getElementById('rAct').value) || 0;
+            
+            const yPass = parseFloat(document.getElementById('yPass').value) || 0;
+            const yAct = parseFloat(document.getElementById('yAct').value) || 0;
+
+            const tEmpty = parseFloat(document.getElementById('tEmpty').value) || 0;
+            const tStruct = parseFloat(document.getElementById('tStruct').value) || 0;
+            const ecoRev = parseFloat(document.getElementById('ecoRev').value) || 0;
+            const prevRev = parseFloat(document.getElementById('prevRev').value) || 0;
+
+            // Generator Logic
+            totalTNB += (gPass * 25.00 * 0.01) + (gAct * 25.00 * 0.03);
+            totalTNB += (rPass * 37.50 * 0.02) + (rAct * 37.50 * 0.06);
+            totalTNB += (yPass * 50.00 * 0.03) + (yAct * 50.00 * 0.09);
+
+            // Speedway Logic
+            totalTNB += tEmpty * (ecoRev * 0.01);
+            totalTNB += tStruct * (ecoRev * 0.03);
+            
+            // Idle Track Safety Net (Only calculated if current revenue is 0 and user owns tracks)
+            let totalTracks = tEmpty + tStruct;
+            if (ecoRev === 0 && totalTracks > 0) {
+                totalTNB += (totalTracks * prevRev * 0.0005);
+            }
+
+            // Update UI
+            document.getElementById('tnbOutput').innerText = totalTNB.toFixed(2);
+        }
+
         window.onload = function() {
             calculateUSD();
+            calculateTNBYield();
         };
     </script>
 </body>
