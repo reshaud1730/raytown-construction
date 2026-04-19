@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RTC Green Generator | Raytown Construction</title>
+    <title>RTC Hardware Generators | Raytown Construction</title>
     
     <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
     
@@ -21,6 +21,8 @@
             --accent-cyan: #00f2ff;
             --border-tech: #2e4d82;
             --success-green: #4ade80;
+            --danger-red: #ef4444;
+            --warning-yellow: #eab308;
         }
 
         body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
@@ -40,36 +42,45 @@
 
         .page-header { padding: 8rem 5% 3rem; text-align: center; border-bottom: 2px solid var(--border-color); background: linear-gradient(180deg, #132549 0%, #0f1f3d 100%); }
         .page-header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
-        .page-header p { color: var(--success-green); font-size: 1.25rem; max-width: 650px; margin: 0 auto; line-height: 1.7; font-weight: bold;}
+        .page-header p { color: var(--accent-cyan); font-size: 1.25rem; max-width: 750px; margin: 0 auto; line-height: 1.7; font-weight: bold; font-family: monospace;}
 
         .container { max-width: 1200px; margin: 0 auto; padding: 3rem 5%; }
         .section-title { font-size: 1.8rem; color: #fff; border-bottom: 1px solid var(--border-tech); padding-bottom: 0.5rem; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
 
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
-        .wide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; margin-bottom: 4rem; }
 
-        .data-panel { background-color: var(--bg-panel); border: 1px solid var(--border-tech); border-radius: 8px; padding: 2rem; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s; display: flex; flex-direction: column; }
-        .data-panel:hover { transform: translateY(-5px); border-color: var(--success-green); box-shadow: 0 10px 30px rgba(74, 222, 128, 0.2); }
-        .data-panel::before { content: ''; position: absolute; top: 0; left: 0; width: 40px; height: 4px; background: var(--success-green); }
-        .data-panel::after { content: ''; position: absolute; bottom: 0; right: 0; width: 40px; height: 4px; background: var(--accent); }
-
-        .panel-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.8rem; }
-        .panel-title { font-size: 1.1rem; font-weight: bold; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; margin: 0; line-height: 1.3;}
-        .panel-icon { color: var(--success-green); font-size: 1.5rem; }
-
-        .metric-display { text-align: center; padding: 1rem 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
-        .metric-value { font-size: 3.5rem; font-weight: 900; color: var(--accent); line-height: 1; text-shadow: 0 0 15px rgba(214, 160, 72, 0.4); margin-bottom: 0.5rem; }
-        .metric-label { color: var(--accent-cyan); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-family: monospace; }
-
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin: 15px 0; }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; background: var(--bg-dark); border-radius: 4px; border: 1px solid var(--border-tech); }
-        input[type=range]::-webkit-slider-thumb { height: 24px; width: 24px; border-radius: 50%; background: var(--success-green); cursor: pointer; -webkit-appearance: none; margin-top: -9px; box-shadow: 0 0 10px rgba(74, 222, 128, 0.4); }
+        /* Hardware Panel Base */
+        .data-panel { background-color: var(--bg-panel); border: 1px solid var(--border-tech); border-radius: 8px; padding: 2.5rem 2rem; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s; display: flex; flex-direction: column; }
+        .data-panel:hover { transform: translateY(-5px); }
         
-        .utility-list { list-style: none; padding: 0; margin: 0; }
-        .utility-list li { padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: flex-start; gap: 12px; }
-        .utility-icon { color: var(--success-green); font-size: 1.2rem; }
-        .utility-text { color: var(--text-main); font-size: 0.95rem; }
-        .utility-text strong { color: var(--success-green); }
+        .panel-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.8rem; }
+        .panel-title { font-size: 1.4rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; margin: 0; line-height: 1.3;}
+        
+        .spec-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+        .spec-label { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;}
+        .spec-value { font-weight: bold; color: #fff; font-size: 1.1rem; }
+        
+        .yield-box { background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 6px; margin-top: auto; text-align: center;}
+        .yield-total { font-size: 2.5rem; font-weight: 900; line-height: 1; margin-bottom: 0.5rem; }
+        
+        /* Green Gen Specifics */
+        .panel-green { border-top: 4px solid var(--success-green); }
+        .panel-green:hover { border-color: var(--success-green); box-shadow: 0 10px 30px rgba(74, 222, 128, 0.15); }
+        .panel-green .yield-total { color: var(--success-green); text-shadow: 0 0 15px rgba(74, 222, 128, 0.3); }
+
+        /* Red Gen Specifics */
+        .panel-red { border-top: 4px solid var(--danger-red); }
+        .panel-red:hover { border-color: var(--danger-red); box-shadow: 0 10px 30px rgba(239, 68, 68, 0.15); }
+        .panel-red .yield-total { color: var(--danger-red); text-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+
+        /* Yellow Gen Specifics */
+        .panel-yellow { border-top: 4px solid var(--warning-yellow); }
+        .panel-yellow:hover { border-color: var(--warning-yellow); box-shadow: 0 10px 30px rgba(234, 179, 8, 0.15); }
+        .panel-yellow .yield-total { color: var(--warning-yellow); text-shadow: 0 0 15px rgba(234, 179, 8, 0.3); }
+
+        .info-banner { background: rgba(0, 242, 255, 0.05); border: 1px solid var(--border-tech); border-left: 4px solid var(--accent-cyan); border-radius: 8px; padding: 2rem; margin-bottom: 4rem; display: flex; flex-direction: column; gap: 1rem;}
+        .info-banner h3 { margin: 0; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem;}
+        .info-banner p { margin: 0; color: var(--text-main); font-size: 1rem; line-height: 1.6;}
 
         footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; }
     </style>
@@ -78,81 +89,146 @@
     <div class="bg-overlay"></div>
     <header>
         <div class="header-logo">
-            <img src="https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon">
+            <img src="https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="insights.html">FastTrack Insights</a>
-            <a href="generator.html" style="color: var(--accent);">Hardware</a>
+            <a href="generator.html" style="color: var(--accent); text-shadow: 0 0 10px rgba(214, 160, 72, 0.4);">Hardware</a>
+            <a href="roadmap.html">Road Map</a>
             <a href="portal.html">Builder Portal</a>
+            <a href="events.html">Events</a>
             <a href="store.html">Store</a>
             <a href="https://discord.gg/2xD54YpqP" target="_blank">Discord</a>
+            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
         </div>
     </header>
 
     <div class="page-header">
-        <h2>RTC Green Generator</h2>
-        <p>Exclusive hardware for FastTrack Ecosystem participation.</p>
+        <h2>RTC Generator Fleet</h2>
+        <p>// ZERO SUBSCRIPTION FEES. 100% ECOSYSTEM FUELED. MAXIMIZE YOUR $TNB YIELD.</p>
     </div>
 
     <div class="container">
+        
+        <div class="info-banner">
+            <h3>⚙️ Ecosystem Mechanics & Unlimited Capacity</h3>
+            <p>Welcome to the <strong>Zero-Fee Economy</strong>. There are absolutely no monthly recurring management fees to operate your hardware. Yields are paid out directly in $TNB based on your generator's Base Value.</p>
+            <p><strong>Note on Capacity:</strong> There is absolutely <strong>no restraint</strong> on the amount of Sparklet you can add to your generator's Power-Up Fuel Tank. Stack as much as you want! However, to reach "Active" yield status, you must hold at least 1 Active Build assignment.</p>
+        </div>
+
+        <h3 class="section-title"><span style="color: var(--accent-cyan);">//</span> AVAILABLE HARDWARE TIERS</h3>
+        
         <div class="dashboard-grid">
-            <div class="data-panel" style="justify-content: space-between;">
+            
+            <div class="data-panel panel-green">
                 <div class="panel-header">
-                    <h3 class="panel-title">Hardware Specs</h3>
-                    <span class="panel-icon">🔋</span>
+                    <h3 class="panel-title">Green Gen</h3>
+                    <span style="font-size: 1.5rem;">🔋</span>
                 </div>
-                <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <video src="assets/images/green_generator.mp4" autoplay loop muted playsinline style="max-width: 220px; width: 100%; border-radius: 8px;"></video>
+                
+                <div style="text-align: center; margin-bottom: 1.5rem; min-height: 150px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                    <img src="assets/images/gr_gen.png" alt="RTC Green Generator" style="max-width: 100%; max-height: 140px; object-fit: contain;" onerror="this.style.display='none'">
                 </div>
-                <div style="padding-bottom: 1rem; border-bottom: 1px dashed rgba(255,255,255,0.1); margin-bottom: 1rem;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <div>
-                            <div style="color: var(--accent-cyan); font-size: 0.75rem; text-transform: uppercase;">Hardware Cost</div>
-                            <div style="font-size: 2rem; font-weight: 900; color: #fff;">50,000 <span style="font-size: 0.9rem; color: var(--text-muted);">UPX</span></div>
-                        </div>
-                    </div>
-                    <div style="color: var(--success-green); font-size: 0.8rem; font-weight: bold; margin-top: 0.8rem; text-transform: uppercase;">✨ 9% Discount for FastTrack Members</div>
+
+                <div class="spec-row">
+                    <span class="spec-label">Base Value</span>
+                    <span class="spec-value">$25.00</span>
                 </div>
-                <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 6px; border-left: 3px solid var(--accent);">
-                    <div style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase;">Management Fee</div>
-                    <div style="font-size: 1.1rem; font-weight: bold;">5,000 UPX <span style="font-size: 0.75rem; font-weight: normal; color: var(--text-muted);">/ Month</span></div>
+                <div class="spec-row">
+                    <span class="spec-label">Fuel Tank Capacity</span>
+                    <span class="spec-value" style="color: var(--accent-cyan);">Unlimited</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Passive Yield</span>
+                    <span class="spec-value" style="color: var(--text-muted);">1% ($0.25)</span>
+                </div>
+                <div class="spec-row" style="border-bottom: none; margin-bottom: 1.5rem;">
+                    <span class="spec-label">Active Yield</span>
+                    <span class="spec-value" style="color: var(--success-green);">3% ($0.75)</span>
+                </div>
+
+                <div class="yield-box" style="border: 1px solid rgba(74, 222, 128, 0.2);">
+                    <div style="color: var(--success-green); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Total Monthly Potential</div>
+                    <div class="yield-total">4%</div>
+                    <div style="font-size: 1.1rem; font-weight: bold; color: #fff;">$1.00 <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal;">paid in $TNB</span></div>
                 </div>
             </div>
 
-            <div class="data-panel">
+            <div class="data-panel panel-red">
                 <div class="panel-header">
-                    <h3 class="panel-title">Dispatch Economics</h3>
-                    <span class="panel-icon">⚡</span>
+                    <h3 class="panel-title">Red Gen</h3>
+                    <span style="font-size: 1.5rem;">⚡</span>
                 </div>
-                <div class="metric-display">
-                    <div class="metric-value">4 <span style="font-size: 1.2rem; color: var(--accent-cyan);">UPX/SPH</span></div>
-                    <div class="metric-label">Residential Base Rate</div>
+                
+                <div style="text-align: center; margin-bottom: 1.5rem; min-height: 150px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                    <img src="assets/images/red_gen.png" alt="RTC Red Generator" style="max-width: 100%; max-height: 140px; object-fit: contain;" onerror="this.style.display='none'">
                 </div>
-                <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem;">Guaranteed 4 UPX per Spark Hour on all residential projects.</p>
-                <p style="text-align: center; color: var(--success-green); background: rgba(74, 222, 128, 0.05); padding: 1rem; border-radius: 6px; border: 1px solid rgba(74, 222, 128, 0.2); font-weight: bold; text-transform: uppercase;">
-                    🟢 Instant Payouts Post-Validation
-                </p>
+
+                <div class="spec-row">
+                    <span class="spec-label">Base Value</span>
+                    <span class="spec-value">$37.50</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Fuel Tank Capacity</span>
+                    <span class="spec-value" style="color: var(--accent-cyan);">Unlimited</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Passive Yield</span>
+                    <span class="spec-value" style="color: var(--text-muted);">2% ($0.75)</span>
+                </div>
+                <div class="spec-row" style="border-bottom: none; margin-bottom: 1.5rem;">
+                    <span class="spec-label">Active Yield</span>
+                    <span class="spec-value" style="color: var(--danger-red);">6% ($2.25)</span>
+                </div>
+
+                <div class="yield-box" style="border: 1px solid rgba(239, 68, 68, 0.2);">
+                    <div style="color: var(--danger-red); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Total Monthly Potential</div>
+                    <div class="yield-total">8%</div>
+                    <div style="font-size: 1.1rem; font-weight: bold; color: #fff;">$3.00 <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal;">paid in $TNB</span></div>
+                </div>
             </div>
+
+            <div class="data-panel panel-yellow">
+                <div class="panel-header">
+                    <h3 class="panel-title">Yellow Gen</h3>
+                    <span style="font-size: 1.5rem;">☢️</span>
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 1.5rem; min-height: 150px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                    <img src="assets/images/yw_gen.png" alt="RTC Yellow Generator" style="max-width: 100%; max-height: 140px; object-fit: contain;" onerror="this.style.display='none'">
+                </div>
+
+                <div class="spec-row">
+                    <span class="spec-label">Base Value</span>
+                    <span class="spec-value">$50.00</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Fuel Tank Capacity</span>
+                    <span class="spec-value" style="color: var(--accent-cyan);">Unlimited</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Passive Yield</span>
+                    <span class="spec-value" style="color: var(--text-muted);">3% ($1.50)</span>
+                </div>
+                <div class="spec-row" style="border-bottom: none; margin-bottom: 1.5rem;">
+                    <span class="spec-label">Active Yield</span>
+                    <span class="spec-value" style="color: var(--warning-yellow);">9% ($4.50)</span>
+                </div>
+
+                <div class="yield-box" style="border: 1px solid rgba(234, 179, 8, 0.2);">
+                    <div style="color: var(--warning-yellow); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Total Monthly Potential</div>
+                    <div class="yield-total">12%</div>
+                    <div style="font-size: 1.1rem; font-weight: bold; color: #fff;">$6.00 <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: normal;">paid in $TNB</span></div>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <footer>
         <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
     </footer>
-
-    <script>
-        function calculateROI() {
-            const sparkValue = parseFloat(document.getElementById('sparkInput').value) || 0;
-            document.getElementById('sparkLabel').innerText = sparkValue.toFixed(2) + " Spark";
-            const grossUPX = (sparkValue * 24 * 30) * 4;
-            document.getElementById('monthlyGross').innerText = Math.round(grossUPX).toLocaleString() + " UPX";
-            document.getElementById('monthlyNetEarly').innerText = "+" + Math.round(grossUPX).toLocaleString() + " UPX";
-            const netLater = grossUPX - 5000;
-            document.getElementById('monthlyNet').innerText = (netLater > 0 ? "+" : "") + Math.round(netLater).toLocaleString() + " UPX";
-        }
-        window.onload = calculateROI;
-    </script>
 </body>
 </html>
