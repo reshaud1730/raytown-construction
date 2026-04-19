@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade N Build ($TNB) Whitepaper | Raytown Construction</title>
+    
+    <link rel="icon" type="image/png" href="assets/images/raytown_trade_build_logo.png">
+    
+    <style>
+        :root {
+            --bg-dark: #0f1f3d; 
+            --bg-card: #132549; 
+            --bg-panel: #121e3c;
+            --text-main: #e2e8f0; 
+            --text-muted: #94a3b8;
+            --accent: #d6a048; 
+            --border-color: #4b5563; 
+            --accent-cyan: #00f2ff;
+            --success-green: #4ade80;
+            --danger-red: #ef4444;
+            --warning-yellow: #eab308;
+            --doc-bg: #0b1426;
+        }
+
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.7; }
+        
+        .bg-overlay { 
+            background-color: rgba(15, 31, 61, 0.95); 
+            background-image: linear-gradient(rgba(0, 242, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 242, 255, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+        }
+
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .header-logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 50px; height: 50px; }
+        header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+
+        .nav-links a { color: var(--text-main); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;}
+        .nav-links a:hover { color: var(--accent); }
+
+        .page-header { padding: 6rem 5% 3rem; text-align: center; border-bottom: 2px solid var(--border-color); background: linear-gradient(180deg, #132549 0%, #0f1f3d 100%); }
+        .page-header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
+        .page-header p { color: var(--accent); font-size: 1.25rem; max-width: 750px; margin: 0 auto; line-height: 1.7; font-family: monospace;}
+
+        /* Document Container Styles */
+        .doc-container { max-width: 900px; margin: 4rem auto; background: var(--doc-bg); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); overflow: hidden; }
+        
+        .doc-header { background: var(--bg-card); padding: 2rem 3rem; border-bottom: 2px solid var(--accent); display: flex; justify-content: space-between; align-items: flex-end;}
+        .doc-header-left h3 { margin: 0; font-size: 2rem; color: #fff; text-transform: uppercase; }
+        .doc-header-left p { margin: 0; color: var(--accent-cyan); font-family: monospace; font-size: 1rem; }
+        .doc-version { background: rgba(214, 160, 72, 0.1); color: var(--accent); padding: 0.5rem 1rem; border-radius: 4px; border: 1px solid var(--accent); font-weight: bold; font-family: monospace;}
+
+        .doc-content { padding: 3rem; }
+        
+        .doc-section { margin-bottom: 3.5rem; }
+        .doc-section h4 { font-size: 1.6rem; color: var(--accent-cyan); border-bottom: 1px solid rgba(0, 242, 255, 0.2); padding-bottom: 0.5rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;}
+        
+        .doc-section p { font-size: 1.05rem; color: #cbd5e1; margin-bottom: 1.2rem; }
+        .doc-section ul { color: #cbd5e1; font-size: 1.05rem; margin-bottom: 1.5rem; padding-left: 1.5rem; }
+        .doc-section li { margin-bottom: 0.8rem; }
+        .doc-section li strong { color: #fff; }
+
+        .highlight-box { background: rgba(74, 222, 128, 0.05); border-left: 4px solid var(--success-green); padding: 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box h5 { margin: 0 0 0.5rem 0; color: var(--success-green); font-size: 1.1rem; text-transform: uppercase; }
+        .highlight-box p { margin: 0; color: #e2e8f0; font-size: 0.95rem; }
+
+        .tokenomics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .token-card { background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 6px; text-align: center; }
+        .token-card .value { font-size: 2rem; font-weight: 900; color: var(--accent); margin-bottom: 0.5rem; line-height: 1; }
+        .token-card .label { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+
+    <header>
+        <div class="header-logo">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
+            <h1>RAYTOWN CONSTRUCTION</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="insights.html">FastTrack Insights</a>
+            <a href="generator.html">Hardware</a>
+            <a href="roadmap.html">Road Map</a>
+            <a href="portal.html">Builder Portal</a>
+            <a href="events.html">Events</a>
+            <a href="store.html">Store</a>
+            <a href="whitepaper.html" style="color: var(--accent); text-shadow: 0 0 10px rgba(214, 160, 72, 0.4);">Whitepaper</a>
+            <a href="https://discord.gg/2xD54YpqP" target="_blank">Discord</a>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h2>Official Documentation</h2>
+        <p>// THE PROTOCOL FOR THE FASTTRACK ECOSYSTEM</p>
+    </div>
+
+    <div class="doc-container">
+        <div class="doc-header">
+            <div class="doc-header-left">
+                <h3>Trade N Build ($TNB)</h3>
+                <p>Raytown Construction & FastTrack Tools</p>
+            </div>
+            <div class="doc-version">v1.0.0</div>
+        </div>
+
+        <div class="doc-content">
+            
+            <div class="doc-section">
+                <h4><span style="color: #fff;">01.</span> Executive Summary</h4>
+                <p>The <strong>Trade N Build ($TNB)</strong> ecosystem is engineered to revolutionize property development, hardware management, and community engagement within the Upland metaverse. Powered by FastTrack Tools and executed by Raytown Construction, our protocol shifts the power back to the players.</p>
+                <p>By eliminating predatory subscription models and implementing a robust liquidity engine on the Base Network, we provide a sustainable, yield-generating environment for digital contractors, node leaders, and competitive racers.</p>
+            </div>
+
+            <div class="doc-section">
+                <h4><span style="color: #fff;">02.</span> The Zero-Fee Philosophy</h4>
+                <p>Upland operations shouldn't be bogged down by recurring overhead. The FastTrack ecosystem operates on a strict <strong>Zero-Fee Philosophy</strong>.</p>
+                <ul>
+                    <li><strong>No Software Subscriptions:</strong> FastTrack Tools and Ledger Systems are acquired via one-time lifetime licenses or paid fully in $TNB.</li>
+                    <li><strong>No Hardware Subscriptions:</strong> Operating an RTC Generator requires zero monthly UPX management fees.</li>
+                    <li><strong>Ecosystem Fueled:</strong> Service maintenance and platform sustainability are funded entirely through the $TNB token velocity and our underlying liquidity pools.</li>
+                </ul>
+            </div>
+
+            <div class="doc-section">
+                <h4><span style="color: #fff;">03.</span> Tokenomics & The Growth Engine</h4>
+                <p>The utility of $TNB is tied directly to the construction and service economy. The token operates with a deflationary pressure mechanism designed to maintain a stable price floor.</p>
+                
+                <div class="highlight-box">
+                    <h5>💧 The 40% Growth Engine</h5>
+                    <p>All USD earnings from Raytown Construction operations and FastTrack B2B services are routed to our Uniswap V4 liquidity pool. <strong>40% of these revenues are automatically converted to BaseETH</strong>. This ensures continuous buy-back pressure and secures the liquidity of the $TNB token on the Base Network.</p>
+                </div>
+
+                <div class="tokenomics-grid">
+                    <div class="token-card">
+                        <div class="value">15%</div>
+                        <div class="label">Construction Rebate</div>
+                        <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.5rem; line-height: 1.4;">Every neighborhood build commissioned automatically yields a 15% rebate in $TNB on the total project value.</p>
+                    </div>
+                    <div class="token-card">
+                        <div class="value">100%</div>
+                        <div class="label">Token Utility</div>
+                        <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.5rem; line-height: 1.4;">Holders can use $TNB for percentage discounts on builds, full construction payments, and AKL entry fees.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-section">
+                <h4><span style="color: #fff;">04.</span> RTC Generator Fleet Mechanics</h4>
+                <p>Generators are the backbone of our sub-contracting fleet. Acquiring an official Raytown Construction Generator grants the holder guaranteed yields paid in $TNB. Generators are priced in UPX and come in three distinct tiers.</p>
+                
+                <ul>
+                    <li><strong>Green Gen:</strong> 50,000 UPX (Base Value $25) | 4% Max Monthly Yield</li>
+                    <li><strong>Red Gen:</strong> 75,000 UPX (Base Value $37.50) | 8% Max Monthly Yield</li>
+                    <li><strong>Yellow Gen:</strong> 100,000 UPX (Base Value $50) | 12% Max Monthly Yield</li>
+                </ul>
+
+                <p><strong>Capacity & Yield Triggers:</strong> There is <strong>no restraint</strong> on the amount of Sparklet a user can add to a generator's Power-Up Fuel Tank. However, to achieve maximum "Active Yield," a generator owner must hold at least 1 Active Build assignment. Generators without active assignments will default to their "Passive Yield" rates.</p>
+            </div>
+
+            <div class="doc-section">
+                <h4><span style="color: #fff;">05.</span> Contracting & Sub-Staking</h4>
+                <p>Raytown Construction utilizes the FastTrack Payout System to manage dispatch logistics seamlessly.</p>
+                <ul>
+                    <li><strong>The 45-Day Guarantee:</strong> By purchasing an official RTC Metaventure Sign, clients secure our sub-staker network to complete their entire Neighborhood Build-Out in 45 days or less.</li>
+                    <li><strong>Guaranteed Payouts:</strong> Our sub-contractors and fleet operators are guaranteed a residential base rate of <strong>4 UPX per Spark Hour (SPH)</strong>, with instant payouts executing immediately post-validation.</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Raytown Construction. Powered by FASTTRACK TOOLs.</p>
+    </footer>
+
+</body>
+</html>
