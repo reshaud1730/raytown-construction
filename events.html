@@ -18,6 +18,7 @@
             --border-color: #4b5563; 
             --tag-bg: #4b5563; 
             --event-date-bg: rgba(214, 160, 72, 0.1);
+            --danger-red: #ef4444;
         }
 
         body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
@@ -111,7 +112,7 @@
 
     <header>
         <div class="header-logo">
-            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon">
+            <img src="assets/images/raytown_trade_build_logo.png" alt="Raytown Construction Logo" class="logo-icon" onerror="this.style.display='none'">
             <h1>RAYTOWN CONSTRUCTION</h1>
         </div>
         <div class="nav-links">
@@ -120,7 +121,7 @@
             <a href="generator.html">Hardware</a>
             <a href="roadmap.html">Road Map</a>
             <a href="portal.html">Builder Portal</a>
-            <a href="events.html">Events</a>
+            <a href="events.html" style="color: var(--accent); text-shadow: 0 0 10px rgba(214, 160, 72, 0.4);">Events</a>
             <a href="store.html">Store</a>
             <a href="https://discord.gg/2xD54YpqP" target="_blank">Discord</a>
             <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
@@ -134,9 +135,31 @@
 
     <div class="container">
         
+        <div class="champion-banner" style="border-color: var(--danger-red); margin-bottom: 4rem; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.15);">
+            <div class="champion-badge">
+                <div style="width: 100%; max-width: 250px; aspect-ratio: 1; background: rgba(239, 68, 68, 0.1); border-radius: 50%; border: 4px solid var(--danger-red); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(239, 68, 68, 0.3); font-size: 5rem;">
+                    🏎️
+                </div>
+            </div>
+            <div class="champion-details">
+                <h3 style="color: var(--danger-red); text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);">FASTTRACK STOCK CAR LEAGUE</h3>
+                <h4 style="color: #fff;">Kicking off August 1st | Sizzle Season</h4>
+                <p class="champion-desc">
+                    Get your engines ready! The FastTrack Stock Car League officially begins this Sizzle Season in Upland. We will be hosting all races exclusively on the <strong>FastTrack Circuit</strong>, featuring premier speedways approved by the FastTrack Racing Group.
+                </p>
+                <div class="stat-row" style="border-left-color: var(--danger-red);">
+                    <span class="date">📍 Location</span>
+                    <span class="time" style="font-size: 1rem;">The FastTrack Circuit</span>
+                </div>
+                <div class="reward-box" style="background: rgba(239, 68, 68, 0.1); border-color: var(--danger-red); color: var(--danger-red);">
+                    Looking for sign-ups! More details coming soon.
+                </div>
+            </div>
+        </div>
+
         <div class="champion-banner">
             <div class="champion-badge">
-                <img src="assets/images/time_trial_crown.png" alt="Back-to-Back Champion Badge">
+                <img src="assets/images/time_trial_crown.png" alt="Back-to-Back Champion Badge" onerror="this.style.display='none'">
             </div>
             <div class="champion-details">
                 <h3>Legendary Achievement</h3>
@@ -160,13 +183,14 @@
 
         <div class="akl-section" style="margin-top: 4rem;">
             <div class="akl-info-box">
-                <h2 style="font-size: 2.2rem; color: #ffb7c5; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 1rem 0; text-shadow: 0 0 10px rgba(255, 183, 197, 0.3);">🌸 AKL: Blossom Season 🌸</h2>
+                <h2 style="font-size: 2.2rem; color: #ffb7c5; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 1rem 0; text-shadow: 0 0 10px rgba(255, 183, 197, 0.3);">🏎️ THE TRIPLE AKL IS HERE 🏎️</h2>
                 <p style="color: #e2e8f0; font-size: 1.1rem; max-width: 800px; margin: 0 auto 1.5rem; line-height: 1.6;">
+                    Introduced this year, the <strong>Triple AKL</strong> features three distinct divisions: Amateur, Achieving, and Advanced. With this structure, we can all race karts on a level that suits each racer! <br><br>
                     <strong>A 5-Week Championship Tournament.</strong> Race for 4 weeks to accumulate points across the grid. In Week 5, the <strong>Top 6 point-holders</strong> in each tier will face off in the Ultimate Championship Race.
                 </p>
                 <div style="background: rgba(214, 160, 72, 0.1); border: 1px solid var(--accent); padding: 1rem; border-radius: 6px; display: inline-block;">
                     <strong style="color: var(--accent); font-size: 1.1rem;">🎁 FASTTRACK TOOLS BONUS:</strong> 
-                    <span style="color: #cbd5e1;">The Top 3 finishers in EVERY tier will receive undisclosed bonus prizes!</span>
+                    <span style="color: #cbd5e1;">The Top 3 finishers in EVERY tier will receive undisclosed bonus prizes in $TNB!</span>
                 </div>
             </div>
 
