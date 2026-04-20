@@ -17,13 +17,14 @@
             --accent-hover: #b0843a;
             --border-color: #4b5563; 
             --tag-bg: #4b5563; 
-            --event-date-bg: rgba(214, 160, 72, 0.1);
+            --info-cyan: #00f2ff;
             --danger-red: #ef4444;
+            --success-green: #4ade80;
         }
 
         body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; }
 
-        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        header { background-color: rgba(15, 31, 61, 0.98); padding: 1rem 5%; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         .header-logo { display: flex; align-items: center; gap: 12px; }
         .logo-icon { width: 50px; height: 50px; }
         header h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
@@ -33,45 +34,53 @@
 
         .page-header { padding: 5rem 5% 3rem; text-align: center; border-bottom: 2px solid var(--border-color); background: linear-gradient(180deg, #132549 0%, #0f1f3d 100%); }
         .page-header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1.5px;}
-        .page-header p { color: var(--text-muted); font-size: 1.25rem; max-width: 650px; margin: 0 auto; line-height: 1.7; }
-
-        .container { max-width: 1000px; margin: 0 auto; padding: 4rem 5%; }
         
-        /* --- CHAMPION BANNER --- */
-        .champion-banner { background: linear-gradient(135deg, #0f1f3d 0%, #132549 100%); border: 2px solid var(--accent); border-radius: 12px; padding: 2.5rem; margin-bottom: 4rem; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 10px 30px rgba(214, 160, 72, 0.15); gap: 2rem; }
-        @media (min-width: 768px) { .champion-banner { flex-direction: row; text-align: left; } }
-        .champion-badge { flex: 1; max-width: 300px; display: flex; justify-content: center; }
-        .champion-details { flex: 2; }
-        .champion-details h3 { color: var(--accent); font-size: 2.2rem; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 0.5rem 0; text-shadow: 0 0 15px rgba(214, 160, 72, 0.4); line-height: 1.1; }
-        .champion-details h4 { color: #00f2ff; font-size: 1.2rem; margin: 0 0 1.5rem 0; letter-spacing: 1px; text-transform: uppercase; }
-        .champion-desc { color: #e2e8f0; margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.6; }
-        .stat-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.4); padding: 1rem 1.5rem; margin-bottom: 0.8rem; border-radius: 6px; border-left: 4px solid #00f2ff; }
-        .stat-row .date { color: var(--text-muted); font-weight: bold; font-size: 1rem; }
-        .stat-row .time { color: #fff; font-family: monospace; font-size: 1.2rem; font-weight: bold; }
-        .reward-box { margin-top: 2rem; background: rgba(214, 160, 72, 0.1); border: 1px solid rgba(214, 160, 72, 0.3); padding: 1.2rem; border-radius: 6px; color: var(--accent); font-weight: bold; font-size: 1.15rem; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 4rem 5%; }
 
-        /* --- AKL REGISTRATION & PIT STOP STYLES --- */
+        /* --- FTSCL MAIN BANNER --- */
+        .ftscl-hero { background: linear-gradient(135deg, #0b1528 0%, #1e1b4b 100%); border: 2px solid var(--danger-red); border-radius: 12px; padding: 3rem; margin-bottom: 4rem; position: relative; overflow: hidden; box-shadow: 0 10px 40px rgba(239, 68, 68, 0.2); }
+        .ftscl-hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(239, 68, 68, 0.05) 0%, transparent 70%); pointer-events: none; }
+        .ftscl-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: center; position: relative; z-index: 1; }
+        .ftscl-video img { width: 100%; border-radius: 8px; border: 1px solid var(--danger-red); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+        
+        .ftscl-content h3 { font-size: 2.2rem; color: #fff; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px; }
+        .ftscl-tag { display: inline-block; background: rgba(239, 68, 68, 0.2); color: var(--danger-red); padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; margin-bottom: 1.5rem; border: 1px solid var(--danger-red); text-transform: uppercase; }
+        
+        /* --- TABLES & LOGISTICS --- */
+        .event-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 2rem; margin-bottom: 3rem; }
+        .section-title { font-size: 1.5rem; color: var(--info-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0, 242, 255, 0.2); padding-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: rgba(0,0,0,0.2); border-radius: 6px; overflow: hidden; }
+        th { background: rgba(255,255,255,0.05); color: var(--accent); text-align: left; padding: 1rem; text-transform: uppercase; font-size: 0.85rem; }
+        td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        tr:last-child td { border-bottom: none; }
+
+        .highlight-row { background: rgba(214, 160, 72, 0.05); font-weight: bold; }
+        .bracket-flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .bracket-step { background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 6px; border-left: 4px solid var(--accent); }
+        .bracket-step h5 { margin: 0 0 10px 0; color: var(--accent); font-size: 1.1rem; text-transform: uppercase; }
+
+        .btn-reg { display: inline-block; background: var(--danger-red); color: #fff; padding: 1rem 2.5rem; text-decoration: none; border-radius: 4px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; border: none; cursor: pointer; transition: transform 0.2s; margin-top: 1rem; text-align: center; }
+        .btn-reg:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+        /* --- AKL SECTION --- */
         .akl-info-box { background: rgba(255, 183, 197, 0.05); border: 1px solid rgba(255, 183, 197, 0.3); padding: 2rem; border-radius: 8px; margin-bottom: 3rem; text-align: center; }
-        .tier-card { background: var(--bg-card); border-radius: 8px; padding: 2.5rem 2rem; text-align: center; transition: transform 0.3s; position: relative; overflow: hidden; }
+        .tier-card { background: var(--bg-card); border-radius: 8px; padding: 2.5rem 2rem; text-align: center; transition: transform 0.3s; position: relative; overflow: hidden; border: 1px solid var(--border-color); }
         .tier-card:hover { transform: translateY(-5px); }
-        .btn-register { display: block; padding: 1.2rem; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border: none; width: 100%; font-size: 1rem; transition: filter 0.3s; }
-        .btn-register:hover { filter: brightness(1.1); }
-        .btn-register:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-register-akl { display: block; padding: 1.2rem; text-decoration: none; font-weight: bold; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border: none; width: 100%; font-size: 1rem; transition: filter 0.3s; }
         .prize-pool-box { background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 6px; margin: 1.5rem 0; border: 1px dashed rgba(255,255,255,0.2); }
         .pit-stop-promo { background: linear-gradient(90deg, #132549 0%, #0f1f3d 100%); border: 1px solid var(--border-color); border-left: 6px solid var(--accent); border-radius: 8px; padding: 2rem; margin-top: 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
         .pit-stop-btn { display: inline-block; background: transparent; border: 2px solid var(--accent); color: var(--accent); padding: 1rem 2rem; border-radius: 4px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; transition: all 0.3s; text-align: center; }
-        .pit-stop-btn:hover { background: var(--accent); color: #0f1f3d; }
 
-        /* --- MODAL STYLES --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--bg-card); border: 2px solid var(--accent); border-radius: 8px; padding: 3rem; width: 90%; max-width: 500px; position: relative; }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; background: none; border: none; }
-        .form-group { margin-bottom: 1.5rem; text-align: left; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-        .form-group input { width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; box-sizing: border-box; }
-        .form-group input:focus { outline: none; border-color: var(--accent); }
+        /* --- MODALS --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+        .modal-content { background: var(--bg-card); border: 2px solid var(--accent); border-radius: 12px; padding: 3rem; width: 90%; max-width: 550px; position: relative; }
+        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 2rem; color: var(--text-muted); cursor: pointer; background: none; border: none; }
+        .form-group { margin-bottom: 1.2rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input { width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; box-sizing: border-box; }
 
-        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; }
+        footer { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 4rem; }
     </style>
 </head>
 <body>
@@ -88,97 +97,174 @@
             <a href="roadmap.html">Road Map</a>
             <a href="portal.html">Builder Portal</a>
             <a href="events.html" style="color: var(--accent); text-shadow: 0 0 10px rgba(214, 160, 72, 0.4);">Events</a>
+            <a href="whitepaper.html">Whitepaper</a>
             <a href="store.html">Store</a>
             <a href="https://discord.gg/2xD54YpqP" target="_blank">Discord</a>
-            <a href="https://fasttracktools.pythonanywhere.com/" target="_blank" style="color: #0f1f3d; background-color: var(--accent); padding: 0.4rem 1rem; border-radius: 4px; font-weight: bold; margin-left: 2rem; box-shadow: 0 0 10px rgba(214, 160, 72, 0.2);">FastTrack Tools</a>
         </div>
     </header>
 
     <div class="page-header">
-        <h2>FastTrack Community Center Events</h2>
-        <p>The central hub for official tournaments, league racing, and community networking within the Raytown operational zone.</p>
+        <h2>Tournament & League Circuit</h2>
     </div>
 
     <div class="container">
         
-        <div class="champion-banner" style="border-color: var(--danger-red); margin-bottom: 4rem; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.15);">
-            <div class="champion-badge">
-                <div style="width: 100%; max-width: 250px; aspect-ratio: 1; background: rgba(239, 68, 68, 0.1); border-radius: 50%; border: 4px solid var(--danger-red); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(239, 68, 68, 0.3); font-size: 5rem;">
-                    🏎️
+        <div class="ftscl-hero">
+            <div class="ftscl-grid">
+                <div class="ftscl-video">
+                    <img src="assets/images/ftscl_reg_graphic.png" alt="FTSCL Registration" onerror="this.src='https://reshaud1730.github.io/raytown-construction/assets/images/raytown_trade_build_logo.png'">
                 </div>
-            </div>
-            <div class="champion-details">
-                <h3 style="color: var(--danger-red); text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);">FASTTRACK STOCK CAR LEAGUE</h3>
-                <h4 style="color: #fff;">Kicking off August 1st | Sizzle Season</h4>
-                <p class="champion-desc">
-                    Get your engines ready! The FastTrack Stock Car League officially begins this Sizzle Season in Upland. We will be hosting all races exclusively on the <strong>FastTrack Circuit</strong>, featuring premier speedways approved by the FastTrack Racing Group.
-                </p>
-                <div class="stat-row" style="border-left-color: var(--danger-red);">
-                    <span class="date">📍 Location</span>
-                    <span class="time" style="font-size: 1rem;">The FastTrack Circuit</span>
-                </div>
-                <div class="reward-box" style="background: rgba(239, 68, 68, 0.1); border-color: var(--danger-red); padding: 0; overflow: hidden;">
-                    <button onclick="openStockCarModal()" style="width: 100%; background: transparent; border: none; color: var(--danger-red); font-weight: bold; font-size: 1.15rem; padding: 1.2rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.3s;">Register Your Stock Car</button>
+                <div class="ftscl-content">
+                    <span class="ftscl-tag">Commissioned by FTRG</span>
+                    <h3>FastTrack Stock Car League</h3>
+                    <p style="color: #e2e8f0; font-size: 1.1rem; margin-bottom: 2rem;">
+                        The official 45-day championship circuit for Stock Car owners. Stop holding your assets—start racing them. Built on the <strong>$TNB</strong> zero-fee economy.
+                    </p>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 4px; border-left: 3px solid var(--danger-red);">
+                            <span style="display:block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Entry Fee</span>
+                            <span style="font-weight: bold; color: #fff;">45,000 UPX</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 4px; border-left: 3px solid var(--info-cyan);">
+                            <span style="display:block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Vehicle Cap</span>
+                            <span style="font-weight: bold; color: #fff;">275 MPS</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 4px; border-left: 3px solid var(--success-green);">
+                            <span style="display:block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Power-Ups</span>
+                            <span style="font-weight: bold; color: #fff;">ALLOWED</span>
+                        </div>
+                    </div>
+                    <button class="btn-reg" onclick="openStockCarModal()">Register Stock Car</button>
                 </div>
             </div>
         </div>
 
-        <div class="akl-section" style="margin-top: 4rem;">
+        <div class="event-card">
+            <h4 class="section-title">💰 Scaled Payout System & $TNB Multipliers</h4>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">90% of the total UPX pool is distributed to the Top 12 finishers, with the Top 6 receiving exclusive $TNB multipliers funded by the FastTrack Racing Group.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Standing</th>
+                        <th>UPX Payout %</th>
+                        <th>$TNB Multiplier</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td>1st Place</td>
+                        <td>30%</td>
+                        <td style="color: var(--success-green);">x6.0</td>
+                        <td>Grand Champion</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>2nd Place</td>
+                        <td>16%</td>
+                        <td style="color: var(--success-green);">x5.0</td>
+                        <td>Podium</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>3rd Place</td>
+                        <td>10%</td>
+                        <td style="color: var(--success-green);">x4.0</td>
+                        <td>Podium</td>
+                    </tr>
+                    <tr>
+                        <td>4th Place</td>
+                        <td>8%</td>
+                        <td style="color: var(--accent);">x3.0</td>
+                        <td>Top 6 Elite</td>
+                    </tr>
+                    <tr>
+                        <td>5th Place</td>
+                        <td>6%</td>
+                        <td style="color: var(--accent);">x2.0</td>
+                        <td>Top 6 Elite</td>
+                    </tr>
+                    <tr>
+                        <td>6th Place</td>
+                        <td>5%</td>
+                        <td style="color: var(--accent);">x1.5</td>
+                        <td>Top 6 Elite</td>
+                    </tr>
+                    <tr>
+                        <td>7th - 12th</td>
+                        <td>Scaled (1%-4%)</td>
+                        <td>Base (3%)</td>
+                        <td>Challenger Finalists</td>
+                    </tr>
+                    <tr>
+                        <td>13th - 36th</td>
+                        <td>10% Shared</td>
+                        <td>Base (3%)</td>
+                        <td>Participation Drop</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="event-card">
+            <h4 class="section-title">🏆 45-Day Tournament Bracket</h4>
+            <p style="color: var(--text-muted);">A "Win & Advance" gauntlet designed for Upland's 6-car grid limit.</p>
+            
+            <div class="bracket-flow">
+                <div class="bracket-step">
+                    <h5>Days 1 - 15</h5>
+                    <p><strong>Qualifiers:</strong> 36 drivers split into 6 random heats. The <strong>Top 3</strong> from each heat advance to the semi-finals.</p>
+                </div>
+                <div class="bracket-step">
+                    <h5>Days 16 - 30</h5>
+                    <p><strong>Semi-Finals:</strong> 18 drivers split into 3 heats. The <strong>Top 2</strong> lock into the Grand Finale. 3rd/4th move to Challengers.</p>
+                </div>
+                <div class="bracket-step" style="border-left-color: var(--danger-red);">
+                    <h5>Days 31 - 45</h5>
+                    <p><strong>Championship:</strong> A Best-of-3 series for the Grand Finale to crown the S1 Champion and lock $TNB multipliers.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="akl-section" style="margin-top: 5rem;">
             <div class="akl-info-box">
-                <h2 style="font-size: 2.2rem; color: #ffb7c5; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 1rem 0; text-shadow: 0 0 10px rgba(255, 183, 197, 0.3);">🏎️ THE TRIPLE AKL IS HERE 🏎️</h2>
+                <h2 style="font-size: 2.2rem; color: #ffb7c5; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 1rem 0; text-shadow: 0 0 10px rgba(255, 183, 197, 0.3);">🏎️ THE TRIPLE AKL 🏎️</h2>
                 <p style="color: #e2e8f0; font-size: 1.1rem; max-width: 800px; margin: 0 auto 1.5rem; line-height: 1.6;">
-                    Introduced this year, the <strong>Triple AKL</strong> features three distinct divisions: Amateur, Achieving, and Advanced. With this structure, we can all race karts on a level that suits each racer! <br><br>
-                    <strong>A 5-Week Championship Tournament.</strong> Race for 4 weeks to accumulate points across the grid. In Week 5, the <strong>Top 6 point-holders</strong> in each tier will face off in the Ultimate Championship Race.
+                    The Triple AKL features three distinct divisions: Amateur, Achieving, and Advanced. Race for 4 weeks to accumulate points. In Week 5, the <strong>Top 6 point-holders</strong> face off for the title.
                 </p>
                 <div style="background: rgba(214, 160, 72, 0.1); border: 1px solid var(--accent); padding: 1rem; border-radius: 6px; display: inline-block;">
-                    <strong style="color: var(--accent); font-size: 1.1rem;">🎁 FASTTRACK TOOLS BONUS:</strong> 
-                    <span style="color: #cbd5e1;">The Top 3 finishers in EVERY tier will receive undisclosed bonus prizes in $TNB!</span>
+                    <strong style="color: var(--accent); font-size: 1.1rem;">🎁 $TNB BONUS:</strong> 
+                    <span style="color: #cbd5e1;">Top 3 finishers in EVERY tier receive bonus prizes in $TNB!</span>
                 </div>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                
-                <div class="tier-card" style="border: 1px solid #4ade80; border-top: 5px solid #4ade80;">
-                    <h3 style="color: #4ade80; font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Amateur Tier</h3>
-                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--text-main); margin-bottom: 0.5rem;">1,500 <span style="font-size: 1.2rem; color: var(--text-muted);">UPX</span></div>
-                    <div class="prize-pool-box">
-                        <div style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Estimated Prize Pool</div>
-                        <div style="color: #4ade80; font-size: 1.5rem; font-weight: bold; font-family: monospace;">18,000 UPX</div>
-                    </div>
-                    <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 2rem; min-height: 40px;">Perfect for new racers testing their karts.</p>
-                    <button id="btn-amateur" class="btn-register" style="background: #4ade80; color: #0f1f3d;" onclick="openModal('Amateur', '1,500 UPX', 'amateur')">Register Now (<span id="spots-amateur">12</span> Spots Left)</button>
+                <div class="tier-card" style="border-top: 5px solid #4ade80;">
+                    <h3 style="color: #4ade80; text-transform: uppercase;">Amateur</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;">1,500 <span style="font-size: 1.2rem; color: var(--text-muted);">UPX</span></div>
+                    <div class="prize-pool-box">18,000 UPX Est.</div>
+                    <button id="btn-amateur" class="btn-register-akl" style="background: #4ade80; color: #0f1f3d;" onclick="openAKLModal('Amateur', '1,500 UPX', 'amateur')">Register (<span id="spots-amateur">12</span> Left)</button>
                 </div>
-
-                <div class="tier-card" style="border: 1px solid #00f2ff; border-top: 5px solid #00f2ff;">
-                    <h3 style="color: #00f2ff; font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Achieving Tier</h3>
-                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--text-main); margin-bottom: 0.5rem;">3,000 <span style="font-size: 1.2rem; color: var(--text-muted);">UPX</span></div>
-                    <div class="prize-pool-box">
-                        <div style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Estimated Prize Pool</div>
-                        <div style="color: #00f2ff; font-size: 1.5rem; font-weight: bold; font-family: monospace;">36,000 UPX</div>
-                    </div>
-                    <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 2rem; min-height: 40px;">For experienced drivers stepping up the stakes.</p>
-                    <button id="btn-achieving" class="btn-register" style="background: #00f2ff; color: #0f1f3d;" onclick="openModal('Achieving', '3,000 UPX', 'achieving')">Register Now (<span id="spots-achieving">12</span> Spots Left)</button>
+                <div class="tier-card" style="border-top: 5px solid #00f2ff;">
+                    <h3 style="color: #00f2ff; text-transform: uppercase;">Achieving</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;">3,000 <span style="font-size: 1.2rem; color: var(--text-muted);">UPX</span></div>
+                    <div class="prize-pool-box">36,000 UPX Est.</div>
+                    <button id="btn-achieving" class="btn-register-akl" style="background: #00f2ff; color: #0f1f3d;" onclick="openAKLModal('Achieving', '3,000 UPX', 'achieving')">Register (<span id="spots-achieving">12</span> Left)</button>
                 </div>
-
-                <div class="tier-card" style="border: 1px solid var(--accent); border-top: 5px solid var(--accent);">
-                    <h3 style="color: var(--accent); font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Advanced Tier</h3>
-                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--text-main); margin-bottom: 0.5rem;">9,000 <span style="font-size: 1.2rem; color: var(--text-muted);">UPX</span></div>
-                    <div class="prize-pool-box">
-                        <div style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Estimated Prize Pool</div>
-                        <div style="color: var(--accent); font-size: 1.5rem; font-weight: bold; font-family: monospace;">108,000 UPX</div>
-                    </div>
-                    <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 2rem; min-height: 40px;">Elite racers only. High stakes and massive payouts.</p>
-                    <button id="btn-advanced" class="btn-register" style="background: var(--accent); color: #0f1f3d;" onclick="openModal('Advanced', '9,000 UPX', 'advanced')">Register Now (<span id="spots-advanced">12</span> Spots Left)</button>
+                <div class="tier-card" style="border-top: 5px solid var(--accent);">
+                    <h3 style="color: var(--accent); text-transform: uppercase;">Advanced</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;">9,000 <span style="font-size: 1.2rem; color: var(--text-muted);">UPX</span></div>
+                    <div class="prize-pool-box">108,000 UPX Est.</div>
+                    <button id="btn-advanced" class="btn-register-akl" style="background: var(--accent); color: #0f1f3d;" onclick="openAKLModal('Advanced', '9,000 UPX', 'advanced')">Register (<span id="spots-advanced">12</span> Left)</button>
                 </div>
             </div>
 
             <div class="pit-stop-promo">
-                <div style="flex: 2; min-width: 300px;">
-                    <h3 style="color: var(--text-main); font-size: 1.6rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">🏎️ FastTrack Pit Stop Registration</h3>
-                    <p style="color: var(--accent); font-family: monospace; font-size: 1rem; margin: 0 0 1rem 0;">📍 8521 MAYWOOD AVE, KANSAS CITY, MO</p>
-                    <p style="color: #cbd5e1; font-size: 1rem; margin: 0; line-height: 1.6;">Official tournament entry fees are paid via Metaventure purchases. Visit our official Raytown Pit Stop and purchase the basic racing power-up priced for your specific tier to lock in your grid position!</p>
+                <div style="flex: 2;">
+                    <h3 style="color: var(--text-main); text-transform: uppercase;">🏎️ FastTrack Pit Stop</h3>
+                    <p style="color: var(--accent); font-family: monospace;">📍 8521 MAYWOOD AVE, KANSAS CITY, MO</p>
+                    <p style="color: #cbd5e1; font-size: 0.9rem;">Purchase your entry permit at our official Pit Stop to finalize your registration and lock your grid position!</p>
                 </div>
-                <div style="flex: 1; text-align: right; min-width: 200px;">
+                <div style="flex: 1; text-align: right;">
                     <a href="https://play.upland.me/" target="_blank" class="pit-stop-btn">Visit Metaventure</a>
                 </div>
             </div>
@@ -186,80 +272,74 @@
 
     </div>
 
-    <div id="regModal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h3 style="color: #fff; font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Secure Your Spot</h3>
-            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Fill out this form so we can log your details. Entry fees are paid by purchasing your tier's power-up at the Pit Stop.</p>
+    <div id="stockCarModal" class="modal-overlay">
+        <div class="modal-content" style="border-color: var(--danger-red);">
+            <button class="close-btn" onclick="closeStockCarModal()">&times;</button>
+            <h3 style="color: #fff; text-transform: uppercase; letter-spacing: 1px;">FTSCL Registration</h3>
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">Submit your details for the 45-day bracket. Entry fee: 45k UPX.</p>
             
-            <form id="registrationForm" onsubmit="submitForm(event)">
-                <div class="form-group">
-                    <label>Selected Tier</label>
-                    <input type="text" id="tierInput" readonly style="background: rgba(255,255,255,0.05); color: var(--accent); font-weight: bold;">
-                </div>
-                <div class="form-group">
-                    <label>Entry Fee Required</label>
-                    <input type="text" id="feeInput" readonly style="background: rgba(255,255,255,0.05); color: #4ade80; font-family: monospace;">
-                </div>
+            <form id="stockCarForm" onsubmit="submitStockCar(event)">
                 <div class="form-group">
                     <label>Upland Username</label>
-                    <input type="text" id="uplandName" placeholder="e.g. Batistoo" required>
+                    <input type="text" id="scUpland" placeholder="e.g. JahReshaud" required>
                 </div>
                 <div class="form-group">
                     <label>Discord Handle</label>
-                    <input type="text" id="discordName" placeholder="e.g. racer#1234" required>
+                    <input type="text" id="scDiscord" placeholder="e.g. racer#1234" required>
                 </div>
-                
-                <button type="submit" style="width: 100%; background: var(--accent); color: #0f1f3d; padding: 1.2rem; border: none; border-radius: 4px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; margin-top: 1rem;">Reserve My Slot</button>
+                <div class="form-group">
+                    <label>Stock Car Model / Series</label>
+                    <input type="text" id="scModel" placeholder="e.g. Series 1 Stock Car" required>
+                </div>
+                <div class="form-group">
+                    <label>Base MPS</label>
+                    <input type="number" id="scMPS" placeholder="Max 275 allowed" required>
+                </div>
+                <div class="form-group">
+                    <label>Base Wallet ($TNB Drops)</label>
+                    <input type="text" id="scWallet" placeholder="0x..." required>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; color: #fff; font-size: 0.8rem;">
+                        <input type="checkbox" required style="width: auto;"> 
+                        I agree to the 275 MPS Cap & Power-Up Protocols.
+                    </label>
+                </div>
+                <button type="submit" class="btn-reg" style="width: 100%;">Reserve Grid Position</button>
             </form>
             
-            <div id="successMessage" style="display: none; text-align: center; padding: 1rem 0;">
-                <div style="font-size: 3rem; margin-bottom: 0.5rem;">✅</div>
-                <h4 style="color: #4ade80; font-size: 1.5rem; margin: 0 0 1rem 0;">Registration Logged!</h4>
-                <p style="color: #e2e8f0; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                    Your details are in our system. <strong>To officially lock your slot, you must pay your entry fee by purchasing your tier's power-up.</strong>
-                </p>
-                
-                <div style="background: rgba(214, 160, 72, 0.1); border: 1px solid var(--accent); padding: 1rem; border-radius: 6px; text-align: left; margin-bottom: 1.5rem;">
-                    <h5 style="color: var(--accent); margin: 0 0 0.5rem 0; font-size: 1rem; text-transform: uppercase;">🏎️ Final Step: Buy Your Entry Ticket!</h5>
-                    <p style="color: #cbd5e1; font-size: 0.85rem; margin: 0; line-height: 1.5;">Travel to the <strong>FASTTRACK PIT STOP</strong> at <strong style="color: #fff;">8521 Maywood Ave, Kansas City, MO</strong> and purchase the basic racing power-up priced at your tier's entry fee. Once purchased, your spot on the grid is officially secured!</p>
-                </div>
-
-                <button onclick="closeModal()" style="background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 0.8rem 2rem; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Close</button>
+            <div id="scSuccess" style="display: none; text-align: center;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🏁</div>
+                <h4 style="color: var(--success-green); text-transform: uppercase;">Application Logged!</h4>
+                <p style="color: #e2e8f0; font-size: 0.9rem;">Final Step: Pay your 45k UPX entry permit at the Pit Stop to lock your spot.</p>
+                <button onclick="closeStockCarModal()" class="btn-reg" style="background: transparent; border: 1px solid var(--accent); color: var(--accent);">Close</button>
             </div>
         </div>
     </div>
 
-    <div id="stockCarModal" class="modal-overlay">
-        <div class="modal-content" style="border-color: var(--danger-red);">
-            <button class="close-btn" onclick="closeStockCarModal()">&times;</button>
-            <h3 style="color: #fff; font-size: 1.8rem; margin: 0 0 0.5rem 0; text-transform: uppercase;">Stock Car Registration</h3>
-            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Enter your details below to register your stock car and secure your spot on the FastTrack Circuit for the Sizzle Season.</p>
-            
-            <form id="stockCarForm" onsubmit="submitStockCarForm(event)">
+    <div id="regModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeAKLModal()">&times;</button>
+            <h3 style="color: #fff; text-transform: uppercase;">AKL Registration</h3>
+            <form id="aklForm" onsubmit="submitAKL(event)">
+                <div class="form-group">
+                    <label>Selected Tier</label>
+                    <input type="text" id="tierInput" readonly style="color: var(--accent); font-weight: bold;">
+                </div>
                 <div class="form-group">
                     <label>Upland Username</label>
-                    <input type="text" id="scUplandName" placeholder="e.g. SpeedRacer" required>
+                    <input type="text" id="aklUpland" required>
                 </div>
                 <div class="form-group">
                     <label>Discord Handle</label>
-                    <input type="text" id="scDiscordName" placeholder="e.g. racer#1234" required>
+                    <input type="text" id="aklDiscord" required>
                 </div>
-                <div class="form-group">
-                    <label>Stock Car Model / Series</label>
-                    <input type="text" id="scCarModel" placeholder="e.g. Series 1 Stock Car" required>
-                </div>
-                
-                <button type="submit" style="width: 100%; background: var(--danger-red); color: #fff; padding: 1.2rem; border: none; border-radius: 4px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; margin-top: 1rem; transition: filter 0.3s;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='brightness(1)'">Submit Registration</button>
+                <button type="submit" class="btn-reg" style="width: 100%; background: var(--accent); color: #0f1f3d;">Reserve Slot</button>
             </form>
-            
-            <div id="scSuccessMessage" style="display: none; text-align: center; padding: 1rem 0;">
-                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🏁</div>
-                <h4 style="color: var(--danger-red); font-size: 1.5rem; margin: 0 0 1rem 0;">Registration Logged!</h4>
-                <p style="color: #e2e8f0; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                    Your stock car is successfully registered for the FastTrack Stock Car League. Get ready for the Sizzle Season kicking off on August 1st!
-                </p>
-                <button onclick="closeStockCarModal()" style="background: transparent; border: 1px solid var(--danger-red); color: var(--danger-red); padding: 0.8rem 2rem; border-radius: 4px; cursor: pointer; text-transform: uppercase;">Close</button>
+            <div id="aklSuccess" style="display: none; text-align: center;">
+                <h4 style="color: var(--success-green);">Success!</h4>
+                <p>Visit the Pit Stop to finalize your entry.</p>
+                <button onclick="closeAKLModal()" class="btn-reg">Close</button>
             </div>
         </div>
     </div>
@@ -269,146 +349,66 @@
     </footer>
 
     <script>
-        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1486215802364493875/kUIxeyFed7S-Juf3HL_Qq7Sx_8_Z-5kxmQbWYEHTXSctRRfzBg4I5fw1UWqw7XDOQlw4"; 
+        const FTSCL_WEBHOOK = "https://discord.com/api/webhooks/1495577167952613543/NU9g9AG4dFfT_CIlEvXU48e1Y19QkoJmX-_GMT72ENzmoL8uPkyDaibxgziFzA9OihH5";
 
-        // AKL Modal Elements
-        const modal = document.getElementById('regModal');
-        const form = document.getElementById('registrationForm');
-        const successMsg = document.getElementById('successMessage');
-        const tierInput = document.getElementById('tierInput');
-        const feeInput = document.getElementById('feeInput');
-        
-        // Stock Car Modal Elements
-        const scModal = document.getElementById('stockCarModal');
-        const scForm = document.getElementById('stockCarForm');
-        const scSuccessMsg = document.getElementById('scSuccessMessage');
+        // FTSCL Logic
+        function openStockCarModal() {
+            document.getElementById('stockCarModal').style.display = 'flex';
+            document.getElementById('stockCarForm').style.display = 'block';
+            document.getElementById('scSuccess').style.display = 'none';
+        }
+        function closeStockCarModal() {
+            document.getElementById('stockCarModal').style.display = 'none';
+        }
+        async function submitStockCar(e) {
+            e.preventDefault();
+            const payload = {
+                content: `🏎️ **NEW FTSCL REGISTRATION** 🏎️\n**Driver:** ${document.getElementById('scUpland').value}\n**Discord:** ${document.getElementById('scDiscord').value}\n**Vehicle:** ${document.getElementById('scModel').value}\n**MPS:** ${document.getElementById('scMPS').value}\n**Wallet:** ${document.getElementById('scWallet').value}\n---\n*Standing by for 45k UPX validation.*`
+            };
+            try {
+                await fetch(FTSCL_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                document.getElementById('stockCarForm').style.display = 'none';
+                document.getElementById('scSuccess').style.display = 'block';
+            } catch (err) { alert("Submission failed. Check Discord connection."); }
+        }
 
-        let currentTierId = "";
-
-        // Load spots from local storage or default to 12
+        // AKL Logic (Original Spot logic maintained)
         let spots = {
             'amateur': localStorage.getItem('spots_amateur') ? parseInt(localStorage.getItem('spots_amateur')) : 12,
             'achieving': localStorage.getItem('spots_achieving') ? parseInt(localStorage.getItem('spots_achieving')) : 12,
             'advanced': localStorage.getItem('spots_advanced') ? parseInt(localStorage.getItem('spots_advanced')) : 12
         };
-
-        // Update UI for AKL Spots
-        function updateSpotUI() {
-            ['amateur', 'achieving', 'advanced'].forEach(tier => {
-                const spotSpan = document.getElementById(`spots-${tier}`);
-                const btn = document.getElementById(`btn-${tier}`);
-                
-                if(spotSpan && btn) {
-                    spotSpan.innerText = spots[tier];
-                    
-                    if (spots[tier] <= 0) {
-                        btn.innerText = "SOLD OUT";
-                        btn.disabled = true;
-                        btn.style.backgroundColor = "#4b5563";
-                        btn.style.color = "#94a3b8";
-                        btn.style.cursor = "not-allowed";
-                        btn.style.border = "none";
-                    }
-                }
+        function updateSpots() {
+            ['amateur', 'achieving', 'advanced'].forEach(t => {
+                document.getElementById(`spots-${t}`).innerText = spots[t];
             });
         }
+        updateSpots();
 
-        updateSpotUI();
-
-        // AKL Modal Logic
-        function openModal(tier, fee, tierId) {
-            currentTierId = tierId; 
-            tierInput.value = tier + ' Tier';
-            feeInput.value = fee;
-            form.style.display = 'block';
-            successMsg.style.display = 'none';
-            modal.style.display = 'flex';
+        function openAKLModal(tier, fee, id) {
+            document.getElementById('regModal').style.display = 'flex';
+            document.getElementById('tierInput').value = tier;
+            window.currentAklTier = id;
         }
-
-        function closeModal() {
-            modal.style.display = 'none';
-            form.reset();
-        }
-
-        async function submitForm(e) {
-            e.preventDefault(); 
-            
-            const uplandName = document.getElementById('uplandName').value.trim();
-            const discordName = document.getElementById('discordName').value.trim();
-            const selectedTier = tierInput.value;
-
-            if (currentTierId && spots[currentTierId] > 0) {
-                spots[currentTierId] -= 1;
-                localStorage.setItem(`spots_${currentTierId}`, spots[currentTierId]);
-                updateSpotUI();
+        function closeAKLModal() { document.getElementById('regModal').style.display = 'none'; }
+        
+        async function submitAKL(e) {
+            e.preventDefault();
+            const tier = window.currentAklTier;
+            if (spots[tier] > 0) {
+                spots[tier] -= 1;
+                localStorage.setItem(`spots_${tier}`, spots[tier]);
+                updateSpots();
             }
-
-            const payload = {
-                content: `🏎️ **NEW KART REGISTRATION** 🏎️\n**Tier:** ${selectedTier}\n**Upland IGN:** ${uplandName}\n**Discord:** ${discordName}\n*Spots remaining in ${selectedTier}: ${spots[currentTierId]}*`
-            };
-
-            if (DISCORD_WEBHOOK_URL !== "YOUR_WEBHOOK_URL_HERE") {
-                try {
-                    await fetch(DISCORD_WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                } catch (error) {
-                    console.error("Webhook failed to send:", error);
-                }
-            }
-
-            form.style.display = 'none';
-            successMsg.style.display = 'block';
+            // Add your AKL specific webhook logic here if needed
+            document.getElementById('aklForm').style.display = 'none';
+            document.getElementById('aklSuccess').style.display = 'block';
         }
 
-        // Stock Car Modal Logic
-        function openStockCarModal() {
-            scForm.style.display = 'block';
-            scSuccessMsg.style.display = 'none';
-            scModal.style.display = 'flex';
-        }
-
-        function closeStockCarModal() {
-            scModal.style.display = 'none';
-            scForm.reset();
-        }
-
-        async function submitStockCarForm(e) {
-            e.preventDefault(); 
-            
-            const uplandName = document.getElementById('scUplandName').value.trim();
-            const discordName = document.getElementById('scDiscordName').value.trim();
-            const carModel = document.getElementById('scCarModel').value.trim();
-
-            const payload = {
-                content: `🔥 **NEW STOCK CAR REGISTRATION** 🔥\n**League:** FastTrack Stock Car League (Sizzle Season)\n**Upland IGN:** ${uplandName}\n**Discord:** ${discordName}\n**Car Model:** ${carModel}`
-            };
-
-            if (DISCORD_WEBHOOK_URL !== "YOUR_WEBHOOK_URL_HERE") {
-                try {
-                    await fetch(DISCORD_WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                } catch (error) {
-                    console.error("Webhook failed to send:", error);
-                }
-            }
-
-            scForm.style.display = 'none';
-            scSuccessMsg.style.display = 'block';
-        }
-
-        // Close Modals on Outside Click
         window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-            if (event.target == scModal) {
+            if (event.target.className === 'modal-overlay') {
                 closeStockCarModal();
+                closeAKLModal();
             }
         }
     </script>
