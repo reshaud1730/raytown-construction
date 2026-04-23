@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Raytown HQ | FastTrack Node Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js" type="module"></script>
+    <style>
+        :root {
+            --bg: #0f1218;
+            --card: #1a1f26;
+            --accent: #f39c12; 
+            --text: #ffffff;
+            --green: #2ecc71;
+            --red: #e74c3c;
+            --yellow: #f1c40f;
+            --raytown-blue: #3498db;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            position: relative;
+            background: var(--bg);
+        }
+
+        .top-bar {
+            padding: 20px;
+            background: var(--card);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #2c3e50;
+            position: sticky;
+            top: 0;
+            z-index: 60;
+        }
+
+        .phase-badge {
+            background: #34495e;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stats-card, .generator-card, .market-card {
+            background: var(--card);
+            margin: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid #2c3e50;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .action-btn:hover { filter: brightness(1.1); }
+        .action-btn:disabled { background: #555; cursor: not-allowed; color: #888; }
+
+        .indicator { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .indicator.green { background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .indicator.red { background: var(--red); box-shadow: 0 0 8px var(--red); }
+        .indicator.yellow { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+
+        .progress-bar { height: 6px; background: #0f1218; border-radius: 3px; overflow: hidden; margin: 10px 0; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s linear; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; width: 100%; max-width: 450px;
+            height: 70px; background: var(--card); display: flex;
+            border-top: 1px solid #2c3e50; z-index: 100;
+        }
+
+        .nav-btn {
+            flex: 1; background: none; border: none; color: #888;
+            font-size: 0.7rem; cursor: pointer; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            font-weight: bold; text-transform: uppercase;
+        }
+
+        .nav-btn.active { color: var(--accent); border-top: 3px solid var(--accent); }
+
+        .gateway-overlay {
+            position: fixed; inset: 0; background: var(--bg); z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        input[type="text"] {
+            width: 100%; padding: 14px; margin-bottom: 15px; background: #2c3e50;
+            border: 1px solid #34495e; color: white; border-radius: 8px; font-weight: bold; outline: none;
+        }
+
+        .rank-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.7rem; }
+        .rank-table th, .rank-table td { text-align: left; padding: 8px; border-bottom: 1px solid #2c3e50; }
+
+        #minigame-container {
+            height: 180px; background: #000; border-radius: 12px; position: relative;
+            overflow: hidden; border: 2px solid #2c3e50; margin: 15px 0;
+            touch-action: none;
+        }
+        .falling-item {
+            position: absolute; width: 34px; height: 34px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; z-index: 50;
+            top: -40px;
+        }
+        #collector {
+            position: absolute; bottom: 10px; width: 50px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; z-index: 100; left: 50%; transform: translateX(-50%);
+            pointer-events: none; opacity: 0; transition: opacity 0.3s;
+        }
+        #minigame-start-overlay {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.7);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 150; border-radius: 10px;
+        }
+
+        #desync-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 2rem;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+        .tnb-float {
+            position: fixed; color: var(--green); font-weight: 900; pointer-events: none;
+            animation: floatUp 1.5s ease-out forwards; z-index: 3000;
+        }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .leaderboard-item {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="weather-overlay" class="fixed inset-0 pointer-events-none bg-blue-500/10 border-[10px] border-blue-500 hidden z-[500] animate-pulse">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-500 font-black italic text-2xl uppercase opacity-70 text-center">
+        Storm Alert:<br>Severe Payout Setback!
+    </div>
+</div>
+<div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-[1000] pointer-events-none opacity-0 transition-opacity bg-[#f39c12] text-black px-6 py-2 rounded-full font-bold text-xs uppercase shadow-xl"></div>
+
+<!-- SYSTEM DESYNC OVERLAY -->
+<div id="desync-overlay">
+    <h2 class="text-red-500 font-black text-4xl italic mb-4 tracking-tighter">DESYNC!</h2>
+    <p class="text-slate-400 text-sm mb-8 uppercase font-bold text-center">Node Sync Lost.<br>Avoid Hazard Icons.</p>
+    <button class="action-btn !bg-red-600 !text-white px-8" onclick="rebootSystem()">Manual Maintenance (Restart Sync)</button>
+</div>
+
+<!-- GATEWAY LOGIN -->
+<div id="view-gateway" class="gateway-overlay">
+    <div class="p-8 text-center w-full max-sm">
+        <h1 class="text-3xl font-black italic mb-2 tracking-tighter" style="color: var(--accent)">RAYTOWN HQ</h1>
+        <p class="text-xs font-bold text-slate-500 uppercase tracking-[0.3em] mb-12">FastTrack Node Schematic</p>
+        
+        <div id="auth-controls" class="space-y-4">
+            <div id="setup-fields" class="hidden">
+                <input type="text" id="upland-ign" placeholder="ENTER UPLAND IGN">
+                <button class="action-btn" onclick="enterHQ()">INITIALIZE SYSTEM</button>
+            </div>
+            
+            <button id="guest-play-btn" class="action-btn !bg-slate-700 !text-white" onclick="showIgnInput()">PLAY AS GUEST (FREE)</button>
+            
+            <div class="flex items-center gap-2 my-4">
+                <hr class="flex-grow border-slate-800">
+                <span class="text-[9px] text-slate-600 uppercase font-black">OR</span>
+                <hr class="flex-grow border-slate-800">
+            </div>
+
+            <button id="connect-wallet-btn" class="action-btn" onclick="connectWallet()">CONNECT BASE WALLET</button>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app-container" class="hidden">
+    <header class="top-bar">
+        <div class="brand flex items-center gap-2">
+            <span id="rank-badge-icon" class="text-lg">🛠️</span>
+            <span id="player-rank-title" class="font-black italic uppercase text-[10px]">Operator</span> 
+            <span class="mx-1 text-slate-700">|</span> 
+            <span id="cycle-badge" class="phase-badge">Phase <span id="phase-display">1</span> Cycle <span id="cycle-display">1</span></span>
+        </div>
+        <div class="font-black text-right leading-tight">
+            <div class="text-[9px] text-slate-500 uppercase tracking-tighter mb-0.5">Total Revenue</div>
+            <div id="tnb-balance-display" class="text-xl" style="color: var(--green)">0.00 TNB</div>
+        </div>
+    </header>
+
+    <main id="screen-operator" class="screen">
+        <div class="stats-card">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="office-title" class="text-xs font-black uppercase text-slate-500 tracking-widest">Operator Profile</h2>
+                <button onclick="switchTab('playbook')" class="text-[9px] font-bold text-accent underline">NODE SCHEMATIC</button>
+            </div>
+            <div class="space-y-4 text-xs font-bold">
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                    <span class="text-slate-500 uppercase text-[9px]">Upland Operator</span>
+                    <span id="dash-ign" style="color: var(--raytown-blue)">---</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                    <span class="text-slate-500 uppercase text-[9px]">Active Status</span>
+                    <span id="dash-rank-full" class="text-accent">🛠️ Node Builder</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-2">
+                    <span class="text-slate-500 uppercase text-[9px]">Focus Power</span>
+                    <span id="dash-benefit" class="text-green-500">+0% Boost</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500 uppercase text-[9px]">Linked Wallet</span>
+                    <span id="dash-wallet" class="text-blue-400 overflow-hidden text-ellipsis max-w-[150px]">None</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-card border-2 border-green-500/20">
+            <h3 class="text-[10px] font-black uppercase text-green-500 mb-3 tracking-widest">Withdrawal Terminal</h3>
+            <p class="text-[9px] text-slate-500 mb-4 uppercase">Withdraw TNB from Treasury to Wallet (Min: 100 TNB)</p>
+            <button id="withdraw-btn" class="action-btn !bg-green-600 !text-white" onclick="requestWithdrawal()">Withdraw TNB to Wallet</button>
+        </div>
+
+        <div class="stats-card bg-[#1a1f26] border-2 border-accent/20">
+            <h3 class="text-[10px] font-black uppercase text-accent mb-3 tracking-widest">Bot Management</h3>
+            <div class="flex justify-between items-center px-2">
+                <div>
+                    <p class="text-[8px] text-slate-500 uppercase">Assigned Bots</p>
+                    <p class="text-2xl font-black italic"><span id="bot-count">0</span> <span class="text-[10px] text-slate-500">Units</span></p>
+                </div>
+                <div class="text-right">
+                    <p id="automation-status" class="text-[10px] font-bold text-red-400 uppercase">Hands-On Required</p>
+                    <p class="text-[8px] text-slate-500 uppercase">Network State</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-card">
+            <div class="flex justify-between items-center mb-2">
+                <p class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Node Sync Mini-Game</p>
+                <span id="sync-charge-badge" class="bg-blue-600 text-[8px] px-2 py-0.5 rounded uppercase font-black">Focus Power: <span id="fragment-count">0/10</span></span>
+            </div>
+            <div id="minigame-container">
+                <div id="minigame-start-overlay">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 text-center">Sync While Building!<br>Collect 10 🔨 for Focus Power</p>
+                    <button class="bg-accent text-black px-4 py-2 rounded text-[10px] font-black uppercase" onclick="startSyncGame()">Sync!</button>
+                </div>
+                <div id="collector">📟</div>
+            </div>
+            <p class="text-[9px] text-slate-500 italic text-center">Catch Tools 🔨 | Avoid Hazards ⚠️</p>
+        </div>
+
+        <div class="stats-card">
+            <p class="text-[10px] font-black uppercase text-slate-500 mb-2">Network Capacity Sync</p>
+            <div class="progress-bar"><div id="quota-progress" class="progress-fill" style="background: var(--raytown-blue)"></div></div>
+            <p id="quota-text" class="text-[9px] mt-2 text-slate-500 italic text-center">Initializing Build Loop...</p>
+        </div>
+    </main>
+
+    <main id="screen-dispatch" class="screen active">
+        <div class="px-4 py-2 flex justify-between items-center">
+            <h2 class="text-[10px] font-black uppercase tracking-widest text-slate-500">Node Grid Terminal</h2>
+            <div class="flex items-center">
+                <span id="weather-dot" class="indicator green"></span>
+                <span id="weather-label" class="text-[9px] font-bold uppercase text-slate-500">Clear Skies</span>
+            </div>
+        </div>
+        <div id="generator-list" class="space-y-1"></div>
+    </main>
+
+    <main id="screen-market" class="screen">
+        <div class="market-card border-green-500 border-2">
+            <h3 class="font-black italic uppercase text-sm mb-1 text-green-400">Maintenance Pulse</h3>
+            <p class="text-[10px] text-slate-500 mb-4">INSTANT 50% PROGRESS ON ALL NODE PROJECTS</p>
+            <button id="buy-boost-btn" class="action-btn !bg-green-600 !text-white" onclick="buyItem('boost')">TIME BOOST (<span id="boost-cost-display">1500</span> TNB)</button>
+        </div>
+        <div class="market-card border-blue-500 border-2">
+            <h3 class="font-black italic uppercase text-sm mb-1 text-blue-400">Shield Generator</h3>
+            <p class="text-[10px] text-slate-500 mb-4">BLOCKS 50S STORM DELAYS AUTOMATICALLY</p>
+            <button id="buy-shield-btn" class="action-btn !bg-blue-600 !text-white" onclick="buyItem('shield')">INSTALL SHIELD (7500 TNB)</button>
+        </div>
+        <div class="market-card">
+            <h3 class="font-black italic uppercase text-sm mb-1">Contract Bot</h3>
+            <p class="text-[10px] text-slate-500 mb-4">SINGLE BUILD AUTOMATION (RE-HIRE REQD)</p>
+            <button class="action-btn" onclick="buyItem('bot')">HIRE BOT (500 TNB)</button>
+        </div>
+    </main>
+
+    <main id="screen-playbook" class="screen">
+        <div class="stats-card playbook-content overflow-y-auto max-h-[75vh]">
+            <h2 class="text-xs font-black uppercase text-accent mb-4">Node Schematic</h2>
+            <div class="bg-[#1e252e] p-3 rounded-lg border-l-4 border-accent mb-4">
+                <p class="text-[10px] font-bold uppercase mb-1">The Build Loop</p>
+                <p class="text-[11px] text-slate-300 italic">Starter lots are free. Expansions require TNB (Permit cost scales with cycles). Projects earn TNB based on Tier. Mini-game Catch focuses boost speed.</p>
+            </div>
+            
+            <h2 class="text-[10px] font-black uppercase text-slate-500 mb-2">Construction Ranks</h2>
+            <table class="rank-table">
+                <thead><tr><th class="text-slate-500">Rank</th><th class="text-slate-500">Builds</th><th class="text-slate-500">Benefit</th></tr></thead>
+                <tbody id="rank-table-body" class="text-[10px]"></tbody>
+            </table>
+
+            <h2 class="text-[10px] font-black uppercase text-slate-500 mt-6 mb-2">Economics Protocol</h2>
+            <ul class="text-[9px] text-slate-400 space-y-2 list-disc pl-4 mb-4">
+                <li><strong>Yields:</strong> Green: 100 | Red: 250 | Yellow: 300 TNB.</li>
+                <li><strong>Lot Permits:</strong> District 1 (Lots 1-3) is Free. District 2+ (Lots 4-12) scales based on phase/cycle.</li>
+                <li><strong>Maintenance Pulse:</strong> Instant 50% construction jump. Cost scales with network age.</li>
+            </ul>
+            
+            <button onclick="switchTab('operator')" class="action-btn mt-6">Return to HQ</button>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <button class="nav-btn" onclick="switchTab('operator', this)">HQ</button>
+        <button class="nav-btn active" onclick="switchTab('dispatch', this)">GRID</button>
+        <button class="nav-btn" onclick="switchTab('market', this)">MARKET</button>
+    </nav>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // --- FIREBASE CONFIGURATION ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyBRuyuPn-nHRsh8K7kUcLB8KNuui67H93Y",
+        authDomain: "raytown-hq.firebaseapp.com",
+        projectId: "raytown-hq",
+        storageBucket: "raytown-hq.firebasestorage.app",
+        messagingSenderId: "837640871580",
+        appId: "1:837640871580:web:a60dc763735fa706281759"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const appId = 'raytown-tycoon';
+
+    const TNB_CONTRACT_ADDRESS = "0x6731dCe43195A9964559d0394FD009AB4b2Ed911";
+    const TREASURY_ADDRESS = "0xA32bFfa855e1D6c83C9b047b591a5BFc3630ab9F".toLowerCase();
+
+    // State
+    let state = {
+        ign: "Operator", 
+        balance: 0,
+        nodes: [],
+        phase: 1, 
+        cycle: 1, 
+        manualBuildsCompleted: 0, 
+        manualBuildsRequired: 1,
+        botStock: 0, 
+        totalProjects: 0, 
+        hasShield: false,
+        isWeatherActive: false, 
+        fragments: 0, 
+        overclocks: 0, 
+        lastUpdate: Date.now(),
+        isDesynced: false,
+        isSyncActive: false,
+        collectorX: 50
+    };
+
+    let currentUser = null;
+
+    const RANK_DATA = [
+        { name: "Node Builder", badge: "🛠️", req: 0, bonus: 0, split: 0.05, desc: "Standard Ops" },
+        { name: "Foreman", badge: "👷", req: 75, bonus: 5, split: 0.05, desc: "+5% Bonus" },
+        { name: "Manager", badge: "🏗️", req: 150, bonus: 5, split: 0.04, desc: "4% Treasury Tax" },
+        { name: "Legend", badge: "🏙️", req: 600, bonus: 15, split: 0.03, desc: "Max Growth" }
+    ];
+
+    const BUILDING_TYPES = {
+        VACANT: { name: 'Vacant Lot', income: 0, time: 1, cooldown: 0, icon: '🌱' },
+        GREEN: { name: 'Green Gen', income: 100, time: 60, cooldown: 180, icon: '🏠' },
+        RED: { name: 'Red Gen', income: 250, time: 120, cooldown: 300, icon: '🏢' },
+        YELLOW: { name: 'Yellow Gen', income: 300, time: 240, cooldown: 600, icon: '🏪' }
+    };
+
+    // Global Timing Ref
+    function getTotalCycles() {
+        return (state.phase === 1 ? state.cycle - 1 : 17 + state.cycle);
+    }
+
+    // UI Helpers
+    window.showToast = (msg) => {
+        const t = document.getElementById("toast");
+        if (t) { t.innerText = msg; t.style.opacity = "1"; setTimeout(() => t.style.opacity = "0", 3000); }
+    };
+
+    window.floatTNB = (amount, x, y) => {
+        const el = document.createElement('div');
+        el.className = 'tnb-float';
+        el.innerText = '+' + Math.floor(amount) + ' TNB';
+        el.style.left = x + 'px'; el.style.top = y + 'px';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1500);
+    };
+
+    window.showIgnInput = () => {
+        document.getElementById('guest-play-btn')?.classList.add('hidden');
+        document.getElementById('connect-wallet-btn')?.classList.add('hidden');
+        document.getElementById('setup-fields')?.classList.remove('hidden');
+    };
+
+    window.saveGame = async () => {
+        if (!currentUser) return;
+        const userDoc = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'data', 'gameState');
+        await setDoc(userDoc, { ...state, lastSaved: Date.now() });
+    };
+
+    function getTimeBoostCost() {
+        const scaling = 1 + (getTotalCycles() * 0.12);
+        return Math.max(Math.floor(1500 * scaling), 1500); 
+    }
+
+    function getLotPermitCost() {
+        // Base 3000, scales with cycles
+        const scaling = 1 + (getTotalCycles() * 0.08);
+        return Math.floor(3000 * scaling);
+    }
+
+    // Blockchain Logic
+    window.connectWallet = async () => {
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
+                window.showToast("WALLET LINKED");
+                window.showIgnInput();
+            } catch (e) { window.showToast("CONNECTION REJECTED"); }
+        } else {
+            window.showToast("BASE WALLET NOT FOUND.");
+            window.showIgnInput();
+        }
+    };
+
+    const sendTNBToTreasury = async (amount) => {
+        const wallet = localStorage.getItem('fasttrack_operator_wallet');
+        if (!wallet || !window.ethereum) return true; 
+        try {
+            const recipient = TREASURY_ADDRESS.replace('0x', '').toLowerCase().padStart(64, '0');
+            const hexAmount = amount.toString(16).padStart(64, '0');
+            const data = '0xa9059cbb' + recipient + hexAmount;
+            await window.ethereum.request({ method: 'eth_sendTransaction', params: [{ from: wallet, to: TNB_CONTRACT_ADDRESS, data: data, gas: '0x186A0' }] });
+            return true;
+        } catch (e) { window.showToast("TRANSACTION REJECTED"); return false; }
+    };
+
+    window.requestWithdrawal = async () => {
+        const wallet = localStorage.getItem('fasttrack_operator_wallet');
+        if (!wallet) return window.showToast("CONNECT WALLET FIRST");
+        if (state.balance < 100) return window.showToast("MIN 100 TNB");
+        try {
+            const requestsCol = collection(db, 'artifacts', appId, 'public', 'data', 'withdrawalRequests');
+            await addDoc(requestsCol, { uid: currentUser.uid, ign: state.ign, wallet: wallet, amount: Math.floor(state.balance), status: 'pending', requestedAt: serverTimestamp() });
+            state.balance = 0; window.showToast("LOGGED FOR Payout");
+            updateUI(); window.saveGame();
+        } catch (e) { window.showToast("WITHDRAWAL FAILED"); }
+    };
+
+    // Game Core
+    window.enterHQ = () => {
+        state.ign = document.getElementById('upland-ign').value || "Operator";
+        localStorage.setItem('fasttrack_ign', state.ign);
+        document.getElementById('view-gateway').style.display = 'none';
+        document.getElementById('app-container').classList.remove('hidden');
+        initMap(); initMinigame(); gameLoop(); populatePlaybook();
+        window.saveGame();
+    };
+
+    function initMap() {
+        const list = document.getElementById('generator-list');
+        if (state.nodes.length === 0) {
+            for (let i = 0; i < 12; i++) state.nodes.push({ id: i, owned: false, type: 'VACANT', status: 'idle', progress: 0, cooldown: 0, isBot: false });
+        }
+        list.innerHTML = '';
+        state.nodes.forEach(n => {
+            const div = document.createElement('div');
+            div.id = `node-row-${n.id}`;
+            list.appendChild(div);
+        });
+        updateUI();
+    }
+
+    function initMinigame() {
+        const container = document.getElementById('minigame-container');
+        const collector = document.getElementById('collector');
+        const handleMove = (e) => {
+            if (!state.isSyncActive || state.isDesynced) return;
+            const rect = container.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            state.collectorX = Math.max(5, Math.min(95, ((clientX - rect.left) / rect.width) * 100));
+            collector.style.left = state.collectorX + '%';
+        };
+        container.addEventListener('mousemove', handleMove);
+        container.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e); }, { passive: false });
+        setInterval(() => { if (state.isSyncActive && !state.isDesynced && document.getElementById('screen-operator').classList.contains('active')) spawnItem(); }, 1200);
+    }
+
+    window.startSyncGame = () => {
+        state.isSyncActive = true;
+        document.getElementById('minigame-start-overlay').style.display = 'none';
+        document.getElementById('collector').style.opacity = '1';
+        window.showToast("SYNC ACTIVE");
+    };
+
+    function spawnItem() {
+        const container = document.getElementById('minigame-container');
+        const isHazard = Math.random() < 0.20;
+        const el = document.createElement('div');
+        el.className = 'falling-item';
+        el.innerHTML = isHazard ? '⚠️' : '🔨';
+        const startX = Math.random() * 90 + 5;
+        el.style.left = startX + '%';
+        container.appendChild(el);
+        let posY = -40;
+        const animate = () => {
+            if (state.isDesynced || !state.isSyncActive) { el.remove(); return; }
+            posY += 3; el.style.top = posY + 'px';
+            if (posY > 130 && posY < 170 && Math.abs(startX - state.collectorX) < 10) {
+                if (isHazard) triggerDesync();
+                else { state.fragments++; state.balance += 5; if (state.fragments >= 10) { state.fragments = 0; state.overclocks++; window.showToast("OVERCLOCK READY"); } updateUI(); }
+                el.remove(); return;
+            }
+            if (posY > 200) el.remove(); else requestAnimationFrame(animate);
+        };
+        requestAnimationFrame(animate);
+    }
+
+    function triggerDesync() { 
+        state.isDesynced = true; 
+        state.isSyncActive = false; 
+        document.getElementById('desync-overlay').style.display = 'flex'; 
+    }
+
+    window.rebootSystem = () => { 
+        state.isDesynced = false; 
+        state.lastUpdate = Date.now(); 
+        document.getElementById('desync-overlay').style.display = 'none'; 
+        document.getElementById('minigame-start-overlay').style.display = 'flex';
+        document.getElementById('collector').style.opacity = '0';
+        document.querySelectorAll('.falling-item').forEach(i => i.remove());
+        window.showToast("SYNC REBOOTED"); 
+    };
+
+    function updateUI() {
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+        const totalCycles = getTotalCycles();
+        const scalingFactor = 1 + (totalCycles * 0.05);
+        const rank = RANK_DATA.slice().reverse().find(r => state.totalProjects >= r.req) || RANK_DATA[0];
+
+        set('tnb-balance-display', Math.floor(state.balance).toLocaleString() + ' TNB');
+        set('dash-ign', state.ign);
+        set('dash-wallet', localStorage.getItem('fasttrack_operator_wallet') || 'None');
+        set('dash-rank-full', rank.badge + " " + rank.name);
+        set('dash-benefit', `+${rank.bonus}% Speed`);
+        set('phase-display', state.phase); set('cycle-display', state.cycle);
+        set('bot-count', state.botStock);
+        set('fragment-count', `${state.fragments}/10`);
+        set('boost-cost-display', getTimeBoostCost().toLocaleString());
+
+        const progress = state.phase === 1 ? (state.cycle / 18) * 100 : (state.cycle / 9) * 100;
+        document.getElementById('quota-progress').style.width = progress + '%';
+        set('quota-text', state.phase === 1 ? `Scaling Cycle (${state.cycle}/18)` : `Expansion Cycle (${state.cycle}/9)`);
+
+        state.nodes.forEach(n => {
+            const row = document.getElementById(`node-row-${n.id}`);
+            if (!row) return;
+            if (!n.owned) {
+                const isFree = n.id < 3;
+                const lotCost = getLotPermitCost();
+                const canAfford = state.balance >= lotCost;
+                
+                const btnBg = isFree ? 'bg-accent' : 'bg-blue-600';
+                const btnText = isFree ? 'CLAIM (FREE)' : `EXPAND (${lotCost})`;
+                const disabled = !isFree && !canAfford ? 'disabled opacity-30' : '';
+                
+                row.innerHTML = `<div class="generator-card flex justify-between items-center">
+                    <div class="text-[10px] font-bold">Lot #${n.id+1} ${isFree ? '(STARTER)' : ''}</div>
+                    <button onclick="mintNode(${n.id})" ${disabled} class="${btnBg} text-white px-4 py-2 rounded font-black text-[9px] shadow-lg shadow-blue-900/20 active:translate-y-0.5 transition-all">${btnText}</button>
+                </div>`;
+            } else {
+                const type = BUILDING_TYPES[n.type];
+                let color = n.status === 'building' ? 'yellow' : n.status === 'cooldown' ? 'red' : 'green';
+                let sub = n.status === 'building' ? 'Construction...' : n.status === 'cooldown' ? `Maintenance: ${Math.ceil(n.cooldown)}s` : 'Node Active';
+                let fill = n.status === 'building' ? n.progress : (n.status === 'cooldown' ? (n.cooldown / type.cooldown) * 100 : 0);
+
+                row.innerHTML = `<div class="generator-card"><div class="flex justify-between items-center mb-2"><div class="flex items-center"><span class="indicator ${color}"></span><span class="text-[10px] font-black uppercase">${type.name} #${n.id+1}</span></div><span>${type.icon}</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${n.status==='cooldown'?100-fill:fill}%"></div></div>
+                    <div class="flex justify-between items-center mt-3"><p class="text-[8px] uppercase text-slate-500">${sub}</p>
+                    ${n.status==='idle'? `<div class="flex gap-1">
+                        <button onclick="startBuild(${n.id},'GREEN')" class="bg-green-600 px-2 py-1 rounded text-[7px] text-white">GREEN</button>
+                        <button onclick="startBuild(${n.id},'RED')" ${state.totalProjects<30?'disabled':''} class="bg-red-600 px-2 py-1 rounded text-[7px] text-white disabled:opacity-20">RED</button>
+                        <button onclick="startBuild(${n.id},'YELLOW')" ${state.totalProjects<60?'disabled':''} class="bg-yellow-500 px-2 py-1 rounded text-[7px] text-black disabled:opacity-20">YELLOW</button>
+                        <button onclick="useBot(${n.id})" class="bg-accent px-2 py-1 rounded text-[7px]">BOT</button>
+                    </div>` : ''}</div></div>`;
+            }
+        });
+        const sBtn = document.getElementById('buy-shield-btn');
+        if(sBtn) { sBtn.disabled = state.hasShield; if(state.hasShield) sBtn.innerText = "SHIELD ACTIVE"; }
+    }
+
+    window.mintNode = (id) => {
+        const isFree = id < 3;
+        if (isFree) {
+            state.nodes[id].owned = true;
+            window.showToast("STARTER LOT CLAIMED");
+        } else {
+            const cost = getLotPermitCost();
+            if (state.balance >= cost) {
+                state.balance -= cost;
+                state.nodes[id].owned = true;
+                window.showToast("EXPANSION PURCHASED");
+            } else {
+                window.showToast("INSUFFICIENT TNB");
+                return;
+            }
+        }
+        updateUI(); window.saveGame();
+    };
+
+    window.startBuild = (id, type, isBot=false) => { if(state.isDesynced) return; state.nodes[id].status = 'building'; state.nodes[id].type = type; state.nodes[id].progress = 0; state.nodes[id].isBot = isBot; updateUI(); };
+    window.useBot = (id) => {
+        if (state.botStock > 0) { state.botStock--; window.startBuild(id, state.nodes[id].type==='VACANT'?'GREEN':state.nodes[id].type, true); updateUI(); }
+        else window.showToast("HIRE BOTS IN MARKET");
+    };
+
+    window.buyItem = async (item) => {
+        let cost = item === 'bot' ? 500 : (item === 'shield' ? 7500 : getTimeBoostCost());
+        if (await sendTNBToTreasury(cost)) {
+            if(item==='bot') state.botStock++; 
+            else if(item==='shield') state.hasShield = true;
+            else if(item==='boost') { state.nodes.forEach(n => { if(n.status==='building') n.progress = Math.min(99, n.progress + 50); }); }
+            window.showToast("UPGRADE ACTIVE"); updateUI(); window.saveGame();
+        }
+    };
+
+    window.switchTab = (tab, btn) => {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('screen-'+tab).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        if(btn) btn.classList.add('active');
+        if (tab !== 'operator') {
+            state.isSyncActive = false;
+            document.getElementById('minigame-start-overlay').style.display = 'flex';
+            document.getElementById('collector').style.opacity = '0';
+        }
+    };
+
+    function handlePayout(n, rank) {
+        const type = BUILDING_TYPES[n.type];
+        const gross = type.income * (1 + (rank.bonus / 100));
+        const tax = gross * rank.split;
+        const operator = gross - tax;
+        state.balance += operator;
+        window.floatTNB(operator, window.innerWidth / 2, window.innerHeight / 2);
+    }
+
+    function gameLoop() {
+        const now = Date.now(); 
+        const delta = (now - state.lastUpdate) / 1000; 
+        state.lastUpdate = now;
+
+        const cycles = getTotalCycles();
+        const scaling = 1 + (cycles * 0.05);
+        const rank = RANK_DATA.slice().reverse().find(r => state.totalProjects >= r.req) || RANK_DATA[0];
+
+        state.nodes.forEach(n => {
+            if (n.status === 'cooldown') {
+                n.cooldown -= delta;
+                if (n.cooldown <= 0) { n.status = 'idle'; window.saveGame(); }
+            }
+
+            if (!state.isDesynced && n.status === 'building') {
+                const type = BUILDING_TYPES[n.type];
+                let power = (rank.name === "Node Builder" ? 1.0 : rank.name === "Foreman" ? 1.5 : rank.name === "Manager" ? 2.2 : 3.5);
+                if (state.overclocks > 0) power *= 2;
+                
+                n.progress += (100 / (type.time * scaling)) * delta * power;
+                
+                if (n.progress >= 100) {
+                    state.totalProjects++;
+                    handlePayout(n, rank);
+                    n.status = 'cooldown';
+                    n.cooldown = type.cooldown;
+                    if (state.overclocks > 0) state.overclocks--;
+                    if (state.phase === 1 && !n.isBot) {
+                        state.manualBuildsCompleted++;
+                        if (state.manualBuildsCompleted >= state.manualBuildsRequired) {
+                            state.manualBuildsCompleted = 0;
+                            if (state.cycle < 18) {
+                                state.cycle++;
+                                if (state.cycle % 3 === 0) state.manualBuildsRequired++;
+                            } else {
+                                state.phase = 2; state.cycle = 1; window.showToast("CORPORATE ERA UNLOCKED");
+                            }
+                        }
+                    } else if (state.phase === 2 && state.cycle < 9) {
+                        if (state.totalProjects % 15 === 0) state.cycle++;
+                    }
+                    window.saveGame();
+                }
+            }
+        });
+
+        updateUI();
+        requestAnimationFrame(gameLoop);
+    }
+
+    function populatePlaybook() { 
+        const body = document.getElementById('rank-table-body');
+        if (body) body.innerHTML = RANK_DATA.map(r => `<tr><td>${r.badge} ${r.name}</td><td>${r.req}</td><td>${r.desc}</td></tr>`).join(''); 
+    }
+
+    const initApp = async () => {
+        try {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                try { await signInWithCustomToken(auth, __initial_auth_token); } catch (e) { await signInAnonymously(auth); }
+            } else { await signInAnonymously(auth); }
+        } catch (err) { await signInAnonymously(auth); }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                onSnapshot(doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'gameState'), (snap) => {
+                    if (snap.exists()) { Object.assign(state, snap.data()); updateUI(); }
+                }, (e) => {});
+            }
+        });
+
+        if (localStorage.getItem('fasttrack_ign')) {
+            document.getElementById('view-gateway').style.display = 'none';
+            document.getElementById('app-container').classList.remove('hidden');
+            initMap(); initMinigame(); gameLoop(); populatePlaybook();
+        }
+    };
+    initApp();
+</script>
+</body>
+</html>
