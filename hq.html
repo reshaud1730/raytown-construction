@@ -285,7 +285,6 @@
             <div class="stats-card">
                 <div class="flex justify-between items-center mb-4 pb-3 border-b border-white/5">
                     <h2 class="text-sm font-black uppercase text-white tracking-widest flex items-center gap-2"><span class="text-accent">👤</span> Operator Profile</h2>
-                    <button onclick="switchTab('playbook')" class="text-[10px] font-black text-raytown-blue bg-raytown-blue/10 px-3 py-1.5 rounded uppercase">Open Playbook</button>
                 </div>
                 <div class="space-y-4 text-sm font-bold">
                     <div class="flex justify-between pb-2">
@@ -504,6 +503,9 @@
         </button>
         <button class="nav-btn" onclick="switchTab('market', this)">
             <span class="text-xl mb-1">🛒</span>MARKET
+        </button>
+        <button class="nav-btn" onclick="switchTab('playbook', this)">
+            <span class="text-xl mb-1">📖</span>GUIDE
         </button>
         <button id="nav-admin-btn" class="nav-btn text-red-500" style="display: none;" onclick="switchTab('admin', this)">
             <span class="text-xl mb-1">🔒</span>ADMIN
