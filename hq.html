@@ -849,11 +849,20 @@
 
     window.buyItem = async (item) => {
         let cost = item === 'bot' ? 500 : (item === 'shield' ? 7500 : getTimeBoostCost());
-        if (await sendTNBToTreasury(cost)) {
+        
+        // Use in-game balance instead of Web3 transaction
+        if (state.balance >= cost) {
+            state.balance -= cost; // Deduct the in-game TNB
+            
             if(item==='bot') state.botStock++; 
             else if(item==='shield') state.hasShield = true;
             else if(item==='boost') { state.nodes.forEach(n => { if(n.status==='building') n.progress = Math.min(99, n.progress + 50); }); }
-            window.showToast("UPGRADE ACTIVE"); updateUI(); window.saveGame();
+            
+            window.showToast("UPGRADE PURCHASED"); 
+            updateUI(); 
+            window.saveGame();
+        } else {
+            window.showToast("INSUFFICIENT IN-GAME TNB");
         }
     };
 
