@@ -73,7 +73,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
-        .stats-card, .generator-card, .market-card {
+        .stats-card, .generator-card, .market-card, .playbook-card {
             background: var(--card);
             padding: 20px;
             border-radius: 12px;
@@ -83,7 +83,6 @@
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
-            transition: transform 0.2s;
         }
 
         .generator-card { border-left: 4px solid var(--raytown-blue); }
@@ -95,9 +94,6 @@
             letter-spacing: 1px; margin-top: 10px;
             box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
         }
-
-        .action-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
-        .action-btn:disabled { background: #555; cursor: not-allowed; color: #888; box-shadow: none; transform: none; }
 
         .indicator { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
         .indicator.green { background: var(--green); box-shadow: 0 0 8px var(--green); }
@@ -116,13 +112,26 @@
 
         .nav-btn {
             flex: 1; background: none; border: none; color: #94a3b8;
-            font-size: 0.7rem; cursor: pointer; display: flex;
+            font-size: 0.65rem; cursor: pointer; display: flex;
             flex-direction: column; align-items: center; justify-content: center;
             font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
             transition: 0.2s;
         }
 
         .nav-btn.active { color: var(--raytown-blue); border-top: 3px solid var(--raytown-blue); background: rgba(0, 242, 255, 0.05); }
+
+        /* Deploy Bot Visuals */
+        .bot-btn {
+            background: var(--raytown-blue);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+            animation: pulse-cyan 2s infinite;
+        }
+        @keyframes pulse-cyan {
+            0% { box-shadow: 0 0 5px rgba(0, 242, 255, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(0, 242, 255, 0.9); }
+            100% { box-shadow: 0 0 5px rgba(0, 242, 255, 0.4); }
+        }
 
         .gateway-overlay {
             position: fixed; inset: 0; background: var(--bg); z-index: 1000;
@@ -140,15 +149,12 @@
 
         .screen { display: none; flex-grow: 1; overflow-y: auto; }
         .screen.active { display: block; }
-        
-        /* PLAYBOOK GRAPHIC STYLES */
-        .pb-graphic-card { background: var(--card); border: 1px solid rgba(243, 156, 18, 0.2); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
-        .pb-title { font-size: 1.25rem; font-weight: 900; color: var(--accent); text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
-        .pb-list-item { background: rgba(0,0,0,0.2); border-left: 3px solid var(--accent); padding: 1rem; border-radius: 4px; margin-bottom: 0.75rem; }
-        .pb-list-item strong { display: block; color: var(--accent); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 2px; }
-        .pb-list-item span { font-size: 0.9rem; color: #cbd5e1; }
-        .pb-timeline-item { border-left: 2px solid var(--raytown-blue); padding-left: 1rem; margin-bottom: 1rem; position: relative; }
-        .pb-timeline-item::before { content: ''; position: absolute; left: -6px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--bg); border: 2px solid var(--raytown-blue); }
+
+        /* Playbook Specific */
+        .playbook-section { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0; }
+        .playbook-section:last-child { border: none; }
+        .playbook-section h4 { color: var(--accent); font-weight: 900; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .playbook-section p { font-size: 0.75rem; line-height: 1.5; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -188,7 +194,6 @@
                 <div id="player-rank-title" class="font-black italic uppercase text-[11px] text-white">Operator</div>
                 <div id="cycle-badge" class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Ph <span id="phase-display">1</span> / Cyc <span id="cycle-display">1</span></div>
             </div>
-            <!-- SHIELD PROOF OF WORK -->
             <span id="header-shield" class="hidden ml-2 text-blue-400 text-[10px] font-black border border-blue-400/50 px-2 py-0.5 rounded bg-blue-900/30">🛡️ SHIELDED</span>
         </div>
         <div class="font-black text-right leading-tight">
@@ -205,17 +210,10 @@
                     <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-slate-400 text-[10px] uppercase">Operator IGN</span><span id="dash-ign">---</span></div>
                     <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-slate-400 text-[10px] uppercase">Lifetime Builds</span><span id="dash-total-builds" class="text-accent">0</span></div>
                     <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-slate-400 text-[10px] uppercase">Status</span><span id="dash-rank-full" class="text-accent">🛠️ Builder</span></div>
-                    <div class="flex justify-between items-center bg-black/20 p-2 rounded border border-white/5">
-                        <span class="text-slate-400 text-[10px] uppercase">Wallet</span>
-                        <div class="flex items-center gap-2">
-                            <span id="dash-wallet" class="text-blue-400 overflow-hidden text-ellipsis max-w-[120px] text-xs">None</span>
-                            <button id="in-game-connect-btn" onclick="inGameConnectWallet()" class="bg-blue-600 text-white px-3 py-1 rounded text-[9px] font-black uppercase">Connect</button>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <!-- AUTOMATION HUB WITH BOT COUNT -->
+            <!-- AUTOMATION HUB -->
             <div class="stats-card border-2 border-raytown-blue/20 bg-raytown-blue/5">
                 <h3 class="text-sm font-black uppercase text-raytown-blue mb-4 tracking-widest flex items-center gap-2"><span>🤖</span> Automation Hub</h3>
                 <div class="flex justify-between items-center bg-black/40 p-4 rounded-xl border border-white/5">
@@ -237,11 +235,16 @@
             </div>
 
             <div class="stats-card">
-                <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Network Capacity Sync</p>
+                <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Cycle Efficiency Progress</p>
                 <div class="flex justify-between items-end mb-1"><p id="quota-text" class="text-xs font-bold text-white uppercase">Loading...</p><p id="quota-percent" class="text-[10px] text-accent font-black">0%</p></div>
                 <div class="progress-bar"><div id="quota-progress" class="progress-fill" style="background: var(--raytown-blue)"></div></div>
             </div>
         </div>
+    </main>
+
+    <main id="screen-dispatch" class="screen">
+        <div class="px-4 py-3 bg-black/30 border-b border-white/5"><h2 class="text-xs font-black uppercase tracking-widest text-white">📍 Node Grid Terminal</h2></div>
+        <div id="generator-list" class="grid-layout hq-grid pb-6"></div>
     </main>
 
     <main id="screen-sync" class="screen">
@@ -264,11 +267,6 @@
         </div>
     </main>
 
-    <main id="screen-dispatch" class="screen">
-        <div class="px-4 py-3 bg-black/30 border-b border-white/5"><h2 class="text-xs font-black uppercase tracking-widest text-white">📍 Node Grid Terminal</h2></div>
-        <div id="generator-list" class="grid-layout hq-grid pb-6"></div>
-    </main>
-
     <main id="screen-market" class="screen">
         <div class="px-4 py-3 bg-black/30 border-b border-white/5 mb-4"><h2 class="text-xs font-black uppercase tracking-widest text-white">🛒 Marketplace</h2></div>
         <div class="grid-layout market-grid">
@@ -288,61 +286,30 @@
     </main>
 
     <main id="screen-playbook" class="screen">
-        <div class="p-6 max-w-4xl mx-auto pb-20">
-            <header class="text-center mb-10">
-                <div class="text-5xl mb-4">🏗️</div>
-                <h1 class="text-3xl font-black text-accent uppercase tracking-tighter">Official Operator Playbook</h1>
-                <p class="text-slate-400 text-xs mt-2 uppercase tracking-widest font-bold">FastTrack Node Network Protocols</p>
-            </header>
-
-            <div class="pb-graphic-card">
-                <h2 class="pb-title"><span>🔄</span> The Core Build Loop</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="pb-list-item"><strong>Starter Lots</strong><span>District 1 (Lots 1-3) are 100% FREE.</span></div>
-                    <div class="pb-list-item"><strong>Expansions</strong><span>Lots 4-12 require TNB permits to unlock.</span></div>
-                    <div class="pb-list-item"><strong>Generators</strong><span>Complete builds to earn instant TNB yields.</span></div>
-                    <div class="pb-list-item"><strong>Maintenance</strong><span>Nodes have a cooldown before the next build.</span></div>
+        <div class="px-4 py-3 bg-black/30 border-b border-white/5"><h2 class="text-xs font-black uppercase tracking-widest text-accent">📖 Operator Playbook</h2></div>
+        <div class="p-4 space-y-4 pb-12">
+            <div class="playbook-card">
+                <div class="playbook-section">
+                    <h4>🔄 The Core Build Loop</h4>
+                    <p>Build, upgrade, and manage property nodes to generate TNB. Your first 3 lots in District 1 are 100% FREE. Generators have a short maintenance cooldown before they can be built again.</p>
+                </div>
+                <div class="playbook-section">
+                    <h4>🏗️ Tiered Construction</h4>
+                    <p>Unlock more efficient generators as you build. Green (0 builds req) -> Red (30 builds req) -> Yellow (90 builds req). Maximize your lots to push the network cycle forward.</p>
+                </div>
+                <div class="playbook-section">
+                    <h4>📈 Eras & Scaling</h4>
+                    <p>Costs and payouts evolve through Phases. Phase 1 rewards early grinders. Phases 2 and 3 scale your earnings permanently as you reach conglomerate status.</p>
+                </div>
+                <div class="playbook-section">
+                    <h4>🎮 Supply Sync</h4>
+                    <p>Speed up progress! Catch 🔨 for instant TNB. Catch 10 to bank an ⚡ OVERCLOCK. Beware of ⚠️ hazards—they wipe unbanked fragments and trigger a Desync.</p>
+                </div>
+                <div class="playbook-section">
+                    <h4>💰 TNB Cashing Out</h4>
+                    <p>Link your Base Wallet. Reach 100 TNB and hit Withdraw. Your rewards are airdropped directly from the CEO vault.</p>
                 </div>
             </div>
-
-            <div class="pb-graphic-card">
-                <h2 class="pb-title"><span>📈</span> Era & Economy Scaling</h2>
-                <div class="space-y-4">
-                    <div class="pb-timeline-item">
-                        <div class="text-raytown-blue font-black uppercase text-[11px] mb-1">Phase 1: The Foundation</div>
-                        <div class="bg-black/30 p-3 rounded text-[10px] text-slate-300">Standard costs. Double (2x) base payouts. Manual builds required for cycle progression.</div>
-                    </div>
-                    <div class="pb-timeline-item">
-                        <div class="text-accent font-black uppercase text-[11px] mb-1">Phase 2: Corporate Office</div>
-                        <div class="bg-black/30 p-3 rounded text-[10px] text-slate-300">Costs double. Payouts increase. Automation unlocks based on total project count.</div>
-                    </div>
-                    <div class="pb-timeline-item">
-                        <div class="text-red-500 font-black uppercase text-[11px] mb-1">Phase 3: The Conglomerate</div>
-                        <div class="bg-black/30 p-3 rounded text-[10px] text-slate-300">Costs triple. Final +33% Payout bump. This is the terminal earnings cap.</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pb-graphic-card border-green-500/30 bg-green-900/5">
-                <h2 class="pb-title text-green-400"><span>💰</span> Payout Protocol</h2>
-                <p class="text-[11px] text-slate-400 mb-4 font-bold uppercase">We operate on a 95/5 Player-to-Treasury split.</p>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-4 bg-black/40 p-3 rounded border border-white/5">
-                        <span class="bg-accent text-black font-black w-7 h-7 flex items-center justify-center rounded-full text-xs">1</span>
-                        <span class="text-xs text-white">Connect Web3 Base Wallet.</span>
-                    </div>
-                    <div class="flex items-center gap-4 bg-black/40 p-3 rounded border border-white/5">
-                        <span class="bg-accent text-black font-black w-7 h-7 flex items-center justify-center rounded-full text-xs">2</span>
-                        <span class="text-xs text-white">Reach 100 TNB in-game balance.</span>
-                    </div>
-                    <div class="flex items-center gap-4 bg-black/40 p-3 rounded border border-white/5">
-                        <span class="bg-accent text-black font-black w-7 h-7 flex items-center justify-center rounded-full text-xs">3</span>
-                        <span class="text-xs text-white">Submit Withdrawal Request via HQ.</span>
-                    </div>
-                </div>
-            </div>
-            
-            <button onclick="switchTab('operator')" class="action-btn py-5 text-lg">Return to Terminal</button>
         </div>
     </main>
 
@@ -367,14 +334,14 @@
         <button class="nav-btn" onclick="switchTab('dispatch', this)">📍GRID</button>
         <button class="nav-btn" onclick="switchTab('sync', this)">🎮SYNC</button>
         <button class="nav-btn" onclick="switchTab('market', this)">🛒MARKET</button>
-        <button class="nav-btn" onclick="switchTab('playbook', this)">📖GUIDE</button>
-        <button id="nav-admin-btn" class="nav-btn text-red-500" style="display: none;" onclick="switchTab('admin', this)">🔒ADMIN</button>
+        <button class="nav-btn" onclick="switchTab('playbook', this)">📖INFO</button>
+        <button id="nav-admin-btn" class="nav-btn text-red-500" style="display: none;" onclick="switchTab('admin', this)">🔒ADM</button>
     </nav>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -392,7 +359,25 @@
     const appId = "raytown-tycoon";
     const TREASURY_ADDRESS = "0xA32bFfa855e1D6c83C9b047b591a5BFc3630ab9F".toLowerCase();
 
-    let state = { ign: "Operator", balance: 0, nodes: [], phase: 1, cycle: 1, manualBuildsCompleted: 0, manualBuildsRequired: 1, botStock: 0, totalProjects: 0, hasShield: false, fragments: 0, overclocks: 0, lastUpdate: Date.now(), isDesynced: false, isSyncActive: false, collectorX: 50 };
+    let state = { 
+        ign: "Operator", 
+        balance: 0, 
+        nodes: [], 
+        phase: 1, 
+        cycle: 1, 
+        manualBuildsCompleted: 0, 
+        manualBuildsRequired: 1, 
+        botStock: 0, 
+        totalProjects: 0, 
+        hasShield: false, 
+        fragments: 0, 
+        overclocks: 0, 
+        lastUpdate: Date.now(), 
+        isDesynced: false, 
+        isSyncActive: false, 
+        collectorX: 50 
+    };
+    
     let currentUser = null;
     let hasLoaded = false; 
 
@@ -405,16 +390,10 @@
 
     const BUILDING_TYPES = {
         VACANT: { name: 'Vacant Lot', income: 0, time: 1, cooldown: 0, icon: '🌱' },
-        GREEN: { name: 'Green Gen', income: 100, time: 60, cooldown: 180, icon: '🏠' },
-        RED: { name: 'Red Gen', income: 250, time: 120, cooldown: 300, icon: '🏢' },
-        YELLOW: { name: 'Yellow Gen', income: 300, time: 240, cooldown: 600, icon: '🏪' }
+        GREEN: { name: 'Green Gen', income: 100, time: 60, cooldown: 180, icon: '🏠', req: 0, next: 30 },
+        RED: { name: 'Red Gen', income: 250, time: 120, cooldown: 300, icon: '🏢', req: 30, next: 90 },
+        YELLOW: { name: 'Yellow Gen', income: 300, time: 240, cooldown: 600, icon: '🏪', req: 90, next: 180 }
     };
-
-    function getTotalCycles() {
-        if (state.phase === 1) return state.cycle - 1;
-        if (state.phase === 2) return 17 + state.cycle;
-        return 26 + state.cycle; 
-    }
 
     window.saveGame = async () => {
         if (!currentUser || !hasLoaded) return; 
@@ -425,9 +404,12 @@
     window.showToast = (msg) => { const t = document.getElementById("toast"); if (t) { t.innerText = msg; t.style.opacity = "1"; setTimeout(() => t.style.opacity = "0", 3000); } };
 
     window.showIgnInput = () => {
-        document.getElementById('guest-play-btn')?.classList.add('hidden');
-        document.getElementById('connect-wallet-btn')?.classList.add('hidden');
-        document.getElementById('setup-fields')?.classList.remove('hidden');
+        const guestBtn = document.getElementById('guest-play-btn');
+        const walletBtn = document.getElementById('connect-wallet-btn');
+        const setupFields = document.getElementById('setup-fields');
+        if (guestBtn) guestBtn.classList.add('hidden');
+        if (walletBtn) walletBtn.classList.add('hidden');
+        if (setupFields) setupFields.classList.remove('hidden');
     };
 
     window.inGameConnectWallet = async () => {
@@ -448,19 +430,26 @@
     };
 
     window.enterHQ = () => {
-        state.ign = document.getElementById('operator-ign').value || localStorage.getItem('fasttrack_ign') || "Operator";
+        const ignInput = document.getElementById('operator-ign');
+        const walletInput = document.getElementById('manual-wallet');
+        state.ign = (ignInput && ignInput.value) || localStorage.getItem('fasttrack_ign') || "Operator";
         localStorage.setItem('fasttrack_ign', state.ign);
-        const manualWallet = document.getElementById('manual-wallet').value;
+        const manualWallet = walletInput && walletInput.value;
         if (manualWallet) localStorage.setItem('fasttrack_operator_wallet', manualWallet.trim());
-        document.getElementById('view-gateway').style.display = 'none';
-        document.getElementById('app-container').classList.remove('hidden');
+        const gateway = document.getElementById('view-gateway');
+        const appContainer = document.getElementById('app-container');
+        if (gateway) gateway.style.display = 'none';
+        if (appContainer) appContainer.classList.remove('hidden');
         initMap(); initMinigame(); gameLoop(); 
     };
 
     function initMap() {
         const list = document.getElementById('generator-list');
+        if (!list) return;
         if (state.nodes.length === 0) {
-            for (let i = 0; i < 12; i++) state.nodes.push({ id: i, owned: false, type: 'VACANT', status: 'idle', progress: 0, cooldown: 0, isBot: false });
+            for (let i = 0; i < 12; i++) state.nodes.push({ 
+                id: i, owned: false, type: 'VACANT', status: 'idle', progress: 0, cooldown: 0, isBot: false, buildCount: 0 
+            });
         }
         list.innerHTML = '';
         state.nodes.forEach(n => { const div = document.createElement('div'); div.id = `node-row-${n.id}`; list.appendChild(div); });
@@ -473,6 +462,8 @@
         isMinigameInitialized = true;
         const container = document.getElementById('minigame-container');
         const collector = document.getElementById('collector');
+        if (!container || !collector) return;
+
         const handleMove = (clientX) => {
             if (!state.isSyncActive || state.isDesynced || !document.getElementById('screen-sync').classList.contains('active')) return;
             const rect = container.getBoundingClientRect();
@@ -487,8 +478,10 @@
     window.startSyncGame = (e) => { 
         if (e) e.preventDefault(); 
         state.isSyncActive = true; 
-        document.getElementById('minigame-start-overlay').style.display = 'none'; 
-        document.getElementById('collector').style.opacity = '1'; 
+        const startOverlay = document.getElementById('minigame-start-overlay');
+        const collector = document.getElementById('collector');
+        if (startOverlay) startOverlay.style.display = 'none'; 
+        if (collector) collector.style.opacity = '1'; 
     };
 
     function spawnItem() {
@@ -518,7 +511,8 @@
     function triggerDesync() { 
         state.isDesynced = true; 
         state.isSyncActive = false; 
-        document.getElementById('desync-overlay').style.display = 'flex'; 
+        const desyncOverlay = document.getElementById('desync-overlay');
+        if (desyncOverlay) desyncOverlay.style.display = 'flex'; 
     }
 
     window.rebootSystem = (e) => { 
@@ -526,9 +520,12 @@
         state.isDesynced = false; 
         state.isSyncActive = false; 
         state.fragments = 0; 
-        document.getElementById('desync-overlay').style.display = 'none'; 
-        document.getElementById('minigame-start-overlay').style.display = 'flex';
-        document.getElementById('collector').style.opacity = '0';
+        const desyncOverlay = document.getElementById('desync-overlay');
+        const startOverlay = document.getElementById('minigame-start-overlay');
+        const collector = document.getElementById('collector');
+        if (desyncOverlay) desyncOverlay.style.display = 'none'; 
+        if (startOverlay) startOverlay.style.display = 'flex';
+        if (collector) collector.style.opacity = '0';
         document.querySelectorAll('.falling-item').forEach(i => i.remove());
         updateUI(); 
         window.showToast("SYSTEM REBOOTED"); 
@@ -580,11 +577,10 @@
 
     function updateUI() {
         const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
-        const totalCycles = getTotalCycles();
         const rank = RANK_DATA.slice().reverse().find(r => state.totalProjects >= r.req) || RANK_DATA[0];
         
-        // PROOF OF WORK: Shield Badge
-        document.getElementById('header-shield').classList.toggle('hidden', !state.hasShield);
+        const shieldEl = document.getElementById('header-shield');
+        if (shieldEl) shieldEl.classList.toggle('hidden', !state.hasShield);
         
         set('tnb-balance-display', Math.floor(state.balance).toLocaleString() + ' TNB');
         set('dash-ign', state.ign);
@@ -592,12 +588,12 @@
         
         const currentWallet = localStorage.getItem('fasttrack_operator_wallet');
         set('dash-wallet', currentWallet || 'None');
-        document.getElementById('in-game-connect-btn').style.display = currentWallet ? 'none' : 'block';
+        const connectBtn = document.getElementById('in-game-connect-btn');
+        if (connectBtn) connectBtn.style.display = currentWallet ? 'none' : 'block';
         
         set('dash-rank-full', rank.badge + " " + rank.name);
         set('phase-display', state.phase); set('cycle-display', state.cycle);
         
-        // PROOF OF WORK: Bot Stock in Automation Hub
         set('bot-count', state.botStock);
         const autoStatus = document.getElementById('automation-status');
         const activeBots = state.nodes.filter(n => n.status === 'building' && n.isBot).length;
@@ -613,13 +609,12 @@
             }
         }
 
-        const progress = state.phase === 1 ? (state.cycle / 18) * 100 : (state.cycle / 9) * 100;
-        document.getElementById('quota-progress').style.width = Math.min(100, progress) + '%';
+        const progress = (state.cycle / 9) * 100;
+        const quotaProgressEl = document.getElementById('quota-progress');
+        if (quotaProgressEl) quotaProgressEl.style.width = Math.min(100, progress) + '%';
         set('quota-percent', Math.floor(Math.min(100, progress)) + '%');
         
-        let phaseText = `Scaling Cycle (${state.cycle}/18)`;
-        if (state.phase === 2) phaseText = `Corporate Cycle (${state.cycle}/9)`;
-        if (state.phase >= 3) phaseText = `Conglomerate Cycle (${state.cycle}/9)`;
+        let phaseText = `Set Cycle Progress (${state.cycle}/9)`;
         set('quota-text', phaseText);
 
         state.nodes.forEach(n => {
@@ -631,13 +626,54 @@
                 row.innerHTML = `<div class="generator-card bg-black/20 flex justify-between items-center"><div class="text-[11px] font-black uppercase text-slate-400">Lot #${n.id+1}</div><button onclick="mintNode(${n.id})" class="${btnBg} px-4 py-3 rounded font-black text-[10px]">${n.id < 3 ? 'CLAIM' : 'EXPAND ('+cost+')'}</button></div>`;
             } else {
                 const type = BUILDING_TYPES[n.type];
-                
-                // PROOF OF WORK: Bot Building visual indicator
-                let color = n.status === 'building' ? (n.isBot ? 'raytown-blue' : 'yellow') : (n.status === 'cooldown' ? 'red' : 'green');
-                let sub = n.status === 'building' ? (n.isBot ? '🤖 Bot Building...' : 'Construction...') : (n.status === 'cooldown' ? `Maintenance: ${Math.ceil(n.cooldown)}s` : 'Node Active');
+                let color = n.status === 'building' ? (n.isBot ? 'raytown-blue' : (n.type === 'GREEN' ? 'green' : (n.type === 'RED' ? 'red' : 'yellow'))) : (n.status === 'cooldown' ? 'red' : 'green');
                 let fill = n.status === 'building' ? n.progress : (n.status === 'cooldown' ? (n.cooldown / type.cooldown) * 100 : 0);
                 
-                row.innerHTML = `<div class="generator-card bg-black/40"><div class="flex justify-between items-center mb-3"><div class="flex items-center"><span class="indicator ${color==='raytown-blue'?'!bg-raytown-blue':color}"></span><span class="text-[11px] font-black uppercase text-white">${type.name} #${n.id+1}</span></div><span class="text-xl">${type.icon}</span></div><div class="progress-bar"><div class="progress-fill ${n.isBot?'bot-active':''}" style="width:${n.status==='cooldown'?100-fill:fill}%"></div></div><div class="flex justify-between mt-3"><p class="text-[9px] uppercase font-bold text-slate-400">${sub}</p>${n.status==='idle'?'<div class="flex gap-1"><button onclick="startBuild('+n.id+',\'GREEN\')" class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-[8px] font-black">GREEN</button><button onclick="useBot('+n.id+')" class="bg-raytown-blue text-black px-2 py-1 rounded text-[8px] font-black">BOT</button></div>':''}</div></div>`;
+                let progressColorClass = '';
+                if (n.status === 'building') {
+                    if (n.isBot) progressColorClass = 'bot-active';
+                    else if (n.type === 'RED') progressColorClass = '!bg-red-500';
+                    else if (n.type === 'YELLOW') progressColorClass = '!bg-yellow-500';
+                    else progressColorClass = '!bg-green-500';
+                } else if (n.status === 'cooldown') {
+                    progressColorClass = '!bg-slate-700';
+                }
+
+                let tierMsg = "";
+                if (n.buildCount < 30) tierMsg = `Builds: ${n.buildCount}/30 to Unlock Red`;
+                else if (n.buildCount < 90) tierMsg = `Builds: ${n.buildCount - 30}/60 to Unlock Yellow`;
+                else if (n.buildCount < 180) tierMsg = `Builds: ${n.buildCount - 90}/90 to Push Cycle`;
+                else tierMsg = "Lot Maximized // Resetting Potential";
+
+                row.innerHTML = `
+                    <div class="generator-card bg-black/40">
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="flex items-center">
+                                <span class="indicator ${color==='raytown-blue'?'!bg-raytown-blue':color}"></span>
+                                <span class="text-[11px] font-black uppercase text-white">${type.name} #${n.id+1}</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xl">${type.icon}</span>
+                                <div class="text-[8px] text-slate-500 uppercase font-black">${tierMsg}</div>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill ${progressColorClass}" style="width:${n.status==='cooldown'?100-fill:fill}%"></div>
+                        </div>
+                        <div class="flex justify-between mt-3">
+                            <p class="text-[9px] uppercase font-bold text-slate-400">
+                                ${n.status === 'building' ? 'Working...' : n.status === 'cooldown' ? 'Cooling...' : 'Standby'}
+                            </p>
+                            ${n.status==='idle' ? `
+                                <div class="flex gap-1">
+                                    <button onclick="startBuild(${n.id},'GREEN')" class="bg-green-600/20 text-green-400 px-2 py-1 rounded text-[8px] font-black border border-green-500/30">GREEN</button>
+                                    ${n.buildCount >= 30 ? `<button onclick="startBuild(${n.id},'RED')" class="bg-red-600/20 text-red-400 px-2 py-1 rounded text-[8px] font-black border border-red-500/30">RED</button>` : `<button disabled class="bg-slate-800 text-slate-600 px-2 py-1 rounded text-[8px] font-black border border-white/5 opacity-50">LOCK (30)</button>`}
+                                    ${n.buildCount >= 90 ? `<button onclick="startBuild(${n.id},'YELLOW')" class="bg-yellow-600/20 text-yellow-400 px-2 py-1 rounded text-[8px] font-black border border-yellow-500/30">YELLOW</button>` : `<button disabled class="bg-slate-800 text-slate-600 px-2 py-1 rounded text-[8px] font-black border border-white/5 opacity-50">LOCK (90)</button>`}
+                                    <button onclick="useBot(${n.id})" class="bot-btn px-2 py-1 rounded text-[8px] font-black">DEPLOY BOT</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>`;
             }
         });
         checkAdmin();
@@ -649,7 +685,15 @@
         else window.showToast("INSUFFICIENT TNB");
     };
 
-    window.startBuild = (id, type, isBot=false) => { state.nodes[id].status = 'building'; state.nodes[id].type = type; state.nodes[id].progress = 0; state.nodes[id].isBot = isBot; updateUI(); window.saveGame(); };
+    window.startBuild = (id, type, isBot=false) => { 
+        if (!state.nodes[id]) return;
+        state.nodes[id].status = 'building'; 
+        state.nodes[id].type = type; 
+        state.nodes[id].progress = 0; 
+        state.nodes[id].isBot = isBot; 
+        updateUI(); 
+        window.saveGame(); 
+    };
     
     window.useBot = (id) => { 
         if (state.botStock > 0) { 
@@ -674,7 +718,8 @@
 
     window.switchTab = (tab, btn) => {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById('screen-'+tab).classList.add('active');
+        const target = document.getElementById('screen-'+tab);
+        if (target) target.classList.add('active');
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         if(btn) btn.classList.add('active');
         if (tab !== 'sync') state.isSyncActive = false;
@@ -682,30 +727,31 @@
 
     function gameLoop() {
         const now = Date.now(); const delta = (now - state.lastUpdate) / 1000; state.lastUpdate = now;
-        const cycles = getTotalCycles(); const scaling = 1 + (cycles * 0.05);
+        const cycles = state.cycle;
+        const scaling = 1 + (cycles * 0.05);
         const rank = RANK_DATA.slice().reverse().find(r => state.totalProjects >= r.req) || RANK_DATA[0];
+        
         state.nodes.forEach(n => {
             if (n.status === 'cooldown') { n.cooldown -= delta; if (n.cooldown <= 0) { n.status = 'idle'; } }
             if (!state.isDesynced && n.status === 'building') {
                 const type = BUILDING_TYPES[n.type];
                 let power = (rank.bonus === 0 ? 1.0 : (rank.bonus === 15 ? 3.5 : 2.0));
                 if (state.overclocks > 0) power *= 2;
+                
                 n.progress += (100 / (type.time * scaling)) * delta * power;
                 if (n.progress >= 100) {
                     state.totalProjects++;
+                    n.buildCount++;
                     const multiplier = state.phase === 1 ? 2.0 : (state.phase === 2 ? 4.0 : 5.33);
                     state.balance += (type.income * multiplier) * (1 - rank.split);
                     n.status = 'cooldown'; n.cooldown = type.cooldown;
-                    n.isBot = false; // Reset bot flag after job
+                    n.isBot = false;
                     if (state.overclocks > 0) state.overclocks--;
-                    if (state.phase === 1 && !n.isBot) {
-                        state.manualBuildsCompleted++;
-                        if (state.manualBuildsCompleted >= state.manualBuildsRequired) {
-                            state.manualBuildsCompleted = 0; if (state.cycle < 18) { state.cycle++; } else { state.phase = 2; state.cycle = 1; }
-                        }
-                    } else if (state.phase === 2 && state.totalProjects % 15 === 0) {
-                        if (state.cycle < 9) state.cycle++; else { state.phase = 3; state.cycle = 1; }
-                    } else if (state.phase >= 3 && state.totalProjects % 15 === 0 && state.cycle < 9) { state.cycle++; }
+                    if (n.type === 'YELLOW' && n.buildCount >= 180) {
+                        n.buildCount = 0;
+                        if (state.cycle < 9) { state.cycle++; } else { state.cycle = 1; state.phase++; }
+                        window.showToast("NEXT CYCLE ACTIVATED!");
+                    }
                     window.saveGame();
                 }
             }
@@ -723,7 +769,7 @@
                         Object.assign(state, snap.data()); 
                         hasLoaded = true; 
                     } else {
-                        hasLoaded = true; // NEW PLAYER
+                        hasLoaded = true;
                     }
                     updateUI();
                 });
