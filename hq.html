@@ -25,6 +25,7 @@
             color: var(--text);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             overflow-x: hidden;
@@ -32,17 +33,35 @@
             user-select: none;
         }
 
+        /* RESPONSIVE DASHBOARD UPDATES */
         #app-container {
             width: 100%;
-            max-width: 450px;
+            max-width: 1200px; /* Expanded from 450px for PC monitors */
             min-height: 100vh;
             padding-bottom: 80px;
             position: relative;
             background: var(--bg);
+            margin: 0 auto; /* Center on large screens */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        /* Desktop Grid Rules */
+        @media (min-width: 768px) {
+            .grid-layout { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+            .hq-grid { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+            .market-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
         }
 
         .top-bar {
-            padding: 20px;
+            padding: 15px 20px;
             background: var(--card);
             display: flex;
             justify-content: space-between;
@@ -65,11 +84,14 @@
 
         .stats-card, .generator-card, .market-card {
             background: var(--card);
-            margin: 15px;
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             border: 1px solid #2c3e50;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%; /* Align properly in CSS grid */
         }
 
         .action-btn {
@@ -84,6 +106,7 @@
             transition: 0.2s;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-top: 10px;
         }
 
         .action-btn:hover { filter: brightness(1.1); }
@@ -98,9 +121,17 @@
         .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s linear; }
 
         .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; max-width: 450px;
-            height: 70px; background: var(--card); display: flex;
-            border-top: 1px solid #2c3e50; z-index: 100;
+            position: fixed; 
+            bottom: 0; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%; 
+            max-width: 1200px;
+            height: 70px; 
+            background: var(--card); 
+            display: flex;
+            border-top: 1px solid #2c3e50; 
+            z-index: 100;
         }
 
         .nav-btn {
@@ -163,18 +194,8 @@
             animation: floatUp 1.5s ease-out forwards; z-index: 3000;
         }
 
-        .screen { display: none; }
+        .screen { display: none; flex-grow: 1; }
         .screen.active { display: block; }
-
-        .leaderboard-item {
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
     </style>
 </head>
 <body>
@@ -202,10 +223,11 @@
         <div id="auth-controls" class="space-y-4">
             <div id="setup-fields" class="hidden">
                 <input type="text" id="upland-ign" placeholder="ENTER UPLAND IGN">
+                <input type="text" id="manual-wallet" placeholder="PASTE BASE WALLET (OPTIONAL)">
                 <button class="action-btn" onclick="enterHQ()">INITIALIZE SYSTEM</button>
             </div>
             
-            <button id="guest-play-btn" class="action-btn !bg-slate-700 !text-white" onclick="showIgnInput()">PLAY AS GUEST (FREE)</button>
+            <button id="guest-play-btn" class="action-btn !bg-slate-700 !text-white" onclick="showIgnInput()">MANUAL SETUP / GUEST (FREE)</button>
             
             <div class="flex items-center gap-2 my-4">
                 <hr class="flex-grow border-slate-800">
@@ -224,8 +246,8 @@
         <div class="brand flex items-center gap-2">
             <span id="rank-badge-icon" class="text-lg">🛠️</span>
             <span id="player-rank-title" class="font-black italic uppercase text-[10px]">Operator</span> 
-            <span class="mx-1 text-slate-700">|</span> 
-            <span id="cycle-badge" class="phase-badge">Phase <span id="phase-display">1</span> Cycle <span id="cycle-display">1</span></span>
+            <span class="mx-1 text-slate-700 hidden sm:inline">|</span> 
+            <span id="cycle-badge" class="phase-badge hidden sm:inline">Phase <span id="phase-display">1</span> Cycle <span id="cycle-display">1</span></span>
         </div>
         <div class="font-black text-right leading-tight">
             <div class="text-[9px] text-slate-500 uppercase tracking-tighter mb-0.5">Total Revenue</div>
@@ -234,70 +256,76 @@
     </header>
 
     <main id="screen-operator" class="screen">
-        <div class="stats-card">
-            <div class="flex justify-between items-center mb-4">
-                <h2 id="office-title" class="text-xs font-black uppercase text-slate-500 tracking-widest">Operator Profile</h2>
-                <button onclick="switchTab('playbook')" class="text-[9px] font-bold text-accent underline">NODE SCHEMATIC</button>
+        <!-- WRAPPED IN GRID LAYOUT -->
+        <div class="grid-layout hq-grid">
+            <div class="stats-card">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="office-title" class="text-xs font-black uppercase text-slate-500 tracking-widest">Operator Profile</h2>
+                    <button onclick="switchTab('playbook')" class="text-[9px] font-bold text-accent underline">NODE SCHEMATIC</button>
+                </div>
+                <div class="space-y-4 text-xs font-bold">
+                    <div class="flex justify-between border-b border-slate-800 pb-2">
+                        <span class="text-slate-500 uppercase text-[9px]">Upland Operator</span>
+                        <span id="dash-ign" style="color: var(--raytown-blue)">---</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-800 pb-2">
+                        <span class="text-slate-500 uppercase text-[9px]">Active Status</span>
+                        <span id="dash-rank-full" class="text-accent">🛠️ Node Builder</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-800 pb-2">
+                        <span class="text-slate-500 uppercase text-[9px]">Focus Power</span>
+                        <span id="dash-benefit" class="text-green-500">+0% Boost</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500 uppercase text-[9px]">Linked Wallet</span>
+                        <div class="flex items-center gap-2">
+                            <span id="dash-wallet" class="text-blue-400 overflow-hidden text-ellipsis max-w-[100px]">None</span>
+                            <button id="in-game-connect-btn" onclick="inGameConnectWallet()" class="bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded text-[7px] font-black uppercase transition-colors">Connect</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="space-y-4 text-xs font-bold">
-                <div class="flex justify-between border-b border-slate-800 pb-2">
-                    <span class="text-slate-500 uppercase text-[9px]">Upland Operator</span>
-                    <span id="dash-ign" style="color: var(--raytown-blue)">---</span>
-                </div>
-                <div class="flex justify-between border-b border-slate-800 pb-2">
-                    <span class="text-slate-500 uppercase text-[9px]">Active Status</span>
-                    <span id="dash-rank-full" class="text-accent">🛠️ Node Builder</span>
-                </div>
-                <div class="flex justify-between border-b border-slate-800 pb-2">
-                    <span class="text-slate-500 uppercase text-[9px]">Focus Power</span>
-                    <span id="dash-benefit" class="text-green-500">+0% Boost</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-slate-500 uppercase text-[9px]">Linked Wallet</span>
-                    <span id="dash-wallet" class="text-blue-400 overflow-hidden text-ellipsis max-w-[150px]">None</span>
-                </div>
-            </div>
-        </div>
 
-        <div class="stats-card border-2 border-green-500/20">
-            <h3 class="text-[10px] font-black uppercase text-green-500 mb-3 tracking-widest">Withdrawal Terminal</h3>
-            <p class="text-[9px] text-slate-500 mb-4 uppercase">Withdraw TNB from Treasury to Wallet (Min: 100 TNB)</p>
-            <button id="withdraw-btn" class="action-btn !bg-green-600 !text-white" onclick="requestWithdrawal()">Withdraw TNB to Wallet</button>
-        </div>
+            <div class="stats-card border-2 border-green-500/20">
+                <h3 class="text-[10px] font-black uppercase text-green-500 mb-3 tracking-widest">Withdrawal Terminal</h3>
+                <p class="text-[9px] text-slate-500 mb-4 uppercase">Withdraw TNB from Treasury to Wallet (Min: 100 TNB)</p>
+                <button id="withdraw-btn" class="action-btn !bg-green-600 !text-white" onclick="requestWithdrawal()">Withdraw TNB to Wallet</button>
+            </div>
 
-        <div class="stats-card bg-[#1a1f26] border-2 border-accent/20">
-            <h3 class="text-[10px] font-black uppercase text-accent mb-3 tracking-widest">Bot Management</h3>
-            <div class="flex justify-between items-center px-2">
-                <div>
-                    <p class="text-[8px] text-slate-500 uppercase">Assigned Bots</p>
-                    <p class="text-2xl font-black italic"><span id="bot-count">0</span> <span class="text-[10px] text-slate-500">Units</span></p>
-                </div>
-                <div class="text-right">
-                    <p id="automation-status" class="text-[10px] font-bold text-red-400 uppercase">Hands-On Required</p>
-                    <p class="text-[8px] text-slate-500 uppercase">Network State</p>
+            <div class="stats-card bg-[#1a1f26] border-2 border-accent/20">
+                <h3 class="text-[10px] font-black uppercase text-accent mb-3 tracking-widest">Bot Management</h3>
+                <div class="flex justify-between items-center px-2">
+                    <div>
+                        <p class="text-[8px] text-slate-500 uppercase">Assigned Bots</p>
+                        <p class="text-2xl font-black italic"><span id="bot-count">0</span> <span class="text-[10px] text-slate-500">Units</span></p>
+                    </div>
+                    <div class="text-right">
+                        <p id="automation-status" class="text-[10px] font-bold text-red-400 uppercase">Hands-On Required</p>
+                        <p class="text-[8px] text-slate-500 uppercase">Network State</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="stats-card">
-            <div class="flex justify-between items-center mb-2">
-                <p class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Node Sync Mini-Game</p>
-                <span id="sync-charge-badge" class="bg-blue-600 text-[8px] px-2 py-0.5 rounded uppercase font-black">Focus Power: <span id="fragment-count">0/10</span></span>
-            </div>
-            <div id="minigame-container">
-                <div id="minigame-start-overlay">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 text-center">Sync While Building!<br>Collect 10 🔨 for Focus Power</p>
-                    <button class="bg-accent text-black px-4 py-2 rounded text-[10px] font-black uppercase" onclick="startSyncGame()">Sync!</button>
+            <div class="stats-card">
+                <div class="flex justify-between items-center mb-2">
+                    <p class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Node Sync Mini-Game</p>
+                    <span id="sync-charge-badge" class="bg-blue-600 text-[8px] px-2 py-0.5 rounded uppercase font-black">Focus Power: <span id="fragment-count">0/10</span></span>
                 </div>
-                <div id="collector">📟</div>
+                <div id="minigame-container">
+                    <div id="minigame-start-overlay">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 text-center">Sync While Building!<br>Collect 10 🔨 for Focus Power</p>
+                        <button class="bg-accent text-black px-4 py-2 rounded text-[10px] font-black uppercase" onclick="startSyncGame()">Sync!</button>
+                    </div>
+                    <div id="collector">📟</div>
+                </div>
+                <p class="text-[9px] text-slate-500 italic text-center mt-2">Catch Tools 🔨 | Avoid Hazards ⚠️</p>
             </div>
-            <p class="text-[9px] text-slate-500 italic text-center">Catch Tools 🔨 | Avoid Hazards ⚠️</p>
-        </div>
 
-        <div class="stats-card">
-            <p class="text-[10px] font-black uppercase text-slate-500 mb-2">Network Capacity Sync</p>
-            <div class="progress-bar"><div id="quota-progress" class="progress-fill" style="background: var(--raytown-blue)"></div></div>
-            <p id="quota-text" class="text-[9px] mt-2 text-slate-500 italic text-center">Initializing Build Loop...</p>
+            <div class="stats-card">
+                <p class="text-[10px] font-black uppercase text-slate-500 mb-2">Network Capacity Sync</p>
+                <div class="progress-bar"><div id="quota-progress" class="progress-fill" style="background: var(--raytown-blue)"></div></div>
+                <p id="quota-text" class="text-[9px] mt-2 text-slate-500 italic text-center">Initializing Build Loop...</p>
+            </div>
         </div>
     </main>
 
@@ -309,29 +337,39 @@
                 <span id="weather-label" class="text-[9px] font-bold uppercase text-slate-500">Clear Skies</span>
             </div>
         </div>
-        <div id="generator-list" class="space-y-1"></div>
+        <!-- WRAPPED IN GRID LAYOUT -->
+        <div id="generator-list" class="grid-layout"></div>
     </main>
 
     <main id="screen-market" class="screen">
-        <div class="market-card border-green-500 border-2">
-            <h3 class="font-black italic uppercase text-sm mb-1 text-green-400">Maintenance Pulse</h3>
-            <p class="text-[10px] text-slate-500 mb-4">INSTANT 50% PROGRESS ON ALL NODE PROJECTS</p>
-            <button id="buy-boost-btn" class="action-btn !bg-green-600 !text-white" onclick="buyItem('boost')">TIME BOOST (<span id="boost-cost-display">1500</span> TNB)</button>
-        </div>
-        <div class="market-card border-blue-500 border-2">
-            <h3 class="font-black italic uppercase text-sm mb-1 text-blue-400">Shield Generator</h3>
-            <p class="text-[10px] text-slate-500 mb-4">BLOCKS 50S STORM DELAYS AUTOMATICALLY</p>
-            <button id="buy-shield-btn" class="action-btn !bg-blue-600 !text-white" onclick="buyItem('shield')">INSTALL SHIELD (7500 TNB)</button>
-        </div>
-        <div class="market-card">
-            <h3 class="font-black italic uppercase text-sm mb-1">Contract Bot</h3>
-            <p class="text-[10px] text-slate-500 mb-4">SINGLE BUILD AUTOMATION (RE-HIRE REQD)</p>
-            <button class="action-btn" onclick="buyItem('bot')">HIRE BOT (500 TNB)</button>
+        <!-- WRAPPED IN GRID LAYOUT -->
+        <div class="grid-layout market-grid">
+            <div class="market-card border-green-500 border-2">
+                <div>
+                    <h3 class="font-black italic uppercase text-sm mb-1 text-green-400">Maintenance Pulse</h3>
+                    <p class="text-[10px] text-slate-500 mb-4">INSTANT 50% PROGRESS ON ALL NODE PROJECTS</p>
+                </div>
+                <button id="buy-boost-btn" class="action-btn !bg-green-600 !text-white" onclick="buyItem('boost')">TIME BOOST (<span id="boost-cost-display">1500</span> TNB)</button>
+            </div>
+            <div class="market-card border-blue-500 border-2">
+                <div>
+                    <h3 class="font-black italic uppercase text-sm mb-1 text-blue-400">Shield Generator</h3>
+                    <p class="text-[10px] text-slate-500 mb-4">BLOCKS 50S STORM DELAYS AUTOMATICALLY</p>
+                </div>
+                <button id="buy-shield-btn" class="action-btn !bg-blue-600 !text-white" onclick="buyItem('shield')">INSTALL SHIELD (7500 TNB)</button>
+            </div>
+            <div class="market-card">
+                <div>
+                    <h3 class="font-black italic uppercase text-sm mb-1">Contract Bot</h3>
+                    <p class="text-[10px] text-slate-500 mb-4">SINGLE BUILD AUTOMATION (RE-HIRE REQD)</p>
+                </div>
+                <button class="action-btn" onclick="buyItem('bot')">HIRE BOT (500 TNB)</button>
+            </div>
         </div>
     </main>
 
     <main id="screen-playbook" class="screen">
-        <div class="stats-card playbook-content overflow-y-auto max-h-[75vh]">
+        <div class="stats-card playbook-content overflow-y-auto max-h-[75vh] max-w-3xl mx-auto my-4">
             <h2 class="text-xs font-black uppercase text-accent mb-4">Node Schematic</h2>
             <div class="bg-[#1e252e] p-3 rounded-lg border-l-4 border-accent mb-4">
                 <p class="text-[10px] font-bold uppercase mb-1">The Build Loop</p>
@@ -355,17 +393,38 @@
         </div>
     </main>
 
+    <!-- ADMIN COMMAND CENTER (HIDDEN BY DEFAULT) -->
+    <main id="screen-admin" class="screen">
+        <div class="px-4 py-2 flex justify-between items-center">
+            <h2 class="text-[10px] font-black uppercase tracking-widest text-slate-500">Treasury Command</h2>
+            <div class="flex items-center">
+                <span class="indicator green"></span>
+                <span class="text-[9px] font-bold uppercase text-slate-500">Secure Line</span>
+            </div>
+        </div>
+        <div class="grid-layout">
+            <div class="stats-card bg-[#1a1f26] border-2 border-red-500/20">
+                <h3 class="text-[10px] font-black uppercase text-red-500 mb-2 tracking-widest">Withdrawal Logs</h3>
+                <p class="text-[9px] text-slate-400 mb-4">Monitor and fulfill player TNB cash-out requests. Execute transfer on Base Network, then mark as paid here.</p>
+                <div id="admin-requests-list" class="space-y-2 max-h-[60vh] overflow-y-auto pr-2">
+                    <p class="text-center text-slate-500 text-xs italic">Loading secure logs...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <nav class="bottom-nav">
         <button class="nav-btn" onclick="switchTab('operator', this)">HQ</button>
         <button class="nav-btn active" onclick="switchTab('dispatch', this)">GRID</button>
         <button class="nav-btn" onclick="switchTab('market', this)">MARKET</button>
+        <button id="nav-admin-btn" class="nav-btn text-red-500 border-t-0" style="display: none;" onclick="switchTab('admin', this)">ADMIN</button>
     </nav>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     // --- FIREBASE CONFIGURATION ---
     let firebaseConfig;
@@ -477,12 +536,37 @@
             try {
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
+                document.getElementById('manual-wallet').value = accounts[0];
                 window.showToast("WALLET LINKED");
                 window.showIgnInput();
-            } catch (e) { window.showToast("CONNECTION REJECTED"); }
+            } catch (e) { 
+                window.showToast("CONNECTION REJECTED"); 
+                window.showIgnInput();
+            }
         } else {
-            window.showToast("BASE WALLET NOT FOUND.");
+            window.showToast("WEB3 NOT FOUND. PLEASE PASTE WALLET.");
             window.showIgnInput();
+        }
+    };
+
+    window.inGameConnectWallet = async () => {
+        const input = prompt("Paste your Base Wallet Address:\n(Or leave blank and click OK to try auto-connecting via browser extension)");
+        
+        if (input !== null) {
+            if (input.trim() !== "") {
+                localStorage.setItem('fasttrack_operator_wallet', input.trim());
+                window.showToast("WALLET LINKED MANUALLY");
+                updateUI();
+            } else if (window.ethereum) {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
+                    window.showToast("WALLET LINKED");
+                    updateUI();
+                } catch (e) { window.showToast("CONNECTION REJECTED"); }
+            } else {
+                window.showToast("NO WEB3 WALLET DETECTED");
+            }
         }
     };
 
@@ -514,6 +598,12 @@
     window.enterHQ = () => {
         state.ign = document.getElementById('upland-ign').value || "Operator";
         localStorage.setItem('fasttrack_ign', state.ign);
+
+        const manualWallet = document.getElementById('manual-wallet').value;
+        if (manualWallet && manualWallet.trim() !== "") {
+            localStorage.setItem('fasttrack_operator_wallet', manualWallet.trim());
+        }
+
         document.getElementById('view-gateway').style.display = 'none';
         document.getElementById('app-container').classList.remove('hidden');
         initMap(); initMinigame(); gameLoop(); populatePlaybook();
@@ -536,7 +626,6 @@
 
     let isMinigameInitialized = false;
     function initMinigame() {
-        // Prevent multiple listeners and super-speed spawning on page reloads
         if (isMinigameInitialized) return;
         isMinigameInitialized = true;
 
@@ -594,8 +683,8 @@
 
     window.rebootSystem = () => { 
         state.isDesynced = false; 
-        state.isSyncActive = true; // Instantly jump back into the mini-game
-        state.fragments = 0; // Penalty: Lose currently unbanked fragments
+        state.isSyncActive = true; 
+        state.fragments = 0; 
         state.lastUpdate = Date.now(); 
         document.getElementById('desync-overlay').style.display = 'none'; 
         document.getElementById('minigame-start-overlay').style.display = 'none';
@@ -611,7 +700,6 @@
         const scalingFactor = 1 + (totalCycles * 0.05);
         const rank = RANK_DATA.slice().reverse().find(r => state.totalProjects >= r.req) || RANK_DATA[0];
 
-        // FIX: Ensure Desync Overlay shows if state was saved to Firebase while desynced
         const desyncOverlay = document.getElementById('desync-overlay');
         if (state.isDesynced) {
             desyncOverlay.style.display = 'flex';
@@ -619,7 +707,6 @@
             desyncOverlay.style.display = 'none';
         }
 
-        // FIX: Ensure Mini-game UI matches current sync state on load
         const startOverlay = document.getElementById('minigame-start-overlay');
         const collector = document.getElementById('collector');
         if (state.isSyncActive && !state.isDesynced) {
@@ -632,7 +719,14 @@
 
         set('tnb-balance-display', Math.floor(state.balance).toLocaleString() + ' TNB');
         set('dash-ign', state.ign);
-        set('dash-wallet', localStorage.getItem('fasttrack_operator_wallet') || 'None');
+        
+        const currentWallet = localStorage.getItem('fasttrack_operator_wallet');
+        set('dash-wallet', currentWallet || 'None');
+        const inGameConnectBtn = document.getElementById('in-game-connect-btn');
+        if (inGameConnectBtn) {
+            inGameConnectBtn.style.display = currentWallet ? 'none' : 'block';
+        }
+        
         set('dash-rank-full', rank.badge + " " + rank.name);
         set('dash-benefit', `+${rank.bonus}% Speed`);
         set('phase-display', state.phase); set('cycle-display', state.cycle);
@@ -656,9 +750,9 @@
                 const btnText = isFree ? 'CLAIM (FREE)' : `EXPAND (${lotCost})`;
                 const disabled = !isFree && !canAfford ? 'disabled opacity-30' : '';
                 
-                row.innerHTML = `<div class="generator-card flex justify-between items-center">
+                row.innerHTML = `<div class="generator-card flex justify-between items-center h-full">
                     <div class="text-[10px] font-bold">Lot #${n.id+1} ${isFree ? '(STARTER)' : ''}</div>
-                    <button onclick="mintNode(${n.id})" ${disabled} class="${btnBg} text-white px-4 py-2 rounded font-black text-[9px] shadow-lg shadow-blue-900/20 active:translate-y-0.5 transition-all">${btnText}</button>
+                    <button onclick="mintNode(${n.id})" ${disabled} class="${btnBg} text-white px-4 py-2 rounded font-black text-[9px] shadow-lg shadow-blue-900/20 active:translate-y-0.5 transition-all w-auto">${btnText}</button>
                 </div>`;
             } else {
                 const type = BUILDING_TYPES[n.type];
@@ -673,12 +767,14 @@
                         <button onclick="startBuild(${n.id},'GREEN')" class="bg-green-600 px-2 py-1 rounded text-[7px] text-white">GREEN</button>
                         <button onclick="startBuild(${n.id},'RED')" ${state.totalProjects<30?'disabled':''} class="bg-red-600 px-2 py-1 rounded text-[7px] text-white disabled:opacity-20">RED</button>
                         <button onclick="startBuild(${n.id},'YELLOW')" ${state.totalProjects<60?'disabled':''} class="bg-yellow-500 px-2 py-1 rounded text-[7px] text-black disabled:opacity-20">YELLOW</button>
-                        <button onclick="useBot(${n.id})" class="bg-accent px-2 py-1 rounded text-[7px]">BOT</button>
+                        <button onclick="useBot(${n.id})" class="bg-accent px-2 py-1 rounded text-[7px] text-black">BOT</button>
                     </div>` : ''}</div></div>`;
             }
         });
         const sBtn = document.getElementById('buy-shield-btn');
         if(sBtn) { sBtn.disabled = state.hasShield; if(state.hasShield) sBtn.innerText = "SHIELD ACTIVE"; }
+        
+        checkAdmin();
     }
 
     window.mintNode = (id) => {
@@ -727,6 +823,79 @@
             document.getElementById('collector').style.opacity = '0';
         }
     };
+
+    // --- ADMIN DASHBOARD LOGIC ---
+    let adminRequests = [];
+    function checkAdmin() {
+        const wallet = localStorage.getItem('fasttrack_operator_wallet');
+        const adminBtn = document.getElementById('nav-admin-btn');
+        // Unlocks ONLY if the connected wallet is your specific Treasury Address
+        if (wallet && wallet.toLowerCase() === TREASURY_ADDRESS) {
+            if (adminBtn) adminBtn.style.display = 'flex';
+            if (!window.adminListenerSet) {
+                window.adminListenerSet = true;
+                const requestsCol = collection(db, 'artifacts', appId, 'public', 'data', 'withdrawalRequests');
+                onSnapshot(requestsCol, (snap) => {
+                    adminRequests = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    renderAdminDashboard();
+                }, (e) => console.error("Admin fetch error", e));
+            }
+        } else {
+            if (adminBtn) adminBtn.style.display = 'none';
+        }
+    }
+
+    function renderAdminDashboard() {
+        const list = document.getElementById('admin-requests-list');
+        if (!list) return;
+        
+        // Sort newest requests to the top
+        const sorted = adminRequests.sort((a,b) => {
+            const timeA = a.requestedAt ? a.requestedAt.toMillis() : 0;
+            const timeB = b.requestedAt ? b.requestedAt.toMillis() : 0;
+            return timeB - timeA;
+        });
+        
+        let html = '';
+        sorted.forEach(req => {
+            const date = req.requestedAt ? new Date(req.requestedAt.toMillis()).toLocaleString() : 'Unknown Time';
+            const isPending = req.status === 'pending';
+            const borderColor = isPending ? 'border-yellow-500' : 'border-green-500';
+            const statusColor = isPending ? 'text-yellow-400' : 'text-green-400';
+            
+            html += `
+                <div class="market-card ${borderColor} border-2" style="margin: 0 0 10px 0; padding: 15px;">
+                    <div class="flex justify-between items-center mb-2 border-b border-slate-700 pb-2">
+                        <h3 class="font-black italic text-xs ${statusColor}">${req.status.toUpperCase()}</h3>
+                        <span class="text-[9px] text-slate-400">${date}</span>
+                    </div>
+                    <div class="text-[10px] text-slate-300 space-y-1 mb-2">
+                        <p class="flex justify-between"><strong>Operator IGN:</strong> <span class="text-white">${req.ign}</span></p>
+                        <p class="flex justify-between"><strong>Payout Owed:</strong> <span class="text-green-400 font-black">${req.amount} TNB</span></p>
+                        <p class="mt-2"><strong>Base Wallet Address:</strong> <br><span class="text-blue-400 select-all break-all text-[9px] block mt-1 bg-black p-2 rounded border border-slate-800">${req.wallet}</span></p>
+                    </div>
+                    ${isPending ? 
+                        `<button class="action-btn !bg-green-600 !text-white text-[9px] py-2 mt-2" onclick="markRequestPaid('${req.id}')">MARK FUNDS SENT</button>` 
+                        : `<div class="text-center text-[9px] text-slate-500 font-bold mt-2 pt-2 border-t border-slate-700">COMPLETED</div>`}
+                </div>
+            `;
+        });
+        list.innerHTML = html || '<p class="text-center text-slate-500 text-xs mt-4">No withdrawal requests found.</p>';
+    }
+
+    window.markRequestPaid = async (id) => {
+        try {
+            await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'withdrawalRequests', id), {
+                status: 'paid',
+                paidAt: serverTimestamp()
+            });
+            window.showToast("RECORD MARKED AS PAID");
+        } catch (e) {
+            window.showToast("ERROR UPDATING RECORD");
+            console.error(e);
+        }
+    };
+    // -----------------------------
 
     function handlePayout(n, rank) {
         const type = BUILDING_TYPES[n.type];
