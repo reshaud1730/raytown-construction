@@ -211,7 +211,8 @@
 <div id="desync-overlay">
     <h2 class="text-red-500 font-black text-4xl italic mb-4 tracking-tighter">DESYNC!</h2>
     <p class="text-slate-400 text-sm mb-8 uppercase font-bold text-center">Node Sync Lost.<br>Avoid Hazard Icons.</p>
-    <button class="action-btn !bg-red-600 !text-white px-8" onclick="rebootSystem()">Manual Maintenance (Restart Sync)</button>
+    <!-- FIX: Updated to onpointerdown for instant responsive clicking -->
+    <button class="action-btn !bg-red-600 !text-white px-8" onpointerdown="rebootSystem(event)">Manual Maintenance (Restart Sync)</button>
 </div>
 
 <!-- GATEWAY LOGIN -->
@@ -312,9 +313,10 @@
                     <span id="sync-charge-badge" class="bg-blue-600 text-[8px] px-2 py-0.5 rounded uppercase font-black">Focus Power: <span id="fragment-count">0/10</span></span>
                 </div>
                 <div id="minigame-container">
-                    <div id="minigame-start-overlay">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 text-center">Sync While Building!<br>Collect 10 🔨 for Focus Power</p>
-                        <button class="bg-accent text-black px-4 py-2 rounded text-[10px] font-black uppercase" onclick="startSyncGame()">Sync!</button>
+                    <!-- FIX: Updated overlay to instantly trigger start on touch/mouse press anywhere in the box -->
+                    <div id="minigame-start-overlay" onpointerdown="startSyncGame(event)" style="cursor: pointer;">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 text-center pointer-events-none">Sync While Building!<br>Collect 10 🔨 for Focus Power</p>
+                        <button class="bg-accent text-black px-4 py-2 rounded text-[10px] font-black uppercase pointer-events-none">Sync!</button>
                     </div>
                     <div id="collector">📟</div>
                 </div>
@@ -448,6 +450,8 @@
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'raytown-tycoon';
 
     const TNB_CONTRACT_ADDRESS = "0x6731dCe43195A9964559d0394FD009AB4b2Ed911";
+    
+    // 👇 FIX: Replace the address inside the quotes with YOUR connected wallet address!
     const TREASURY_ADDRESS = "0xA32bFfa855e1D6c83C9b047b591a5BFc3630ab9F".toLowerCase();
 
     // State
@@ -638,25 +642,22 @@
         
         // Universal movement calculation
         const handleMove = (clientX) => {
-            if (!state.isSyncActive || state.isDesynced) return;
+            if (!state.isSyncActive || state.isDesynced || !document.getElementById('screen-operator').classList.contains('active')) return;
             const rect = container.getBoundingClientRect();
             // Calculate relative percentage
             state.collectorX = Math.max(5, Math.min(95, ((clientX - rect.left) / rect.width) * 100));
             collector.style.left = state.collectorX + '%';
         };
 
-        // 1. Touchscreen Support
-        container.addEventListener('touchmove', (e) => { 
-            e.preventDefault(); // Prevents the screen from scrolling while dragging the paddle
-            if (e.touches && e.touches.length > 0) {
-                handleMove(e.touches[0].clientX);
-            }
-        }, { passive: false });
-
-        // 2. PC Mouse Support
-        container.addEventListener('mousemove', (e) => {
+        // 1. Universal Pointer Tracking (Fixes PC mouse lock-ups by tracking screen-wide)
+        window.addEventListener('pointermove', (e) => {
             handleMove(e.clientX);
         });
+
+        // 2. Prevent mobile browser scrolling while dragging inside the box
+        container.addEventListener('touchmove', (e) => { 
+            e.preventDefault(); 
+        }, { passive: false });
 
         // 3. PC Keyboard Support (A/D or Left/Right Arrows)
         window.addEventListener('keydown', (e) => {
@@ -681,7 +682,9 @@
         }, 1200);
     }
 
-    window.startSyncGame = () => {
+    // FIX: Using event parameter to prevent double-firing or canceled clicks
+    window.startSyncGame = (e) => {
+        if (e) e.preventDefault(); 
         state.isSyncActive = true;
         document.getElementById('minigame-start-overlay').style.display = 'none';
         document.getElementById('collector').style.opacity = '1';
@@ -717,7 +720,9 @@
         document.getElementById('desync-overlay').style.display = 'flex'; 
     }
 
-    window.rebootSystem = () => { 
+    // FIX: Using event parameter to prevent double-firing or canceled clicks
+    window.rebootSystem = (e) => { 
+        if (e) e.preventDefault();
         state.isDesynced = false; 
         state.isSyncActive = true; 
         state.fragments = 0; 
