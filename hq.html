@@ -318,7 +318,7 @@
                     </div>
                     <div id="collector">📟</div>
                 </div>
-                <p class="text-[9px] text-slate-500 italic text-center mt-2">Catch Tools 🔨 | Avoid Hazards ⚠️</p>
+                <p class="text-[9px] text-slate-500 italic text-center mt-2">Mouse, Touch, or Arrow Keys (A/D) to Move</p>
             </div>
 
             <div class="stats-card">
@@ -489,7 +489,9 @@
 
     // Global Timing Ref
     function getTotalCycles() {
-        return (state.phase === 1 ? state.cycle - 1 : 17 + state.cycle);
+        if (state.phase === 1) return state.cycle - 1;
+        if (state.phase === 2) return 17 + state.cycle;
+        return 26 + state.cycle; // Phase 3+
     }
 
     // UI Helpers
@@ -515,19 +517,21 @@
 
     window.saveGame = async () => {
         if (!currentUser) return;
-        const userDoc = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'gameState', 'default');
+        // FIX: Restored correct path to match Firebase Security Rules
+        const userDoc = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'data', 'gameState');
         await setDoc(userDoc, { ...state, lastSaved: Date.now() });
     };
 
     function getTimeBoostCost() {
-        const scaling = 1 + (getTotalCycles() * 0.12);
-        return Math.max(Math.floor(1500 * scaling), 1500); 
+        // Base: 1500 -> Phase 2: 3000 -> Phase 3+: 4500
+        const multiplier = state.phase === 1 ? 1 : (state.phase === 2 ? 2 : 3);
+        return 1500 * multiplier; 
     }
 
     function getLotPermitCost() {
-        // Base 3000, scales with cycles
-        const scaling = 1 + (getTotalCycles() * 0.08);
-        return Math.floor(3000 * scaling);
+        // Base: 3000 -> Phase 2: 6000 -> Phase 3+: 9000
+        const multiplier = state.phase === 1 ? 1 : (state.phase === 2 ? 2 : 3);
+        return 3000 * multiplier;
     }
 
     // Blockchain Logic
@@ -631,18 +635,50 @@
 
         const container = document.getElementById('minigame-container');
         const collector = document.getElementById('collector');
-        const handleMove = (e) => {
+        
+        // Universal movement calculation
+        const handleMove = (clientX) => {
             if (!state.isSyncActive || state.isDesynced) return;
             const rect = container.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            // Calculate relative percentage
             state.collectorX = Math.max(5, Math.min(95, ((clientX - rect.left) / rect.width) * 100));
             collector.style.left = state.collectorX + '%';
         };
-        container.addEventListener('mousemove', handleMove);
-        container.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e); }, { passive: false });
+
+        // 1. Touchscreen Support
+        container.addEventListener('touchmove', (e) => { 
+            e.preventDefault(); // Prevents the screen from scrolling while dragging the paddle
+            if (e.touches && e.touches.length > 0) {
+                handleMove(e.touches[0].clientX);
+            }
+        }, { passive: false });
+
+        // 2. PC Mouse Support
+        container.addEventListener('mousemove', (e) => {
+            handleMove(e.clientX);
+        });
+
+        // 3. PC Keyboard Support (A/D or Left/Right Arrows)
+        window.addEventListener('keydown', (e) => {
+            // Only allow keys if the game is active and the player is on the HQ tab
+            if (!state.isSyncActive || state.isDesynced || !document.getElementById('screen-operator').classList.contains('active')) return;
+            
+            const moveSpeed = 8; // Keyboard movement speed
+            if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') {
+                state.collectorX = Math.max(5, state.collectorX - moveSpeed);
+                collector.style.left = state.collectorX + '%';
+            } else if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') {
+                state.collectorX = Math.min(95, state.collectorX + moveSpeed);
+                collector.style.left = state.collectorX + '%';
+            }
+        });
         
         if (window.spawnInterval) clearInterval(window.spawnInterval);
-        window.spawnInterval = setInterval(() => { if (state.isSyncActive && !state.isDesynced && document.getElementById('screen-operator').classList.contains('active')) spawnItem(); }, 1200);
+        window.spawnInterval = setInterval(() => { 
+            if (state.isSyncActive && !state.isDesynced && document.getElementById('screen-operator').classList.contains('active')) {
+                spawnItem(); 
+            }
+        }, 1200);
     }
 
     window.startSyncGame = () => {
@@ -735,8 +771,12 @@
         set('boost-cost-display', getTimeBoostCost().toLocaleString());
 
         const progress = state.phase === 1 ? (state.cycle / 18) * 100 : (state.cycle / 9) * 100;
-        document.getElementById('quota-progress').style.width = progress + '%';
-        set('quota-text', state.phase === 1 ? `Scaling Cycle (${state.cycle}/18)` : `Expansion Cycle (${state.cycle}/9)`);
+        document.getElementById('quota-progress').style.width = Math.min(100, progress) + '%';
+        
+        let phaseText = `Scaling Cycle (${state.cycle}/18)`;
+        if (state.phase === 2) phaseText = `Corporate Cycle (${state.cycle}/9)`;
+        if (state.phase >= 3) phaseText = `Conglomerate Cycle (${state.cycle}/9)`;
+        set('quota-text', phaseText);
 
         state.nodes.forEach(n => {
             const row = document.getElementById(`node-row-${n.id}`);
@@ -899,7 +939,16 @@
 
     function handlePayout(n, rank) {
         const type = BUILDING_TYPES[n.type];
-        const gross = type.income * (1 + (rank.bonus / 100));
+        
+        // Payout Phase Multiplier:
+        // Phase 1 (Base): Standard earnings (1.0x)
+        // Phase 2 (1st Increase): Double base earnings (2.0x)
+        // Phase 3 (Final Increase): Adds 1/3 to the Phase 2 earnings (2.0 * 1.333 = 2.66x)
+        let phaseMultiplier = 1.0;
+        if (state.phase === 2) phaseMultiplier = 2.0;
+        if (state.phase >= 3) phaseMultiplier = 2.0 * (4/3);
+
+        const gross = (type.income * phaseMultiplier) * (1 + (rank.bonus / 100));
         const tax = gross * rank.split;
         const operator = gross - tax;
         state.balance += operator;
@@ -934,6 +983,7 @@
                     n.status = 'cooldown';
                     n.cooldown = type.cooldown;
                     if (state.overclocks > 0) state.overclocks--;
+                    
                     if (state.phase === 1 && !n.isBot) {
                         state.manualBuildsCompleted++;
                         if (state.manualBuildsCompleted >= state.manualBuildsRequired) {
@@ -945,7 +995,15 @@
                                 state.phase = 2; state.cycle = 1; window.showToast("CORPORATE ERA UNLOCKED");
                             }
                         }
-                    } else if (state.phase === 2 && state.cycle < 9) {
+                    } else if (state.phase === 2) {
+                        if (state.totalProjects % 15 === 0) {
+                            if (state.cycle < 9) {
+                                state.cycle++;
+                            } else {
+                                state.phase = 3; state.cycle = 1; window.showToast("CONGLOMERATE ERA UNLOCKED");
+                            }
+                        }
+                    } else if (state.phase >= 3 && state.cycle < 9) {
                         if (state.totalProjects % 15 === 0) state.cycle++;
                     }
                     window.saveGame();
@@ -972,9 +1030,10 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
-                onSnapshot(doc(db, 'artifacts', appId, 'users', user.uid, 'gameState', 'default'), (snap) => {
+                // FIX: Restored correct path to match Firebase Security Rules
+                onSnapshot(doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'gameState'), (snap) => {
                     if (snap.exists()) { Object.assign(state, snap.data()); updateUI(); }
-                }, (e) => {});
+                }, (e) => { console.error("Database sync error:", e); });
             }
         });
 
