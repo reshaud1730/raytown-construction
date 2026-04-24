@@ -468,19 +468,31 @@
         setInterval(() => { if (state.isSyncActive && !state.isDesynced && document.getElementById('screen-sync').classList.contains('active')) spawnItem(); }, 1200);
     }
 
-    window.startSyncGame = (e) => { e.preventDefault(); state.isSyncActive = true; document.getElementById('minigame-start-overlay').style.display = 'none'; document.getElementById('collector').style.opacity = '1'; };
+    window.startSyncGame = (e) => { 
+        if (e) e.preventDefault(); 
+        state.isSyncActive = true; 
+        document.getElementById('minigame-start-overlay').style.display = 'none'; 
+        document.getElementById('collector').style.opacity = '1'; 
+    };
 
     function spawnItem() {
         const container = document.getElementById('minigame-container');
+        if (!container) return;
         const isHazard = Math.random() < 0.20;
         const el = document.createElement('div'); el.className = 'falling-item'; el.innerHTML = isHazard ? '⚠️' : '🔨';
         const startX = Math.random() * 90 + 5; el.style.left = startX + '%'; container.appendChild(el);
         let posY = -40;
         const animate = () => {
-            if (state.isDesynced || !state.isSyncActive) { el.remove(); return; }
+            // Stop logic if state changes or user leaves tab
+            if (state.isDesynced || !state.isSyncActive || !document.getElementById('screen-sync').classList.contains('active')) { el.remove(); return; }
             posY += 4; el.style.top = posY + 'px';
             if (posY > container.clientHeight - 80 && posY < container.clientHeight - 20 && Math.abs(startX - state.collectorX) < 12) {
-                if (isHazard) { triggerDesync(); } else { state.fragments++; state.balance += 5; if (state.fragments >= 10) { state.fragments = 0; state.overclocks++; window.showToast("OVERCLOCK BANKED"); } updateUI(); }
+                if (isHazard) { triggerDesync(); } 
+                else { 
+                    state.fragments++; state.balance += 5; 
+                    if (state.fragments >= 10) { state.fragments = 0; state.overclocks++; window.showToast("OVERCLOCK BANKED"); } 
+                    updateUI(); 
+                }
                 el.remove(); return;
             }
             if (posY > container.clientHeight + 20) el.remove(); else requestAnimationFrame(animate);
@@ -488,8 +500,29 @@
         requestAnimationFrame(animate);
     }
 
-    function triggerDesync() { state.isDesynced = true; state.isSyncActive = false; document.getElementById('desync-overlay').style.display = 'flex'; }
-    window.rebootSystem = (e) => { e.preventDefault(); state.isDesynced = false; state.isSyncActive = true; document.getElementById('desync-overlay').style.display = 'none'; updateUI(); };
+    function triggerDesync() { 
+        state.isDesynced = true; 
+        state.isSyncActive = false; 
+        document.getElementById('desync-overlay').style.display = 'flex'; 
+    }
+
+    window.rebootSystem = (e) => { 
+        if (e) e.preventDefault(); 
+        // 1. Clear State
+        state.isDesynced = false; 
+        state.isSyncActive = false; // Force a manual "Start Engine" again to ensure clean logic
+        state.fragments = 0; // Reset progress in the current bank
+        
+        // 2. Clear UI Elements
+        document.getElementById('desync-overlay').style.display = 'none'; 
+        document.getElementById('minigame-start-overlay').style.display = 'flex';
+        document.getElementById('collector').style.opacity = '0';
+        document.querySelectorAll('.falling-item').forEach(i => i.remove());
+        
+        // 3. Inform User & Update
+        updateUI(); 
+        window.showToast("SYSTEM REBOOTED"); 
+    };
 
     let adminRequests = [];
     function checkAdmin() {
@@ -597,7 +630,10 @@
         document.getElementById('screen-'+tab).classList.add('active');
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         if(btn) btn.classList.add('active');
-        if (tab !== 'sync') state.isSyncActive = false;
+        // Auto-pause mini game if tab changes
+        if (tab !== 'sync') {
+            state.isSyncActive = false;
+        }
     };
 
     function gameLoop() {
