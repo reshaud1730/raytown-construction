@@ -9,21 +9,23 @@
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js" type="module"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js" type="module"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+
         :root {
-            --bg: #0f1218;
-            --card: #1a1f26;
+            --bg: #0b1120;
+            --card: #151e32;
             --accent: #f39c12; 
             --text: #ffffff;
             --green: #2ecc71;
             --red: #e74c3c;
             --yellow: #f1c40f;
-            --raytown-blue: #3498db;
+            --raytown-blue: #00f2ff;
         }
 
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -36,12 +38,12 @@
         /* RESPONSIVE DASHBOARD UPDATES */
         #app-container {
             width: 100%;
-            max-width: 1200px; /* Expanded from 450px for PC monitors */
+            max-width: 1200px;
             min-height: 100vh;
             padding-bottom: 80px;
             position: relative;
             background: var(--bg);
-            margin: 0 auto; /* Center on large screens */
+            margin: 0 auto; 
             display: flex;
             flex-direction: column;
         }
@@ -66,20 +68,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #2c3e50;
+            border-bottom: 2px solid rgba(0, 242, 255, 0.2);
             position: sticky;
             top: 0;
             z-index: 60;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         .phase-badge {
-            background: #34495e;
+            background: rgba(243, 156, 18, 0.2);
             padding: 2px 8px;
             border-radius: 4px;
             font-size: 0.7rem;
             text-transform: uppercase;
             font-weight: bold;
             color: var(--accent);
+            border: 1px solid var(--accent);
         }
 
         .stats-card, .generator-card, .market-card {
@@ -87,11 +91,16 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 1px solid #2c3e50;
+            border: 1px solid rgba(255,255,255,0.05);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 100%; /* Align properly in CSS grid */
+            height: 100%;
+            transition: transform 0.2s;
+        }
+
+        .generator-card {
+            border-left: 4px solid var(--raytown-blue);
         }
 
         .action-btn {
@@ -101,24 +110,32 @@
             border-radius: 8px;
             background: var(--accent);
             color: #000;
-            font-weight: bold;
+            font-weight: 900;
             cursor: pointer;
             transition: 0.2s;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
         }
 
-        .action-btn:hover { filter: brightness(1.1); }
-        .action-btn:disabled { background: #555; cursor: not-allowed; color: #888; }
+        .action-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        .action-btn:disabled { background: #555; cursor: not-allowed; color: #888; box-shadow: none; transform: none; }
 
         .indicator { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
         .indicator.green { background: var(--green); box-shadow: 0 0 8px var(--green); }
         .indicator.red { background: var(--red); box-shadow: 0 0 8px var(--red); }
         .indicator.yellow { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
 
-        .progress-bar { height: 6px; background: #0f1218; border-radius: 3px; overflow: hidden; margin: 10px 0; }
+        .progress-bar { height: 8px; background: rgba(0,0,0,0.5); border-radius: 4px; overflow: hidden; margin: 10px 0; border: 1px solid rgba(255,255,255,0.1); }
         .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s linear; }
+        .progress-fill.bot-active { background: var(--raytown-blue); box-shadow: 0 0 10px var(--raytown-blue); }
+        .progress-fill.boost-flash { animation: boostFlash 0.5s ease-out; }
+
+        @keyframes boostFlash {
+            0% { background: #fff; box-shadow: 0 0 20px #fff; }
+            100% { background: var(--accent); box-shadow: none; }
+        }
 
         .bottom-nav {
             position: fixed; 
@@ -130,18 +147,19 @@
             height: 70px; 
             background: var(--card); 
             display: flex;
-            border-top: 1px solid #2c3e50; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
             z-index: 100;
         }
 
         .nav-btn {
-            flex: 1; background: none; border: none; color: #888;
-            font-size: 0.7rem; cursor: pointer; display: flex;
+            flex: 1; background: none; border: none; color: var(--text-muted);
+            font-size: 0.75rem; cursor: pointer; display: flex;
             flex-direction: column; align-items: center; justify-content: center;
-            font-weight: bold; text-transform: uppercase;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.2s;
         }
 
-        .nav-btn.active { color: var(--accent); border-top: 3px solid var(--accent); }
+        .nav-btn.active { color: var(--raytown-blue); border-top: 3px solid var(--raytown-blue); background: rgba(0, 242, 255, 0.05); }
 
         .gateway-overlay {
             position: fixed; inset: 0; background: var(--bg); z-index: 1000;
@@ -149,34 +167,34 @@
         }
 
         input[type="text"] {
-            width: 100%; padding: 14px; margin-bottom: 15px; background: #2c3e50;
-            border: 1px solid #34495e; color: white; border-radius: 8px; font-weight: bold; outline: none;
+            width: 100%; padding: 14px; margin-bottom: 15px; background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 8px; font-weight: bold; outline: none;
         }
-
-        .rank-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.7rem; }
-        .rank-table th, .rank-table td { text-align: left; padding: 8px; border-bottom: 1px solid #2c3e50; }
 
         #minigame-container {
-            height: 180px; background: #000; border-radius: 12px; position: relative;
-            overflow: hidden; border: 2px solid #2c3e50; margin: 15px 0;
+            height: 60vh; background: #000; border-radius: 16px; position: relative;
+            overflow: hidden; border: 2px solid var(--raytown-blue); margin: 0 auto;
+            width: 100%; max-width: 600px;
             touch-action: none;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.15) inset;
         }
         .falling-item {
-            position: absolute; width: 34px; height: 34px;
+            position: absolute; width: 44px; height: 44px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; z-index: 50;
-            top: -40px;
+            font-size: 2rem; z-index: 50;
+            top: -50px;
         }
         #collector {
-            position: absolute; bottom: 10px; width: 50px; height: 40px;
+            position: absolute; bottom: 20px; width: 70px; height: 50px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; z-index: 100; left: 50%; transform: translateX(-50%);
+            font-size: 2.5rem; z-index: 100; left: 50%; transform: translateX(-50%);
             pointer-events: none; opacity: 0; transition: opacity 0.3s;
+            filter: drop-shadow(0 0 10px rgba(243, 156, 18, 0.5));
         }
         #minigame-start-overlay {
-            position: absolute; inset: 0; background: rgba(0,0,0,0.7);
+            position: absolute; inset: 0; background: rgba(0,0,0,0.8);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 150; border-radius: 10px;
+            z-index: 150; border-radius: 14px; cursor: pointer;
         }
 
         #desync-overlay {
@@ -190,50 +208,53 @@
             100% { transform: translateY(-50px); opacity: 0; }
         }
         .tnb-float {
-            position: fixed; color: var(--green); font-weight: 900; pointer-events: none;
+            position: fixed; color: var(--green); font-weight: 900; font-size: 1.2rem; pointer-events: none;
             animation: floatUp 1.5s ease-out forwards; z-index: 3000;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
 
         .screen { display: none; flex-grow: 1; }
         .screen.active { display: block; }
+        
+        /* Playbook Styles Embedded */
+        .playbook-container { padding: 1rem; }
+        .bento-grid-pb { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        .bento-card-pb { background-color: rgba(0,0,0,0.3); border: 1px solid rgba(243, 156, 18, 0.2); border-radius: 12px; padding: 1.5rem; }
+        .card-title-pb { font-size: 1.2rem; font-weight: 900; text-transform: uppercase; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .timeline-item-pb { border-left: 2px solid var(--accent); padding-left: 1rem; margin-bottom: 1rem; position: relative; }
+        .timeline-item-pb::before { content: ''; position: absolute; left: -6px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--card); border: 2px solid var(--accent); }
     </style>
 </head>
 <body>
 
-<div id="weather-overlay" class="fixed inset-0 pointer-events-none bg-blue-500/10 border-[10px] border-blue-500 hidden z-[500] animate-pulse">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-500 font-black italic text-2xl uppercase opacity-70 text-center">
-        Storm Alert:<br>Severe Payout Setback!
-    </div>
-</div>
-<div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-[1000] pointer-events-none opacity-0 transition-opacity bg-[#f39c12] text-black px-6 py-2 rounded-full font-bold text-xs uppercase shadow-xl"></div>
+<div id="toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-[1000] pointer-events-none opacity-0 transition-opacity bg-[#f39c12] text-black px-6 py-3 rounded-full font-black text-sm uppercase shadow-[0_0_20px_rgba(243,156,18,0.5)] tracking-widest"></div>
 
 <!-- SYSTEM DESYNC OVERLAY -->
 <div id="desync-overlay">
-    <h2 class="text-red-500 font-black text-4xl italic mb-4 tracking-tighter">DESYNC!</h2>
-    <p class="text-slate-400 text-sm mb-8 uppercase font-bold text-center">Node Sync Lost.<br>Avoid Hazard Icons.</p>
-    <!-- FIX: Updated to onpointerdown for instant responsive clicking -->
-    <button class="action-btn !bg-red-600 !text-white px-8" onpointerdown="rebootSystem(event)">Manual Maintenance (Restart Sync)</button>
+    <h2 class="text-red-500 font-black text-5xl italic mb-4 tracking-tighter drop-shadow-[0_0_15px_rgba(231,76,60,0.6)]">DESYNC!</h2>
+    <p class="text-slate-300 text-lg mb-8 uppercase font-bold text-center">Node Sync Lost.<br>Avoid Hazard Icons.</p>
+    <button class="action-btn !bg-red-600 !text-white px-8 text-xl" onpointerdown="rebootSystem(event)">Reboot Sync Interface</button>
 </div>
 
 <!-- GATEWAY LOGIN -->
 <div id="view-gateway" class="gateway-overlay">
     <div class="p-8 text-center w-full max-sm">
-        <h1 class="text-3xl font-black italic mb-2 tracking-tighter" style="color: var(--accent)">RAYTOWN HQ</h1>
-        <p class="text-xs font-bold text-slate-500 uppercase tracking-[0.3em] mb-12">FastTrack Node Schematic</p>
+        <h1 class="text-4xl font-black italic mb-2 tracking-tighter drop-shadow-[0_0_15px_rgba(243,156,18,0.4)]" style="color: var(--accent)">RAYTOWN HQ</h1>
+        <p class="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] mb-12">FastTrack Node Schematic</p>
         
         <div id="auth-controls" class="space-y-4">
             <div id="setup-fields" class="hidden">
-                <input type="text" id="upland-ign" placeholder="ENTER UPLAND IGN">
+                <input type="text" id="operator-ign" placeholder="ENTER OPERATOR IGN">
                 <input type="text" id="manual-wallet" placeholder="PASTE BASE WALLET (OPTIONAL)">
-                <button class="action-btn" onclick="enterHQ()">INITIALIZE SYSTEM</button>
+                <button class="action-btn py-4 text-lg" onclick="enterHQ()">INITIALIZE SYSTEM</button>
             </div>
             
             <button id="guest-play-btn" class="action-btn !bg-slate-700 !text-white" onclick="showIgnInput()">MANUAL SETUP / GUEST (FREE)</button>
             
             <div class="flex items-center gap-2 my-4">
-                <hr class="flex-grow border-slate-800">
-                <span class="text-[9px] text-slate-600 uppercase font-black">OR</span>
-                <hr class="flex-grow border-slate-800">
+                <hr class="flex-grow border-slate-700">
+                <span class="text-[9px] text-slate-500 uppercase font-black">OR</span>
+                <hr class="flex-grow border-slate-700">
             </div>
 
             <button id="connect-wallet-btn" class="action-btn" onclick="connectWallet()">CONNECT BASE WALLET</button>
@@ -245,181 +266,248 @@
 <div id="app-container" class="hidden">
     <header class="top-bar">
         <div class="brand flex items-center gap-2">
-            <span id="rank-badge-icon" class="text-lg">🛠️</span>
-            <span id="player-rank-title" class="font-black italic uppercase text-[10px]">Operator</span> 
-            <span class="mx-1 text-slate-700 hidden sm:inline">|</span> 
-            <span id="cycle-badge" class="phase-badge hidden sm:inline">Phase <span id="phase-display">1</span> Cycle <span id="cycle-display">1</span></span>
+            <span id="rank-badge-icon" class="text-2xl">🛠️</span>
+            <div>
+                <div id="player-rank-title" class="font-black italic uppercase text-[11px] leading-tight text-white">Operator</div>
+                <div id="cycle-badge" class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Ph <span id="phase-display">1</span> / Cyc <span id="cycle-display">1</span></div>
+            </div>
+            <!-- GLOBAL SHIELD INDICATOR -->
+            <span id="header-shield" class="hidden ml-2 text-blue-400 text-[10px] font-black border border-blue-400/50 px-2 py-0.5 rounded bg-blue-900/30">🛡️ SHIELDED</span>
         </div>
         <div class="font-black text-right leading-tight">
             <div class="text-[9px] text-slate-500 uppercase tracking-tighter mb-0.5">Total Revenue</div>
-            <div id="tnb-balance-display" class="text-xl" style="color: var(--green)">0.00 TNB</div>
+            <div id="tnb-balance-display" class="text-2xl" style="color: var(--green); text-shadow: 0 0 10px rgba(46, 204, 113, 0.4);">0 TNB</div>
         </div>
     </header>
 
-    <main id="screen-operator" class="screen">
-        <!-- WRAPPED IN GRID LAYOUT -->
+    <main id="screen-operator" class="screen active">
         <div class="grid-layout hq-grid">
             <div class="stats-card">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 id="office-title" class="text-xs font-black uppercase text-slate-500 tracking-widest">Operator Profile</h2>
-                    <button onclick="switchTab('playbook')" class="text-[9px] font-bold text-accent underline">NODE SCHEMATIC</button>
+                <div class="flex justify-between items-center mb-4 pb-3 border-b border-white/5">
+                    <h2 class="text-sm font-black uppercase text-white tracking-widest flex items-center gap-2"><span class="text-accent">👤</span> Operator Profile</h2>
+                    <button onclick="switchTab('playbook')" class="text-[10px] font-black text-raytown-blue bg-raytown-blue/10 px-3 py-1.5 rounded uppercase">Open Playbook</button>
                 </div>
-                <div class="space-y-4 text-xs font-bold">
-                    <div class="flex justify-between border-b border-slate-800 pb-2">
-                        <span class="text-slate-500 uppercase text-[9px]">Upland Operator</span>
-                        <span id="dash-ign" style="color: var(--raytown-blue)">---</span>
+                <div class="space-y-4 text-sm font-bold">
+                    <div class="flex justify-between pb-2">
+                        <span class="text-slate-400 uppercase text-[10px]">Network Operator</span>
+                        <span id="dash-ign" class="text-white">---</span>
                     </div>
-                    <div class="flex justify-between border-b border-slate-800 pb-2">
-                        <span class="text-slate-500 uppercase text-[9px]">Active Status</span>
+                    <div class="flex justify-between pb-2 bg-black/20 p-2 rounded border border-white/5">
+                        <span class="text-slate-400 uppercase text-[10px]">Lifetime Builds</span>
+                        <span id="dash-total-builds" class="text-accent font-black text-base">0</span>
+                    </div>
+                    <div class="flex justify-between pb-2">
+                        <span class="text-slate-400 uppercase text-[10px]">Active Status</span>
                         <span id="dash-rank-full" class="text-accent">🛠️ Node Builder</span>
                     </div>
-                    <div class="flex justify-between border-b border-slate-800 pb-2">
-                        <span class="text-slate-500 uppercase text-[9px]">Focus Power</span>
-                        <span id="dash-benefit" class="text-green-500">+0% Boost</span>
+                    <div class="flex justify-between pb-2">
+                        <span class="text-slate-400 uppercase text-[10px]">Focus Power</span>
+                        <span id="dash-benefit" class="text-green-400">+0% Boost</span>
                     </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-500 uppercase text-[9px]">Linked Wallet</span>
+                    <div class="flex justify-between items-center bg-black/20 p-2 rounded border border-white/5 mt-2">
+                        <span class="text-slate-400 uppercase text-[10px]">Linked Wallet</span>
                         <div class="flex items-center gap-2">
-                            <span id="dash-wallet" class="text-blue-400 overflow-hidden text-ellipsis max-w-[100px]">None</span>
-                            <button id="in-game-connect-btn" onclick="inGameConnectWallet()" class="bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded text-[7px] font-black uppercase transition-colors">Connect</button>
+                            <span id="dash-wallet" class="text-blue-400 overflow-hidden text-ellipsis max-w-[120px] text-xs">None</span>
+                            <button id="in-game-connect-btn" onclick="inGameConnectWallet()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-[9px] font-black uppercase transition-colors">Connect</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="stats-card border-2 border-green-500/20">
-                <h3 class="text-[10px] font-black uppercase text-green-500 mb-3 tracking-widest">Withdrawal Terminal</h3>
-                <p class="text-[9px] text-slate-500 mb-4 uppercase">Withdraw TNB from Treasury to Wallet (Min: 100 TNB)</p>
-                <button id="withdraw-btn" class="action-btn !bg-green-600 !text-white" onclick="requestWithdrawal()">Withdraw TNB to Wallet</button>
+            <div class="stats-card border-2 border-green-500/20 bg-green-900/10">
+                <h3 class="text-sm font-black uppercase text-green-400 mb-3 tracking-widest flex items-center gap-2"><span>💸</span> Withdrawal Terminal</h3>
+                <p class="text-[11px] text-slate-300 mb-6 uppercase leading-relaxed">Securely withdraw your earned TNB from the Raytown Treasury to your connected Base Wallet.<br><br>Minimum: <strong class="text-green-400">100 TNB</strong></p>
+                <button id="withdraw-btn" class="action-btn !bg-green-500 !text-black py-4 text-sm" onclick="requestWithdrawal()">Process Withdrawal Request</button>
             </div>
 
-            <div class="stats-card bg-[#1a1f26] border-2 border-accent/20">
-                <h3 class="text-[10px] font-black uppercase text-accent mb-3 tracking-widest">Bot Management</h3>
-                <div class="flex justify-between items-center px-2">
+            <div class="stats-card border-2 border-raytown-blue/20 bg-raytown-blue/5">
+                <h3 class="text-sm font-black uppercase text-raytown-blue mb-4 tracking-widest flex items-center gap-2"><span>🤖</span> Automation Hub</h3>
+                <div class="flex justify-between items-center bg-black/40 p-4 rounded-xl border border-white/5">
                     <div>
-                        <p class="text-[8px] text-slate-500 uppercase">Assigned Bots</p>
-                        <p class="text-2xl font-black italic"><span id="bot-count">0</span> <span class="text-[10px] text-slate-500">Units</span></p>
+                        <p class="text-[10px] text-slate-400 uppercase mb-1">Assigned Contract Bots</p>
+                        <p class="text-4xl font-black italic text-white"><span id="bot-count">0</span> <span class="text-sm text-slate-500 normal-case">Units</span></p>
                     </div>
                     <div class="text-right">
-                        <p id="automation-status" class="text-[10px] font-bold text-red-400 uppercase">Hands-On Required</p>
-                        <p class="text-[8px] text-slate-500 uppercase">Network State</p>
+                        <p id="automation-status" class="text-xs font-black text-red-400 uppercase mb-1">Hands-On Required</p>
+                        <p class="text-[9px] text-slate-500 uppercase">Network State</p>
                     </div>
                 </div>
             </div>
 
             <div class="stats-card">
-                <div class="flex justify-between items-center mb-2">
-                    <p class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Node Sync Mini-Game</p>
-                    <span id="sync-charge-badge" class="bg-blue-600 text-[8px] px-2 py-0.5 rounded uppercase font-black">Focus Power: <span id="fragment-count">0/10</span></span>
+                <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Network Capacity Sync</p>
+                <div class="flex justify-between items-end mb-1">
+                    <p id="quota-text" class="text-xs font-bold text-white uppercase">Initializing Build Loop...</p>
+                    <p id="quota-percent" class="text-[10px] text-accent font-black">0%</p>
                 </div>
-                <div id="minigame-container">
-                    <!-- FIX: Updated overlay to instantly trigger start on touch/mouse press anywhere in the box -->
-                    <div id="minigame-start-overlay" onpointerdown="startSyncGame(event)" style="cursor: pointer;">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-4 text-center pointer-events-none">Sync While Building!<br>Collect 10 🔨 for Focus Power</p>
-                        <button class="bg-accent text-black px-4 py-2 rounded text-[10px] font-black uppercase pointer-events-none">Sync!</button>
-                    </div>
-                    <div id="collector">📟</div>
-                </div>
-                <p class="text-[9px] text-slate-500 italic text-center mt-2">Mouse, Touch, or Arrow Keys (A/D) to Move</p>
-            </div>
-
-            <div class="stats-card">
-                <p class="text-[10px] font-black uppercase text-slate-500 mb-2">Network Capacity Sync</p>
-                <div class="progress-bar"><div id="quota-progress" class="progress-fill" style="background: var(--raytown-blue)"></div></div>
-                <p id="quota-text" class="text-[9px] mt-2 text-slate-500 italic text-center">Initializing Build Loop...</p>
+                <div class="progress-bar h-2"><div id="quota-progress" class="progress-fill" style="background: var(--raytown-blue)"></div></div>
             </div>
         </div>
     </main>
 
-    <main id="screen-dispatch" class="screen active">
-        <div class="px-4 py-2 flex justify-between items-center">
-            <h2 class="text-[10px] font-black uppercase tracking-widest text-slate-500">Node Grid Terminal</h2>
-            <div class="flex items-center">
-                <span id="weather-dot" class="indicator green"></span>
-                <span id="weather-label" class="text-[9px] font-bold uppercase text-slate-500">Clear Skies</span>
+    <!-- NEW DEDICATED SYNC MINI-GAME TAB -->
+    <main id="screen-sync" class="screen">
+        <div class="px-4 py-3 flex justify-between items-center bg-black/30 border-b border-white/5">
+            <h2 class="text-xs font-black uppercase tracking-widest text-accent flex items-center gap-2"><span>🎮</span> Supply Sync Portal</h2>
+            <span id="sync-charge-badge" class="bg-raytown-blue text-black text-[10px] px-3 py-1 rounded font-black uppercase shadow-[0_0_10px_rgba(0,242,255,0.4)]">Focus Bank: <span id="fragment-count">0/10</span></span>
+        </div>
+        <div class="p-4 flex justify-center items-center h-[calc(100%-60px)]">
+            <div id="minigame-container">
+                <div id="minigame-start-overlay" onpointerdown="startSyncGame(event)">
+                    <div class="bg-black/80 p-6 rounded-xl border border-white/10 text-center pointer-events-none shadow-2xl">
+                        <div class="text-5xl mb-4">🔨</div>
+                        <h3 class="text-xl font-black text-white uppercase mb-2">Initialize Sync</h3>
+                        <p class="text-xs font-bold text-slate-400 uppercase mb-6 leading-relaxed">Catch tools to earn TNB.<br>Bank 10 for a 2X Build Boost.<br>Avoid the Hazards!</p>
+                        <button class="bg-accent text-black px-8 py-3 rounded-lg text-sm font-black uppercase shadow-[0_4px_15px_rgba(243,156,18,0.4)] pointer-events-none">Start Engine</button>
+                    </div>
+                </div>
+                <div id="collector">📟</div>
             </div>
         </div>
-        <!-- WRAPPED IN GRID LAYOUT -->
-        <div id="generator-list" class="grid-layout"></div>
+    </main>
+
+    <main id="screen-dispatch" class="screen">
+        <div class="px-4 py-3 flex justify-between items-center bg-black/30 border-b border-white/5">
+            <h2 class="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2"><span>📍</span> Node Grid Terminal</h2>
+            <div class="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-full border border-white/5">
+                <span id="weather-dot" class="indicator green !m-0"></span>
+                <span id="weather-label" class="text-[10px] font-black uppercase text-slate-300 tracking-wider">Clear Skies</span>
+            </div>
+        </div>
+        <div id="generator-list" class="grid-layout hq-grid pb-6"></div>
     </main>
 
     <main id="screen-market" class="screen">
-        <!-- WRAPPED IN GRID LAYOUT -->
+        <div class="px-4 py-3 bg-black/30 border-b border-white/5 mb-4">
+            <h2 class="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2"><span>🛒</span> Network Marketplace</h2>
+            <p class="text-[10px] text-slate-400 mt-1 uppercase">Reinvest TNB to dominate the grid.</p>
+        </div>
         <div class="grid-layout market-grid">
-            <div class="market-card border-green-500 border-2">
+            <div class="market-card border-green-500/50 bg-green-900/10 hover:border-green-400">
                 <div>
-                    <h3 class="font-black italic uppercase text-sm mb-1 text-green-400">Maintenance Pulse</h3>
-                    <p class="text-[10px] text-slate-500 mb-4">INSTANT 50% PROGRESS ON ALL NODE PROJECTS</p>
+                    <div class="text-3xl mb-3">⏩</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-green-400">Maintenance Pulse</h3>
+                    <p class="text-[11px] text-slate-300 mb-4 uppercase font-bold leading-relaxed">Instantly blasts all currently active builds forward by 50%!</p>
                 </div>
-                <button id="buy-boost-btn" class="action-btn !bg-green-600 !text-white" onclick="buyItem('boost')">TIME BOOST (<span id="boost-cost-display">1500</span> TNB)</button>
+                <button id="buy-boost-btn" class="action-btn !bg-green-500 !text-black py-3" onclick="buyItem('boost')">PULSE (<span id="boost-cost-display">1500</span> TNB)</button>
             </div>
-            <div class="market-card border-blue-500 border-2">
+            <div class="market-card border-blue-500/50 bg-blue-900/10 hover:border-blue-400">
                 <div>
-                    <h3 class="font-black italic uppercase text-sm mb-1 text-blue-400">Shield Generator</h3>
-                    <p class="text-[10px] text-slate-500 mb-4">BLOCKS 50S STORM DELAYS AUTOMATICALLY</p>
+                    <div class="text-3xl mb-3">🛡️</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-blue-400">Shield Generator</h3>
+                    <p class="text-[11px] text-slate-300 mb-4 uppercase font-bold leading-relaxed">Permanent install. Blocks random 50-second storm delays automatically.</p>
                 </div>
-                <button id="buy-shield-btn" class="action-btn !bg-blue-600 !text-white" onclick="buyItem('shield')">INSTALL SHIELD (7500 TNB)</button>
+                <button id="buy-shield-btn" class="action-btn !bg-blue-500 !text-black py-3" onclick="buyItem('shield')">INSTALL SHIELD (7500 TNB)</button>
             </div>
-            <div class="market-card">
+            <div class="market-card hover:border-accent">
                 <div>
-                    <h3 class="font-black italic uppercase text-sm mb-1">Contract Bot</h3>
-                    <p class="text-[10px] text-slate-500 mb-4">SINGLE BUILD AUTOMATION (RE-HIRE REQD)</p>
+                    <div class="text-3xl mb-3">🤖</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-white">Contract Bot</h3>
+                    <p class="text-[11px] text-slate-300 mb-4 uppercase font-bold leading-relaxed">Automates a single build entirely hands-free. Must re-hire per job.</p>
                 </div>
-                <button class="action-btn" onclick="buyItem('bot')">HIRE BOT (500 TNB)</button>
+                <button class="action-btn py-3" onclick="buyItem('bot')">HIRE BOT (500 TNB)</button>
             </div>
         </div>
     </main>
 
     <main id="screen-playbook" class="screen">
-        <div class="stats-card playbook-content overflow-y-auto max-h-[75vh] max-w-3xl mx-auto my-4">
-            <h2 class="text-xs font-black uppercase text-accent mb-4">Node Schematic</h2>
-            <div class="bg-[#1e252e] p-3 rounded-lg border-l-4 border-accent mb-4">
-                <p class="text-[10px] font-bold uppercase mb-1">The Build Loop</p>
-                <p class="text-[11px] text-slate-300 italic">Starter lots are free. Expansions require TNB (Permit cost scales with cycles). Projects earn TNB based on Tier. Mini-game Catch focuses boost speed.</p>
+        <div class="p-4 playbook-container max-w-3xl mx-auto mb-10">
+            <button onclick="switchTab('operator')" class="mb-6 text-[10px] font-black text-slate-400 bg-black/40 px-4 py-2 rounded uppercase border border-white/10 hover:text-white transition-colors">← Back to HQ</button>
+            
+            <div class="text-center mb-8 border-b border-accent/20 pb-6">
+                <div class="text-4xl mb-3">🏗️</div>
+                <h1 class="text-2xl font-black uppercase text-accent mb-3 tracking-tight">Official Operator Playbook</h1>
+                <p class="text-xs text-slate-300 leading-relaxed max-w-lg mx-auto">Coordinate builds, manage automation, and earn <strong>$TNB</strong> directly to your Base Wallet. Maximize your yields and climb the ranks.</p>
+            </div>
+
+            <div class="bento-grid-pb">
+                <div class="bento-card-pb">
+                    <h2 class="card-title-pb"><span>🔄</span> The Core Build Loop</h2>
+                    <div class="space-y-4 mt-4">
+                        <div class="flex gap-3 bg-black/40 p-3 rounded-lg border-l-2 border-raytown-blue">
+                            <div class="text-xl">🆓</div>
+                            <div><strong class="block text-raytown-blue text-xs uppercase mb-1">Starter Lots</strong><span class="text-[11px] text-slate-300">Your first 3 lots in District 1 are 100% FREE.</span></div>
+                        </div>
+                        <div class="flex gap-3 bg-black/40 p-3 rounded-lg border-l-2 border-raytown-blue">
+                            <div class="text-xl">🏙️</div>
+                            <div><strong class="block text-raytown-blue text-xs uppercase mb-1">Expansions</strong><span class="text-[11px] text-slate-300">Lots 4-12 require a TNB permit to unlock.</span></div>
+                        </div>
+                        <div class="flex gap-3 bg-black/40 p-3 rounded-lg border-l-2 border-raytown-blue">
+                            <div class="text-xl">🏗️</div>
+                            <div><strong class="block text-raytown-blue text-xs uppercase mb-1">Generators</strong><span class="text-[11px] text-slate-300">Start builds. When complete, you instantly receive your TNB yield!</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-card-pb">
+                    <h2 class="card-title-pb"><span>📈</span> Eras & Economy Scaling</h2>
+                    <div class="mt-4 pl-2">
+                        <div class="timeline-item-pb border-raytown-blue">
+                            <div class="text-[11px] font-black uppercase text-raytown-blue mb-1">Phase 1: The Foundation</div>
+                            <div class="text-[10px] text-slate-300 bg-black/30 p-2 rounded">Standard costs and Double (2x) base payouts. Complete manual builds to progress.</div>
+                        </div>
+                        <div class="timeline-item-pb border-accent">
+                            <div class="text-[11px] font-black uppercase text-accent mb-1">Phase 2: Corporate Expansion</div>
+                            <div class="text-[10px] text-slate-300 bg-black/30 p-2 rounded">Costs double. Automated cycles unlock based on total completed projects.</div>
+                        </div>
+                        <div class="timeline-item-pb border-red-500 mb-0">
+                            <div class="text-[11px] font-black uppercase text-red-500 mb-1">Phase 3: The Conglomerate</div>
+                            <div class="text-[10px] text-slate-300 bg-black/30 p-2 rounded">Costs triple. Payouts receive a final +33% bump! This is the terminal cap.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bento-card-pb bg-green-900/10 border-green-500/30">
+                    <h2 class="card-title-pb text-green-400"><span>💰</span> Payout Protocol</h2>
+                    <p class="text-[11px] text-slate-300 mb-4 font-bold">We operate on a 95/5 Player-to-Treasury split.</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <div class="flex items-center gap-3 bg-black/40 p-2 rounded border border-white/5"><span class="bg-accent text-black font-black w-6 h-6 flex items-center justify-center rounded-full text-[10px]">1</span><span class="text-[10px] text-white">Connect Web3 Base Wallet.</span></div>
+                        <div class="flex items-center gap-3 bg-black/40 p-2 rounded border border-white/5"><span class="bg-accent text-black font-black w-6 h-6 flex items-center justify-center rounded-full text-[10px]">2</span><span class="text-[10px] text-white">Reach 100 TNB balance.</span></div>
+                        <div class="flex items-center gap-3 bg-black/40 p-2 rounded border border-white/5"><span class="bg-accent text-black font-black w-6 h-6 flex items-center justify-center rounded-full text-[10px]">3</span><span class="text-[10px] text-white">Hit Withdraw in HQ to secure funds.</span></div>
+                    </div>
+                </div>
             </div>
             
-            <h2 class="text-[10px] font-black uppercase text-slate-500 mb-2">Construction Ranks</h2>
-            <table class="rank-table">
-                <thead><tr><th class="text-slate-500">Rank</th><th class="text-slate-500">Builds</th><th class="text-slate-500">Benefit</th></tr></thead>
-                <tbody id="rank-table-body" class="text-[10px]"></tbody>
-            </table>
-
-            <h2 class="text-[10px] font-black uppercase text-slate-500 mt-6 mb-2">Economics Protocol</h2>
-            <ul class="text-[9px] text-slate-400 space-y-2 list-disc pl-4 mb-4">
-                <li><strong>Yields:</strong> Green: 100 | Red: 250 | Yellow: 300 TNB.</li>
-                <li><strong>Lot Permits:</strong> District 1 (Lots 1-3) is Free. District 2+ (Lots 4-12) scales based on phase/cycle.</li>
-                <li><strong>Maintenance Pulse:</strong> Instant 50% construction jump. Cost scales with network age.</li>
-            </ul>
-            
-            <button onclick="switchTab('operator')" class="action-btn mt-6">Return to HQ</button>
+            <button onclick="switchTab('operator')" class="action-btn mt-6 py-4">Return to HQ Terminal</button>
         </div>
     </main>
 
-    <!-- ADMIN COMMAND CENTER (HIDDEN BY DEFAULT) -->
+    <!-- ADMIN COMMAND CENTER -->
     <main id="screen-admin" class="screen">
-        <div class="px-4 py-2 flex justify-between items-center">
-            <h2 class="text-[10px] font-black uppercase tracking-widest text-slate-500">Treasury Command</h2>
-            <div class="flex items-center">
-                <span class="indicator green"></span>
-                <span class="text-[9px] font-bold uppercase text-slate-500">Secure Line</span>
+        <div class="px-4 py-3 flex justify-between items-center bg-black/30 border-b border-white/5">
+            <h2 class="text-xs font-black uppercase tracking-widest text-red-400 flex items-center gap-2"><span>🔒</span> Treasury Command</h2>
+            <div class="flex items-center gap-2">
+                <span class="indicator green !m-0"></span>
+                <span class="text-[9px] font-bold uppercase text-slate-400 tracking-wider">Secure Line</span>
             </div>
         </div>
         <div class="grid-layout">
-            <div class="stats-card bg-[#1a1f26] border-2 border-red-500/20">
-                <h3 class="text-[10px] font-black uppercase text-red-500 mb-2 tracking-widest">Withdrawal Logs</h3>
-                <p class="text-[9px] text-slate-400 mb-4">Monitor and fulfill player TNB cash-out requests. Execute transfer on Base Network, then mark as paid here.</p>
-                <div id="admin-requests-list" class="space-y-2 max-h-[60vh] overflow-y-auto pr-2">
+            <div class="stats-card bg-[#1a1f26] border-2 border-red-500/30">
+                <h3 class="text-sm font-black uppercase text-white mb-2 tracking-widest">Withdrawal Logs</h3>
+                <p class="text-[10px] text-slate-400 mb-6 uppercase leading-relaxed font-bold">Monitor and fulfill player TNB cash-out requests. Execute transfer on Base Network, then mark as paid here.</p>
+                <div id="admin-requests-list" class="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
                     <p class="text-center text-slate-500 text-xs italic">Loading secure logs...</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <nav class="bottom-nav">
-        <button class="nav-btn" onclick="switchTab('operator', this)">HQ</button>
-        <button class="nav-btn active" onclick="switchTab('dispatch', this)">GRID</button>
-        <button class="nav-btn" onclick="switchTab('market', this)">MARKET</button>
-        <button id="nav-admin-btn" class="nav-btn text-red-500 border-t-0" style="display: none;" onclick="switchTab('admin', this)">ADMIN</button>
+    <nav class="bottom-nav shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+        <button class="nav-btn active" onclick="switchTab('operator', this)">
+            <span class="text-xl mb-1">🏢</span>HQ
+        </button>
+        <button class="nav-btn" onclick="switchTab('dispatch', this)">
+            <span class="text-xl mb-1">📍</span>GRID
+        </button>
+        <button class="nav-btn" onclick="switchTab('sync', this)">
+            <span class="text-xl mb-1">🎮</span>SYNC
+        </button>
+        <button class="nav-btn" onclick="switchTab('market', this)">
+            <span class="text-xl mb-1">🛒</span>MARKET
+        </button>
+        <button id="nav-admin-btn" class="nav-btn text-red-500" style="display: none;" onclick="switchTab('admin', this)">
+            <span class="text-xl mb-1">🔒</span>ADMIN
+        </button>
     </nav>
 </div>
 
@@ -433,7 +521,6 @@
     if (typeof __firebase_config !== 'undefined') {
         firebaseConfig = JSON.parse(__firebase_config);
     } else {
-        // We split the API key string to bypass automated GitHub secret scanners!
         firebaseConfig = {
             apiKey: "AIzaSyBRuyuPn-nHR" + "sh8K7kUcLB8KNuui67H93Y",
             authDomain: "raytown-hq.firebaseapp.com",
@@ -449,9 +536,6 @@
     const db = getFirestore(app);
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'raytown-tycoon';
 
-    const TNB_CONTRACT_ADDRESS = "0x6731dCe43195A9964559d0394FD009AB4b2Ed911";
-    
-    // 👇 FIX: Replace the address inside the quotes with YOUR connected wallet address!
     const TREASURY_ADDRESS = "0xA32bFfa855e1D6c83C9b047b591a5BFc3630ab9F".toLowerCase();
 
     // State
@@ -491,14 +575,12 @@
         YELLOW: { name: 'Yellow Gen', income: 300, time: 240, cooldown: 600, icon: '🏪' }
     };
 
-    // Global Timing Ref
     function getTotalCycles() {
         if (state.phase === 1) return state.cycle - 1;
         if (state.phase === 2) return 17 + state.cycle;
-        return 26 + state.cycle; // Phase 3+
+        return 26 + state.cycle; 
     }
 
-    // UI Helpers
     window.showToast = (msg) => {
         const t = document.getElementById("toast");
         if (t) { t.innerText = msg; t.style.opacity = "1"; setTimeout(() => t.style.opacity = "0", 3000); }
@@ -521,24 +603,20 @@
 
     window.saveGame = async () => {
         if (!currentUser) return;
-        // FIX: Restored correct path to match Firebase Security Rules
         const userDoc = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'data', 'gameState');
         await setDoc(userDoc, { ...state, lastSaved: Date.now() });
     };
 
     function getTimeBoostCost() {
-        // Base: 1500 -> Phase 2: 3000 -> Phase 3+: 4500
         const multiplier = state.phase === 1 ? 1 : (state.phase === 2 ? 2 : 3);
         return 1500 * multiplier; 
     }
 
     function getLotPermitCost() {
-        // Base: 3000 -> Phase 2: 6000 -> Phase 3+: 9000
         const multiplier = state.phase === 1 ? 1 : (state.phase === 2 ? 2 : 3);
         return 3000 * multiplier;
     }
 
-    // Blockchain Logic
     window.connectWallet = async () => {
         if (window.ethereum) {
             try {
@@ -559,7 +637,6 @@
 
     window.inGameConnectWallet = async () => {
         const input = prompt("Paste your Base Wallet Address:\n(Or leave blank and click OK to try auto-connecting via browser extension)");
-        
         if (input !== null) {
             if (input.trim() !== "") {
                 localStorage.setItem('fasttrack_operator_wallet', input.trim());
@@ -578,18 +655,6 @@
         }
     };
 
-    const sendTNBToTreasury = async (amount) => {
-        const wallet = localStorage.getItem('fasttrack_operator_wallet');
-        if (!wallet || !window.ethereum) return true; 
-        try {
-            const recipient = TREASURY_ADDRESS.replace('0x', '').toLowerCase().padStart(64, '0');
-            const hexAmount = amount.toString(16).padStart(64, '0');
-            const data = '0xa9059cbb' + recipient + hexAmount;
-            await window.ethereum.request({ method: 'eth_sendTransaction', params: [{ from: wallet, to: TNB_CONTRACT_ADDRESS, data: data, gas: '0x186A0' }] });
-            return true;
-        } catch (e) { window.showToast("TRANSACTION REJECTED"); return false; }
-    };
-
     window.requestWithdrawal = async () => {
         const wallet = localStorage.getItem('fasttrack_operator_wallet');
         if (!wallet) return window.showToast("CONNECT WALLET FIRST");
@@ -597,14 +662,13 @@
         try {
             const requestsCol = collection(db, 'artifacts', appId, 'public', 'data', 'withdrawalRequests');
             await addDoc(requestsCol, { uid: currentUser.uid, ign: state.ign, wallet: wallet, amount: Math.floor(state.balance), status: 'pending', requestedAt: serverTimestamp() });
-            state.balance = 0; window.showToast("LOGGED FOR Payout");
+            state.balance = 0; window.showToast("LOGGED FOR PAYOUT");
             updateUI(); window.saveGame();
         } catch (e) { window.showToast("WITHDRAWAL FAILED"); }
     };
 
-    // Game Core
     window.enterHQ = () => {
-        state.ign = document.getElementById('upland-ign').value || "Operator";
+        state.ign = document.getElementById('operator-ign').value || "Operator";
         localStorage.setItem('fasttrack_ign', state.ign);
 
         const manualWallet = document.getElementById('manual-wallet').value;
@@ -614,7 +678,7 @@
 
         document.getElementById('view-gateway').style.display = 'none';
         document.getElementById('app-container').classList.remove('hidden');
-        initMap(); initMinigame(); gameLoop(); populatePlaybook();
+        initMap(); initMinigame(); gameLoop(); 
         window.saveGame();
     };
 
@@ -640,31 +704,19 @@
         const container = document.getElementById('minigame-container');
         const collector = document.getElementById('collector');
         
-        // Universal movement calculation
         const handleMove = (clientX) => {
-            if (!state.isSyncActive || state.isDesynced || !document.getElementById('screen-operator').classList.contains('active')) return;
+            if (!state.isSyncActive || state.isDesynced || !document.getElementById('screen-sync').classList.contains('active')) return;
             const rect = container.getBoundingClientRect();
-            // Calculate relative percentage
             state.collectorX = Math.max(5, Math.min(95, ((clientX - rect.left) / rect.width) * 100));
             collector.style.left = state.collectorX + '%';
         };
 
-        // 1. Universal Pointer Tracking (Fixes PC mouse lock-ups by tracking screen-wide)
-        window.addEventListener('pointermove', (e) => {
-            handleMove(e.clientX);
-        });
+        window.addEventListener('pointermove', (e) => { handleMove(e.clientX); });
+        container.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
 
-        // 2. Prevent mobile browser scrolling while dragging inside the box
-        container.addEventListener('touchmove', (e) => { 
-            e.preventDefault(); 
-        }, { passive: false });
-
-        // 3. PC Keyboard Support (A/D or Left/Right Arrows)
         window.addEventListener('keydown', (e) => {
-            // Only allow keys if the game is active and the player is on the HQ tab
-            if (!state.isSyncActive || state.isDesynced || !document.getElementById('screen-operator').classList.contains('active')) return;
-            
-            const moveSpeed = 8; // Keyboard movement speed
+            if (!state.isSyncActive || state.isDesynced || !document.getElementById('screen-sync').classList.contains('active')) return;
+            const moveSpeed = 8;
             if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') {
                 state.collectorX = Math.max(5, state.collectorX - moveSpeed);
                 collector.style.left = state.collectorX + '%';
@@ -676,19 +728,18 @@
         
         if (window.spawnInterval) clearInterval(window.spawnInterval);
         window.spawnInterval = setInterval(() => { 
-            if (state.isSyncActive && !state.isDesynced && document.getElementById('screen-operator').classList.contains('active')) {
+            if (state.isSyncActive && !state.isDesynced && document.getElementById('screen-sync').classList.contains('active')) {
                 spawnItem(); 
             }
         }, 1200);
     }
 
-    // FIX: Using event parameter to prevent double-firing or canceled clicks
     window.startSyncGame = (e) => {
         if (e) e.preventDefault(); 
         state.isSyncActive = true;
         document.getElementById('minigame-start-overlay').style.display = 'none';
         document.getElementById('collector').style.opacity = '1';
-        window.showToast("SYNC ACTIVE");
+        window.showToast("ENGINE STARTED");
     };
 
     function spawnItem() {
@@ -701,15 +752,25 @@
         el.style.left = startX + '%';
         container.appendChild(el);
         let posY = -40;
+        
+        const containerHeight = container.clientHeight;
+        const catchZoneTop = containerHeight - 80;
+        const catchZoneBottom = containerHeight - 20;
+
         const animate = () => {
-            if (state.isDesynced || !state.isSyncActive) { el.remove(); return; }
-            posY += 3; el.style.top = posY + 'px';
-            if (posY > 130 && posY < 170 && Math.abs(startX - state.collectorX) < 10) {
+            if (state.isDesynced || !state.isSyncActive || !document.getElementById('screen-sync').classList.contains('active')) { el.remove(); return; }
+            posY += 4; el.style.top = posY + 'px';
+            if (posY > catchZoneTop && posY < catchZoneBottom && Math.abs(startX - state.collectorX) < 12) {
                 if (isHazard) triggerDesync();
-                else { state.fragments++; state.balance += 5; if (state.fragments >= 10) { state.fragments = 0; state.overclocks++; window.showToast("OVERCLOCK READY"); } updateUI(); }
+                else { 
+                    state.fragments++; 
+                    state.balance += 5; 
+                    if (state.fragments >= 10) { state.fragments = 0; state.overclocks++; window.showToast("OVERCLOCK BANKED"); } 
+                    updateUI(); 
+                }
                 el.remove(); return;
             }
-            if (posY > 200) el.remove(); else requestAnimationFrame(animate);
+            if (posY > containerHeight + 20) el.remove(); else requestAnimationFrame(animate);
         };
         requestAnimationFrame(animate);
     }
@@ -720,7 +781,6 @@
         document.getElementById('desync-overlay').style.display = 'flex'; 
     }
 
-    // FIX: Using event parameter to prevent double-firing or canceled clicks
     window.rebootSystem = (e) => { 
         if (e) e.preventDefault();
         state.isDesynced = false; 
@@ -732,21 +792,16 @@
         document.getElementById('collector').style.opacity = '1';
         document.querySelectorAll('.falling-item').forEach(i => i.remove());
         updateUI();
-        window.showToast("SYNC RESTARTED"); 
+        window.showToast("SYSTEM REBOOTED"); 
     };
 
     function updateUI() {
         const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
         const totalCycles = getTotalCycles();
-        const scalingFactor = 1 + (totalCycles * 0.05);
         const rank = RANK_DATA.slice().reverse().find(r => state.totalProjects >= r.req) || RANK_DATA[0];
 
         const desyncOverlay = document.getElementById('desync-overlay');
-        if (state.isDesynced) {
-            desyncOverlay.style.display = 'flex';
-        } else {
-            desyncOverlay.style.display = 'none';
-        }
+        desyncOverlay.style.display = state.isDesynced ? 'flex' : 'none';
 
         const startOverlay = document.getElementById('minigame-start-overlay');
         const collector = document.getElementById('collector');
@@ -758,15 +813,21 @@
             collector.style.opacity = '0';
         }
 
+        // MARKET PROOF OF WORK: Shield Global Badge
+        const headerShield = document.getElementById('header-shield');
+        if(headerShield) {
+            if(state.hasShield) headerShield.classList.remove('hidden');
+            else headerShield.classList.add('hidden');
+        }
+
         set('tnb-balance-display', Math.floor(state.balance).toLocaleString() + ' TNB');
         set('dash-ign', state.ign);
+        set('dash-total-builds', state.totalProjects.toLocaleString()); // NEW: Build Tracker
         
         const currentWallet = localStorage.getItem('fasttrack_operator_wallet');
         set('dash-wallet', currentWallet || 'None');
         const inGameConnectBtn = document.getElementById('in-game-connect-btn');
-        if (inGameConnectBtn) {
-            inGameConnectBtn.style.display = currentWallet ? 'none' : 'block';
-        }
+        if (inGameConnectBtn) inGameConnectBtn.style.display = currentWallet ? 'none' : 'block';
         
         set('dash-rank-full', rank.badge + " " + rank.name);
         set('dash-benefit', `+${rank.bonus}% Speed`);
@@ -776,7 +837,9 @@
         set('boost-cost-display', getTimeBoostCost().toLocaleString());
 
         const progress = state.phase === 1 ? (state.cycle / 18) * 100 : (state.cycle / 9) * 100;
-        document.getElementById('quota-progress').style.width = Math.min(100, progress) + '%';
+        const cappedProgress = Math.min(100, progress);
+        document.getElementById('quota-progress').style.width = cappedProgress + '%';
+        set('quota-percent', Math.floor(cappedProgress) + '%');
         
         let phaseText = `Scaling Cycle (${state.cycle}/18)`;
         if (state.phase === 2) phaseText = `Corporate Cycle (${state.cycle}/9)`;
@@ -790,32 +853,35 @@
                 const isFree = n.id < 3;
                 const lotCost = getLotPermitCost();
                 const canAfford = state.balance >= lotCost;
-                
-                const btnBg = isFree ? 'bg-accent' : 'bg-blue-600';
+                const btnBg = isFree ? 'bg-accent text-black' : 'bg-black text-raytown-blue border border-raytown-blue hover:bg-raytown-blue/20';
                 const btnText = isFree ? 'CLAIM (FREE)' : `EXPAND (${lotCost})`;
                 const disabled = !isFree && !canAfford ? 'disabled opacity-30' : '';
                 
-                row.innerHTML = `<div class="generator-card flex justify-between items-center h-full">
-                    <div class="text-[10px] font-bold">Lot #${n.id+1} ${isFree ? '(STARTER)' : ''}</div>
-                    <button onclick="mintNode(${n.id})" ${disabled} class="${btnBg} text-white px-4 py-2 rounded font-black text-[9px] shadow-lg shadow-blue-900/20 active:translate-y-0.5 transition-all w-auto">${btnText}</button>
+                row.innerHTML = `<div class="generator-card bg-black/20 border-l-4 border-slate-700 flex justify-between items-center h-full">
+                    <div class="text-[11px] font-black uppercase text-slate-400 tracking-wider">Property Lot #${n.id+1} ${isFree ? '<br><span class="text-accent text-[9px]">(ZONED: STARTER)</span>' : ''}</div>
+                    <button onclick="mintNode(${n.id})" ${disabled} class="${btnBg} px-4 py-3 rounded font-black text-[10px] uppercase transition-all w-auto shadow-md">${btnText}</button>
                 </div>`;
             } else {
                 const type = BUILDING_TYPES[n.type];
-                let color = n.status === 'building' ? 'yellow' : n.status === 'cooldown' ? 'red' : 'green';
-                let sub = n.status === 'building' ? 'Construction...' : n.status === 'cooldown' ? `Maintenance: ${Math.ceil(n.cooldown)}s` : 'Node Active';
+                let color = n.status === 'building' ? (n.isBot ? 'blue' : 'yellow') : n.status === 'cooldown' ? 'red' : 'green';
+                
+                // MARKET PROOF OF WORK: Bot indication on subtext and progress bar
+                let sub = n.status === 'building' ? (n.isBot ? '🤖 Bot Building...' : 'Construction...') : n.status === 'cooldown' ? `Maintenance: ${Math.ceil(n.cooldown)}s` : 'Node Active';
                 let fill = n.status === 'building' ? n.progress : (n.status === 'cooldown' ? (n.cooldown / type.cooldown) * 100 : 0);
+                let fillClass = n.status === 'building' && n.isBot ? 'progress-fill bot-active' : 'progress-fill';
 
-                row.innerHTML = `<div class="generator-card"><div class="flex justify-between items-center mb-2"><div class="flex items-center"><span class="indicator ${color}"></span><span class="text-[10px] font-black uppercase">${type.name} #${n.id+1}</span></div><span>${type.icon}</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:${n.status==='cooldown'?100-fill:fill}%"></div></div>
-                    <div class="flex justify-between items-center mt-3"><p class="text-[8px] uppercase text-slate-500">${sub}</p>
-                    ${n.status==='idle'? `<div class="flex gap-1">
-                        <button onclick="startBuild(${n.id},'GREEN')" class="bg-green-600 px-2 py-1 rounded text-[7px] text-white">GREEN</button>
-                        <button onclick="startBuild(${n.id},'RED')" ${state.totalProjects<30?'disabled':''} class="bg-red-600 px-2 py-1 rounded text-[7px] text-white disabled:opacity-20">RED</button>
-                        <button onclick="startBuild(${n.id},'YELLOW')" ${state.totalProjects<60?'disabled':''} class="bg-yellow-500 px-2 py-1 rounded text-[7px] text-black disabled:opacity-20">YELLOW</button>
-                        <button onclick="useBot(${n.id})" class="bg-accent px-2 py-1 rounded text-[7px] text-black">BOT</button>
+                row.innerHTML = `<div class="generator-card bg-black/40"><div class="flex justify-between items-center mb-3"><div class="flex items-center"><span class="indicator ${color}"></span><span class="text-[11px] font-black uppercase tracking-wider text-white">${type.name} - Lot #${n.id+1}</span></div><span class="text-xl bg-black/50 w-8 h-8 flex items-center justify-center rounded-full border border-white/5">${type.icon}</span></div>
+                    <div class="progress-bar"><div class="p-fill-anim ${fillClass}" style="width:${n.status==='cooldown'?100-fill:fill}%"></div></div>
+                    <div class="flex justify-between items-center mt-3"><p class="text-[9px] font-bold uppercase text-slate-400 tracking-widest">${sub}</p>
+                    ${n.status==='idle'? `<div class="flex gap-1.5">
+                        <button onclick="startBuild(${n.id},'GREEN')" class="bg-green-500/20 text-green-400 border border-green-500/50 hover:bg-green-500/40 px-3 py-1.5 rounded text-[8px] font-black tracking-wider transition-colors">GREEN</button>
+                        <button onclick="startBuild(${n.id},'RED')" ${state.totalProjects<30?'disabled':''} class="bg-red-500/20 text-red-400 border border-red-500/50 hover:bg-red-500/40 px-3 py-1.5 rounded text-[8px] font-black tracking-wider disabled:opacity-20 transition-colors">RED</button>
+                        <button onclick="startBuild(${n.id},'YELLOW')" ${state.totalProjects<60?'disabled':''} class="bg-yellow-500/20 text-yellow-400 border border-yellow-500/50 hover:bg-yellow-500/40 px-3 py-1.5 rounded text-[8px] font-black tracking-wider disabled:opacity-20 transition-colors">YELLOW</button>
+                        <button onclick="useBot(${n.id})" class="bg-raytown-blue text-black px-3 py-1.5 rounded text-[8px] font-black tracking-wider shadow-[0_0_10px_rgba(0,242,255,0.3)]">USE BOT</button>
                     </div>` : ''}</div></div>`;
             }
         });
+        
         const sBtn = document.getElementById('buy-shield-btn');
         if(sBtn) { sBtn.disabled = state.hasShield; if(state.hasShield) sBtn.innerText = "SHIELD ACTIVE"; }
         
@@ -826,13 +892,13 @@
         const isFree = id < 3;
         if (isFree) {
             state.nodes[id].owned = true;
-            window.showToast("STARTER LOT CLAIMED");
+            window.showToast("STARTER LOT SECURED");
         } else {
             const cost = getLotPermitCost();
             if (state.balance >= cost) {
                 state.balance -= cost;
                 state.nodes[id].owned = true;
-                window.showToast("EXPANSION PURCHASED");
+                window.showToast("EXPANSION LOT SECURED");
             } else {
                 window.showToast("INSUFFICIENT TNB");
                 return;
@@ -842,23 +908,41 @@
     };
 
     window.startBuild = (id, type, isBot=false) => { if(state.isDesynced) return; state.nodes[id].status = 'building'; state.nodes[id].type = type; state.nodes[id].progress = 0; state.nodes[id].isBot = isBot; updateUI(); };
+    
     window.useBot = (id) => {
-        if (state.botStock > 0) { state.botStock--; window.startBuild(id, state.nodes[id].type==='VACANT'?'GREEN':state.nodes[id].type, true); updateUI(); }
+        if (state.botStock > 0) { 
+            state.botStock--; 
+            window.startBuild(id, state.nodes[id].type==='VACANT'?'GREEN':state.nodes[id].type, true); 
+            window.showToast("BOT ASSIGNED TO BUILD");
+            updateUI(); 
+        }
         else window.showToast("HIRE BOTS IN MARKET");
     };
 
     window.buyItem = async (item) => {
         let cost = item === 'bot' ? 500 : (item === 'shield' ? 7500 : getTimeBoostCost());
         
-        // Use in-game balance instead of Web3 transaction
         if (state.balance >= cost) {
-            state.balance -= cost; // Deduct the in-game TNB
+            state.balance -= cost; 
             
-            if(item==='bot') state.botStock++; 
-            else if(item==='shield') state.hasShield = true;
-            else if(item==='boost') { state.nodes.forEach(n => { if(n.status==='building') n.progress = Math.min(99, n.progress + 50); }); }
+            if(item==='bot') {
+                state.botStock++; 
+                window.showToast("CONTRACT BOT HIRED");
+            }
+            else if(item==='shield') {
+                state.hasShield = true;
+                window.showToast("SHIELD GENERATOR ONLINE");
+            }
+            else if(item==='boost') { 
+                // MARKET PROOF OF WORK: Visual Boost Flash
+                state.nodes.forEach(n => { if(n.status==='building') n.progress = Math.min(99, n.progress + 50); }); 
+                document.querySelectorAll('.p-fill-anim').forEach(el => {
+                    el.classList.add('boost-flash');
+                    setTimeout(() => el.classList.remove('boost-flash'), 500);
+                });
+                window.showToast("+50% BUILD PROGRESS APPLIED");
+            }
             
-            window.showToast("UPGRADE PURCHASED"); 
             updateUI(); 
             window.saveGame();
         } else {
@@ -869,21 +953,23 @@
     window.switchTab = (tab, btn) => {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById('screen-'+tab).classList.add('active');
+        
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         if(btn) btn.classList.add('active');
-        if (tab !== 'operator') {
+        else if (tab === 'operator') document.querySelector('.nav-btn').classList.add('active'); // fallback
+
+        // Pause minigame if navigating away from sync tab
+        if (tab !== 'sync') {
             state.isSyncActive = false;
             document.getElementById('minigame-start-overlay').style.display = 'flex';
             document.getElementById('collector').style.opacity = '0';
         }
     };
 
-    // --- ADMIN DASHBOARD LOGIC ---
     let adminRequests = [];
     function checkAdmin() {
         const wallet = localStorage.getItem('fasttrack_operator_wallet');
         const adminBtn = document.getElementById('nav-admin-btn');
-        // Unlocks ONLY if the connected wallet is your specific Treasury Address
         if (wallet && wallet.toLowerCase() === TREASURY_ADDRESS) {
             if (adminBtn) adminBtn.style.display = 'flex';
             if (!window.adminListenerSet) {
@@ -903,7 +989,6 @@
         const list = document.getElementById('admin-requests-list');
         if (!list) return;
         
-        // Sort newest requests to the top
         const sorted = adminRequests.sort((a,b) => {
             const timeA = a.requestedAt ? a.requestedAt.toMillis() : 0;
             const timeB = b.requestedAt ? b.requestedAt.toMillis() : 0;
@@ -914,27 +999,30 @@
         sorted.forEach(req => {
             const date = req.requestedAt ? new Date(req.requestedAt.toMillis()).toLocaleString() : 'Unknown Time';
             const isPending = req.status === 'pending';
-            const borderColor = isPending ? 'border-yellow-500' : 'border-green-500';
+            const borderColor = isPending ? 'border-yellow-500/50' : 'border-green-500/50';
             const statusColor = isPending ? 'text-yellow-400' : 'text-green-400';
             
             html += `
-                <div class="market-card ${borderColor} border-2" style="margin: 0 0 10px 0; padding: 15px;">
-                    <div class="flex justify-between items-center mb-2 border-b border-slate-700 pb-2">
+                <div class="market-card ${borderColor} border-2 bg-black/40" style="margin: 0 0 10px 0; padding: 15px;">
+                    <div class="flex justify-between items-center mb-3 border-b border-white/10 pb-2">
                         <h3 class="font-black italic text-xs ${statusColor}">${req.status.toUpperCase()}</h3>
-                        <span class="text-[9px] text-slate-400">${date}</span>
+                        <span class="text-[9px] text-slate-400 font-bold">${date}</span>
                     </div>
-                    <div class="text-[10px] text-slate-300 space-y-1 mb-2">
-                        <p class="flex justify-between"><strong>Operator IGN:</strong> <span class="text-white">${req.ign}</span></p>
-                        <p class="flex justify-between"><strong>Payout Owed:</strong> <span class="text-green-400 font-black">${req.amount} TNB</span></p>
-                        <p class="mt-2"><strong>Base Wallet Address:</strong> <br><span class="text-blue-400 select-all break-all text-[9px] block mt-1 bg-black p-2 rounded border border-slate-800">${req.wallet}</span></p>
+                    <div class="text-[10px] text-slate-300 space-y-2 mb-3">
+                        <p class="flex justify-between bg-black/30 p-2 rounded"><strong>Operator IGN:</strong> <span class="text-white font-bold">${req.ign}</span></p>
+                        <p class="flex justify-between bg-black/30 p-2 rounded"><strong>Payout Owed:</strong> <span class="text-green-400 font-black">${req.amount} TNB</span></p>
+                        <div class="bg-black/50 p-2 rounded border border-white/5">
+                            <strong class="block mb-1 text-slate-400 uppercase text-[8px]">Base Wallet Address</strong>
+                            <span class="text-blue-400 select-all break-all font-mono">${req.wallet}</span>
+                        </div>
                     </div>
                     ${isPending ? 
-                        `<button class="action-btn !bg-green-600 !text-white text-[9px] py-2 mt-2" onclick="markRequestPaid('${req.id}')">MARK FUNDS SENT</button>` 
-                        : `<div class="text-center text-[9px] text-slate-500 font-bold mt-2 pt-2 border-t border-slate-700">COMPLETED</div>`}
+                        `<button class="action-btn !bg-green-500 !text-black text-[10px] py-3 mt-2" onclick="markRequestPaid('${req.id}')">MARK FUNDS SENT</button>` 
+                        : `<div class="text-center text-[10px] text-slate-500 font-black mt-2 pt-3 border-t border-white/5 uppercase tracking-widest">TRANSACTION COMPLETED</div>`}
                 </div>
             `;
         });
-        list.innerHTML = html || '<p class="text-center text-slate-500 text-xs mt-4">No withdrawal requests found.</p>';
+        list.innerHTML = html || '<p class="text-center text-slate-500 text-xs mt-4 font-bold uppercase">No withdrawal requests found.</p>';
     }
 
     window.markRequestPaid = async (id) => {
@@ -946,18 +1034,12 @@
             window.showToast("RECORD MARKED AS PAID");
         } catch (e) {
             window.showToast("ERROR UPDATING RECORD");
-            console.error(e);
         }
     };
-    // -----------------------------
 
     function handlePayout(n, rank) {
         const type = BUILDING_TYPES[n.type];
         
-        // Payout Phase Multiplier:
-        // Phase 1 (Base): Standard earnings (1.0x)
-        // Phase 2 (1st Increase): Double base earnings (2.0x)
-        // Phase 3 (Final Increase): Adds 1/3 to the Phase 2 earnings (2.0 * 1.333 = 2.66x)
         let phaseMultiplier = 1.0;
         if (state.phase === 2) phaseMultiplier = 2.0;
         if (state.phase >= 3) phaseMultiplier = 2.0 * (4/3);
@@ -1029,11 +1111,6 @@
         requestAnimationFrame(gameLoop);
     }
 
-    function populatePlaybook() { 
-        const body = document.getElementById('rank-table-body');
-        if (body) body.innerHTML = RANK_DATA.map(r => `<tr><td>${r.badge} ${r.name}</td><td>${r.req}</td><td>${r.desc}</td></tr>`).join(''); 
-    }
-
     const initApp = async () => {
         try {
             if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -1044,7 +1121,6 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
-                // FIX: Restored correct path to match Firebase Security Rules
                 onSnapshot(doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'gameState'), (snap) => {
                     if (snap.exists()) { Object.assign(state, snap.data()); updateUI(); }
                 }, (e) => { console.error("Database sync error:", e); });
@@ -1054,7 +1130,7 @@
         if (localStorage.getItem('fasttrack_ign')) {
             document.getElementById('view-gateway').style.display = 'none';
             document.getElementById('app-container').classList.remove('hidden');
-            initMap(); initMinigame(); gameLoop(); populatePlaybook();
+            initMap(); initMinigame(); gameLoop(); 
         }
     };
     initApp();
