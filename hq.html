@@ -500,12 +500,36 @@
     import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    const firebaseConfig = JSON.parse(__firebase_config);
+    // Bulletproof config parsing
+    let firebaseConfig;
+    try {
+        firebaseConfig = JSON.parse(__firebase_config);
+    } catch(e) {
+        firebaseConfig = { apiKey: "mock", projectId: "mock", appId: "mock" };
+    }
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'raytown-tycoon';
     const ADMIN_KEY = "jah999";
+
+    // Bulletproof Storage Engine (Fixes the login freezing issue in Strict Browsers)
+    const MemoryStore = {};
+    const Storage = {
+        get: (key) => { 
+            try { 
+                const val = localStorage.getItem(key); 
+                return val !== null ? val : (MemoryStore[key] || null);
+            } catch(e) { 
+                return MemoryStore[key] || null; 
+            } 
+        },
+        set: (key, val) => { 
+            MemoryStore[key] = val;
+            try { localStorage.setItem(key, val); } catch(e) { } 
+        }
+    };
 
     let state = { 
         ign: "Operator", balance: 0, nodes: [], phase: 1, cycle: 1, botStock: 0, 
@@ -572,6 +596,13 @@
         if (fields) fields.classList.remove('hidden');
     };
 
+    // Auto-reveal inputs for brand new users
+    setTimeout(() => {
+        if (!Storage.get('fasttrack_ign')) {
+            window.showIgnInput();
+        }
+    }, 500);
+
     window.verifyAdminKey = () => {
         const input = document.getElementById('admin-key-field');
         if (input && input.value.toLowerCase() === ADMIN_KEY.toLowerCase()) {
@@ -587,14 +618,14 @@
     window.inGameConnectWallet = async () => {
         const input = prompt("Paste Base Wallet Address:");
         if (input && input.trim() !== "") { 
-            localStorage.setItem('fasttrack_operator_wallet', input.trim().toUpperCase()); 
+            Storage.set('fasttrack_operator_wallet', input.trim().toUpperCase()); 
             updateUI(); window.showToast("WALLET LINKED");
         }
     };
 
     window.requestWithdrawal = async () => {
         if (!currentUser) return;
-        const wallet = localStorage.getItem('fasttrack_operator_wallet');
+        const wallet = Storage.get('fasttrack_operator_wallet');
         if (!wallet) return window.showToast("CONNECT WALLET FIRST");
         if (state.balance < 100) return window.showToast("MIN 100 TNB");
         
@@ -617,7 +648,7 @@
     window.enterHQ = () => {
         const ignInput = document.getElementById('operator-ign');
         const walletInput = document.getElementById('manual-wallet');
-        const savedIgn = localStorage.getItem('fasttrack_ign');
+        const savedIgn = Storage.get('fasttrack_ign');
         
         let finalIgn = "";
         
@@ -632,10 +663,10 @@
 
         state.ign = finalIgn;
         if (state.ign.toLowerCase() === ADMIN_KEY.toLowerCase()) state.isAdmin = true;
-        localStorage.setItem('fasttrack_ign', state.ign);
+        Storage.set('fasttrack_ign', state.ign);
         
         if (walletInput && walletInput.value.trim() !== "") {
-            localStorage.setItem('fasttrack_operator_wallet', walletInput.value.trim().toUpperCase());
+            Storage.set('fasttrack_operator_wallet', walletInput.value.trim().toUpperCase());
         }
         
         const gateway = document.getElementById('view-gateway');
@@ -649,6 +680,8 @@
             gameLoop(); 
             gameInitialized = true;
         }
+        
+        window.saveGame();
     };
 
     function initMap() {
@@ -830,7 +863,7 @@
         set('grease-count', state.overclocks);
         set('sync-high-score', state.syncHighScore);
         
-        const currentWallet = localStorage.getItem('fasttrack_operator_wallet');
+        const currentWallet = Storage.get('fasttrack_operator_wallet');
         set('dash-wallet', currentWallet ? currentWallet.slice(0,6)+'...'+currentWallet.slice(-4) : 'None');
         const connectBtn = document.getElementById('in-game-connect-btn');
         if (connectBtn) connectBtn.style.display = currentWallet ? 'none' : 'block';
@@ -908,7 +941,6 @@
                 const totalC = type.cooldown * pSM;
                 let fill = n.status === 'building' ? n.progress : (n.status === 'cooldown' ? (n.cooldown / totalC) * 100 : 0);
                 
-                // FIXED: Syntax error with template literals and nested quotes
                 let qI = n.countG < 30 ? `<span class="text-green-400">G: ${n.countG}/30</span>` : (n.countR < 60 ? `<span class="text-red-400">R: ${n.countR}/60</span>` : (n.countY < 90 ? `<span class="text-yellow-400">Y: ${n.countY}/90</span>` : `<span class="text-white drop-shadow-[0_0_5px_white]">READY</span>`));
                 
                 row.innerHTML = `
@@ -1084,7 +1116,7 @@
 
                     fetchLeaderboard();
                     
-                    if (localStorage.getItem('fasttrack_ign')) window.enterHQ();
+                    if (Storage.get('fasttrack_ign')) window.enterHQ();
                 }
             });
         } catch (e) { 
