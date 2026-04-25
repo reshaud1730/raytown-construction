@@ -371,23 +371,54 @@
         <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             <div class="digital-card p-8">
                 <h3 class="text-sm font-black text-accent uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">🏗️</span> The Core Loop</h3>
-                <p class="text-sm text-slate-300 leading-relaxed font-semibold">Coordinate Upland builds to generate TNB. Your first 3 lots are FREE. Lots 4-12 require expansion permits. Once a build hits 100%, you get paid instant yield.</p>
+                <p class="text-sm text-slate-300 leading-relaxed font-semibold">Coordinate Upland builds to generate TNB. Your first 3 lots are FREE. Lots 4-12 require expansion permits. Once a build hits 100%, you get paid instant yield. Hit "Grease" to cut maintenance cooldowns.</p>
             </div>
             <div class="digital-card p-8">
                 <h3 class="text-sm font-black text-raytown-blue uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">📈</span> Era Scaling</h3>
                 <div class="space-y-4">
-                    <div class="bg-black/30 p-3 rounded border-l-2 border-white/20"><strong class="text-white text-xs tracking-widest uppercase">Ph 1:</strong> <span class="text-xs text-slate-400">Standard costs, 2x base payouts. Manual.</span></div>
-                    <div class="bg-black/30 p-3 rounded border-l-2 border-accent"><strong class="text-accent text-xs tracking-widest uppercase">Ph 2:</strong> <span class="text-xs text-slate-400">Costs double. Automated builds unlock.</span></div>
-                    <div class="bg-black/30 p-3 rounded border-l-2 border-red-500"><strong class="text-red-400 text-xs tracking-widest uppercase">Ph 3:</strong> <span class="text-xs text-slate-400">Costs triple. +33% payout bonus. Final lock.</span></div>
+                    <div class="bg-black/30 p-3 rounded border-l-2 border-white/20"><strong class="text-white text-xs tracking-widest uppercase">Ph 1: Foundation</strong> <span class="text-xs text-slate-400">Standard costs, 2.0x base payouts. Manual.</span></div>
+                    <div class="bg-black/30 p-3 rounded border-l-2 border-accent"><strong class="text-accent text-xs tracking-widest uppercase">Ph 2: Corporate</strong> <span class="text-xs text-slate-400">Costs double. 4.0x base payouts. Auto Bots unlock.</span></div>
+                    <div class="bg-black/30 p-3 rounded border-l-2 border-red-500"><strong class="text-red-400 text-xs tracking-widest uppercase">Ph 3: Terminal</strong> <span class="text-xs text-slate-400">Costs triple. 5.33x payouts (+33% boost). Final lock.</span></div>
                 </div>
             </div>
             <div class="digital-card p-8">
-                <h3 class="text-sm font-black text-red-400 uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">🌩️</span> Weather Threats</h3>
-                <p class="text-sm text-slate-300 leading-relaxed font-semibold">Storms (Rain/Snow/Wind) halt construction and extend cooldowns by 50s. Install a Weather Shield from the market to bypass these delays for one full cycle.</p>
+                <h3 class="text-sm font-black text-green-400 uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">🎮</span> Supply Sync Mini-Game</h3>
+                <ul class="text-sm text-slate-300 leading-relaxed font-semibold space-y-2 list-disc list-inside">
+                    <li><strong class="text-white">Catch Hammers (🔨):</strong> Earn 3 TNB instantly per catch.</li>
+                    <li><strong class="text-green-400">Enhanced Grease (⚡):</strong> Catch 10 hammers to bank. Slices maintenance cooldowns by 15s (instead of 3s).</li>
+                    <li><strong class="text-red-400">Hazards (⚠️):</strong> Triggers a network Desync, forcing a reboot and wiping unbanked hammers.</li>
+                </ul>
             </div>
             <div class="digital-card p-8">
-                <h3 class="text-sm font-black text-green-400 uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">💰</span> Payout Splits</h3>
-                <p class="text-sm text-slate-300 leading-relaxed font-semibold">Operators keep 95% of all earnings. Treasury takes 5% to fund community development. Withdraw to Base Wallet at 100 TNB minimum.</p>
+                <h3 class="text-sm font-black text-purple-400 uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">🛒</span> The Marketplace</h3>
+                <ul class="text-sm text-slate-300 leading-relaxed font-semibold space-y-2 list-disc list-inside">
+                    <li><strong class="text-accent">Contract Bots (500 TNB):</strong> Automates a single full build.</li>
+                    <li><strong class="text-raytown-blue">FastTrack Time Boost:</strong> Instantly blasts ALL active builds +50% progress! (Scales: 1.5k / 3k / 4.5k TNB).</li>
+                    <li><strong class="text-green-400">Weather Shield (7,500 TNB):</strong> Blocks random 50s storm delays for a full cycle.</li>
+                </ul>
+            </div>
+            <div class="digital-card p-8 md:col-span-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-sm font-black text-yellow-400 uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">🏅</span> Construction Ranks</h3>
+                        <div class="space-y-2 text-xs font-semibold text-slate-300">
+                            <div class="flex justify-between items-center bg-black/30 p-2 rounded border border-white/5"><span class="text-white font-bold">🛠️ Builder (0)</span><span>Standard Ops</span><span>5% Tax</span></div>
+                            <div class="flex justify-between items-center bg-black/30 p-2 rounded border border-white/5"><span class="text-white font-bold">👷 Foreman (75)</span><span class="text-green-400">+5% Speed</span><span>5% Tax</span></div>
+                            <div class="flex justify-between items-center bg-black/30 p-2 rounded border border-white/5"><span class="text-white font-bold">🏗️ Manager (150)</span><span class="text-green-400">+5% Speed</span><span class="text-raytown-blue">4% Tax</span></div>
+                            <div class="flex justify-between items-center bg-black/30 p-2 rounded border border-white/5"><span class="text-white font-bold">🏙️ Legend (600)</span><span class="text-green-400">+15% Speed</span><span class="text-green-400">3% Tax</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-black text-green-400 uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">💰</span> Payout Vault</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed font-semibold mb-2">We operate on a baseline 95/5 Player-to-Treasury split.</p>
+                        <ol class="text-xs text-slate-300 leading-relaxed font-semibold space-y-1 list-decimal list-inside bg-black/30 p-3 rounded border border-white/5">
+                            <li>Link Web3 Base Wallet in Operator Profile.</li>
+                            <li>Reach minimum <strong class="text-green-400">100 TNB</strong>.</li>
+                            <li>Hit the "Process Withdrawal" button.</li>
+                            <li>TNB is securely airdropped to you!</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -489,6 +520,7 @@
     let currentUser = null;
     let hasLoaded = false; 
     let syncSessionScore = 0;
+    let gameInitialized = false;
 
     const RANK_DATA = [
         { name: "Node Builder", badge: "🛠️", req: 0, bonus: 0, split: 0.05 },
@@ -584,19 +616,39 @@
 
     window.enterHQ = () => {
         const ignInput = document.getElementById('operator-ign');
-        const rawIgn = (ignInput && ignInput.value) || localStorage.getItem('fasttrack_ign') || "Operator";
-        state.ign = rawIgn.trim();
+        const walletInput = document.getElementById('manual-wallet');
+        const savedIgn = localStorage.getItem('fasttrack_ign');
+        
+        let finalIgn = "";
+        
+        if (ignInput && ignInput.value.trim() !== "") {
+            finalIgn = ignInput.value.trim();
+        } else if (savedIgn) {
+            finalIgn = savedIgn;
+        } else {
+            window.showToast("OPERATOR IGN IS REQUIRED");
+            return;
+        }
+
+        state.ign = finalIgn;
         if (state.ign.toLowerCase() === ADMIN_KEY.toLowerCase()) state.isAdmin = true;
         localStorage.setItem('fasttrack_ign', state.ign);
-        const walletInput = document.getElementById('manual-wallet');
-        if (walletInput && walletInput.value) localStorage.setItem('fasttrack_operator_wallet', walletInput.value.trim().toUpperCase());
+        
+        if (walletInput && walletInput.value.trim() !== "") {
+            localStorage.setItem('fasttrack_operator_wallet', walletInput.value.trim().toUpperCase());
+        }
         
         const gateway = document.getElementById('view-gateway');
         const container = document.getElementById('app-container');
         if (gateway) gateway.style.display = 'none';
         if (container) container.classList.remove('hidden');
         
-        initMap(); initMinigame(); gameLoop(); 
+        if (!gameInitialized) {
+            initMap(); 
+            initMinigame(); 
+            gameLoop(); 
+            gameInitialized = true;
+        }
     };
 
     function initMap() {
