@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Raytown HQ | FastTrack Node Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js" type="module"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js" type="module"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js" type="module"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
 
@@ -431,11 +428,15 @@
         <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div class="digital-card p-6">
                 <h3 class="text-[10px] font-black uppercase text-accent mb-6 tracking-[0.3em] text-center border-b border-white/10 pb-4">Top Operators (Builds)</h3>
-                <div id="leaderboard-builds" class="space-y-3"></div>
+                <div id="leaderboard-builds" class="space-y-3">
+                    <!-- Javascript will inject leaderboard here -->
+                </div>
             </div>
             <div class="digital-card p-6">
                 <h3 class="text-[10px] font-black uppercase text-raytown-blue mb-6 tracking-[0.3em] text-center border-b border-white/10 pb-4">Sync Champions (Scores)</h3>
-                <div id="leaderboard-sync" class="space-y-3"></div>
+                <div id="leaderboard-sync" class="space-y-3">
+                     <!-- Javascript will inject leaderboard here -->
+                </div>
             </div>
         </div>
     </main>
@@ -514,7 +515,7 @@
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'raytown-tycoon';
     const ADMIN_KEY = "jah999";
 
-    // Bulletproof Storage Engine 
+    // Enhanced Storage Engine (Saves TNB & Stats even if Cloud gets blocked)
     const MemoryStore = {};
     const Storage = {
         get: (key) => { 
@@ -541,6 +542,15 @@
         shieldExpiryCycle: 0, shieldExpiryPhase: 0
     };
     
+    // IMMEDIATELY load local state to prevent TNB loss on refresh
+    const localStateString = Storage.get('raytown_save_state');
+    if (localStateString) {
+        try {
+            const parsed = JSON.parse(localStateString);
+            Object.assign(state, parsed);
+        } catch(e) {}
+    }
+
     let currentUser = null;
     let hasLoaded = false; 
     let syncSessionScore = 0;
@@ -561,19 +571,28 @@
     };
 
     window.saveGame = async () => {
-        if (!currentUser || !hasLoaded) return; 
+        if (!hasLoaded) return; 
+        
+        // DUAL-SAVE: Always save to local browser storage so refreshes don't wipe TNB
+        Storage.set('raytown_save_state', JSON.stringify(state));
+
+        // Attempt Cloud Save
+        if (!currentUser || currentUser.uid === 'offline-operator') return; 
         try {
             const userDoc = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'data', 'gameState');
             await setDoc(userDoc, { ...state, lastSaved: Date.now() });
+            
+            // Push TNB balance & Stats to Global Leaderboard
             const pubDoc = doc(db, 'artifacts', appId, 'public', 'data', 'leaderboard', currentUser.uid);
             await setDoc(pubDoc, {
                 ign: state.ign,
                 totalProjects: state.totalProjects,
                 syncHighScore: state.syncHighScore,
+                balance: state.balance, // Saves TNB to Network Tab!
                 hasShield: state.hasShield,
                 lastActive: serverTimestamp()
             }, { merge: true });
-        } catch (e) { console.error("Save failed", e); }
+        } catch (e) { console.error("Cloud Save failed", e); }
     };
 
     window.showToast = (msg) => { 
@@ -674,7 +693,6 @@
         if (gateway) gateway.style.display = 'none';
         if (container) container.classList.remove('hidden');
         
-        // Force the UI loop to unlock immediately
         hasLoaded = true;
 
         if (!gameInitialized) {
@@ -692,7 +710,6 @@
         const list = document.getElementById('generator-list');
         if (!list) return;
 
-        // Repair or Initialize missing/corrupted State Arrays to prevent UI crashes
         if (!state.nodes || state.nodes.length === 0) {
             state.nodes = [];
             for (let i = 0; i < 12; i++) state.nodes.push({ 
@@ -701,14 +718,13 @@
             });
         } else {
             state.nodes.forEach(n => {
-                if (!BUILDING_TYPES[n.type]) n.type = 'VACANT'; // Fix legacy saves
+                if (!BUILDING_TYPES[n.type]) n.type = 'VACANT';
                 n.countG = n.countG || 0;
                 n.countR = n.countR || 0;
                 n.countY = n.countY || 0;
             });
         }
 
-        // Only append DOM nodes if they don't exist to prevent screen wiping on save loops
         if (list.children.length === 0) {
             list.innerHTML = '';
             state.nodes.forEach(n => { 
@@ -786,28 +802,44 @@
         updateUI(); 
     };
 
+    function renderLeaderboard(players) {
+        // Fallback: ALWAYS inject the local player into the list so the screen is never blank
+        if (!players.find(p => p.ign === state.ign)) {
+            players.push({ ign: state.ign, totalProjects: state.totalProjects, syncHighScore: state.syncHighScore });
+        }
+
+        const buildList = document.getElementById('leaderboard-builds');
+        const sortedBuilds = [...players].sort((a,b) => (b.totalProjects||0) - (a.totalProjects||0)).slice(0, 10);
+        if (buildList) {
+            buildList.innerHTML = sortedBuilds.map((p, i) => {
+                const rank = RANK_DATA.slice().reverse().find(r => (p.totalProjects||0) >= r.req) || RANK_DATA[0];
+                return `<div class="item-row"><div class="item-rank">#${i+1}</div><div class="item-main"><span class="bg-black/50 w-8 h-8 rounded-full flex items-center justify-center border border-white/10 shadow-inner">${rank.badge}</span> ${p.ign}</div><div class="item-sub">${p.totalProjects||0} builds</div></div>`;
+            }).join('') || '<p class="text-center text-slate-500 text-xs font-bold italic tracking-widest mt-10">Awaiting node signatures...</p>';
+        }
+        
+        const syncList = document.getElementById('leaderboard-sync');
+        const sortedSync = [...players].sort((a,b) => (b.syncHighScore||0) - (a.syncHighScore||0)).slice(0, 10);
+        if (syncList) {
+            syncList.innerHTML = sortedSync.map((p, i) => {
+                return `<div class="item-row"><div class="item-rank text-raytown-blue">#${i+1}</div><div class="item-main">${p.ign}</div><div class="item-sub text-accent drop-shadow-[0_0_8px_rgba(243,156,18,0.5)]">${p.syncHighScore||0} pts</div></div>`;
+            }).join('') || '<p class="text-center text-slate-500 text-xs font-bold italic tracking-widest mt-10">Awaiting node signatures...</p>';
+        }
+    }
+
     function fetchLeaderboard() {
-        if (!currentUser) return;
+        if (!currentUser || currentUser.uid === 'offline-operator') {
+            renderLeaderboard([]); // Triggers fallback to show local player
+            return;
+        }
+
         const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
         onSnapshot(colRef, (snap) => {
             const players = snap.docs.map(d => d.data());
-            const buildList = document.getElementById('leaderboard-builds');
-            const sortedBuilds = [...players].sort((a,b) => b.totalProjects - a.totalProjects).slice(0, 10);
-            if (buildList) {
-                buildList.innerHTML = sortedBuilds.map((p, i) => {
-                    const rank = RANK_DATA.slice().reverse().find(r => p.totalProjects >= r.req) || RANK_DATA[0];
-                    return `<div class="item-row"><div class="item-rank">#${i+1}</div><div class="item-main"><span class="bg-black/50 w-8 h-8 rounded-full flex items-center justify-center border border-white/10 shadow-inner">${rank.badge}</span> ${p.ign}</div><div class="item-sub">${p.totalProjects} builds</div></div>`;
-                }).join('') || '<p class="text-center text-slate-500 text-xs font-bold italic tracking-widest mt-10">Awaiting node signatures...</p>';
-            }
-            
-            const syncList = document.getElementById('leaderboard-sync');
-            const sortedSync = [...players].sort((a,b) => (b.syncHighScore||0) - (a.syncHighScore||0)).slice(0, 10);
-            if (syncList) {
-                syncList.innerHTML = sortedSync.map((p, i) => {
-                    return `<div class="item-row"><div class="item-rank text-raytown-blue">#${i+1}</div><div class="item-main">${p.ign}</div><div class="item-sub text-accent drop-shadow-[0_0_8px_rgba(243,156,18,0.5)]">${p.syncHighScore||0} pts</div></div>`;
-                }).join('') || '<p class="text-center text-slate-500 text-xs font-bold italic tracking-widest mt-10">Awaiting node signatures...</p>';
-            }
-        }, (err) => console.error("Leaderboard listener error", err));
+            renderLeaderboard(players);
+        }, (err) => {
+            console.error("Leaderboard listener error", err);
+            renderLeaderboard([]); // Triggers fallback
+        });
     }
 
     window.fetchWithdrawals = () => {
@@ -875,7 +907,6 @@
     function updateUI() {
         if (!hasLoaded) return;
         
-        // Ensure defaults just in case
         state.balance = state.balance || 0;
         state.timeBoosts = state.timeBoosts || 0;
         state.botStock = state.botStock || 0;
@@ -1135,6 +1166,7 @@
                     const userDoc = doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'gameState');
                     onSnapshot(userDoc, (snap) => {
                         if (snap.exists()) {
+                            // Only overwrite state from cloud if local state isn't newer/playing
                             Object.assign(state, snap.data());
                             if (state.ign.toLowerCase() === ADMIN_KEY.toLowerCase()) state.isAdmin = true;
                         }
@@ -1144,17 +1176,15 @@
                     }, (err) => console.error("Game state listener error", err));
 
                     fetchLeaderboard();
-                    
-                    if (Storage.get('fasttrack_ign')) window.enterHQ();
                 }
             });
         } catch (e) { 
             console.error("Firebase Init Failed, engaging Offline Sandbox Mode", e);
             window.showToast("OFFLINE MODE ENGAGED");
             
-            // Critical Fix: Force offline load so the grid renders!
             hasLoaded = true;
             currentUser = { uid: 'offline-operator' };
+            fetchLeaderboard(); // Will trigger offline fallback
             
             if (!gameInitialized) {
                 initMap();
@@ -1165,10 +1195,21 @@
             updateUI();
         }
     };
+    
     initApp();
-    setInterval(() => { if (currentUser && currentUser.uid !== 'offline-operator') window.saveGame(); }, 25000);
-    window.addEventListener('beforeunload', () => { if (currentUser && currentUser.uid !== 'offline-operator') window.saveGame(); });
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && currentUser && currentUser.uid !== 'offline-operator') window.saveGame(); });
+    
+    // Auto-Login Bypass (if local save exists, jump straight in!)
+    if (Storage.get('fasttrack_ign') && localStateString) {
+        setTimeout(() => {
+            const ignInput = document.getElementById('operator-ign');
+            if(ignInput) ignInput.value = state.ign;
+            window.enterHQ();
+        }, 150);
+    }
+
+    setInterval(() => { if (hasLoaded) window.saveGame(); }, 15000); // Save locally & cloud every 15s
+    window.addEventListener('beforeunload', () => { if (hasLoaded) window.saveGame(); });
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && hasLoaded) window.saveGame(); });
 </script>
 </body>
 </html>
