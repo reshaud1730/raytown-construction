@@ -257,7 +257,13 @@
             <div class="digital-card p-6 border-t-4 border-t-accent">
                 <h2 class="text-xs font-black uppercase text-white tracking-[0.2em] flex items-center gap-3 mb-6 pb-4 border-b border-white/10"><span class="text-xl bg-accent text-black w-8 h-8 rounded flex items-center justify-center">👤</span> Operator Profile</h2>
                 <div class="space-y-4 text-sm font-bold">
-                    <div class="flex justify-between items-center bg-black/30 p-3 rounded-lg border border-white/5"><span class="text-slate-400 text-[10px] uppercase tracking-widest">Callsign</span><span id="dash-ign" class="text-white">---</span></div>
+                    <div class="flex justify-between items-center bg-black/30 p-3 rounded-lg border border-white/5">
+                        <span class="text-slate-400 text-[10px] uppercase tracking-widest">Callsign</span>
+                        <div class="flex items-center gap-2">
+                            <span id="dash-ign" class="text-white">---</span>
+                            <button onclick="changeIgn()" class="text-xs opacity-50 hover:opacity-100 transition-opacity" title="Change IGN">✏️</button>
+                        </div>
+                    </div>
                     <div class="flex justify-between items-center bg-black/30 p-3 rounded-lg border border-white/5"><span class="text-slate-400 text-[10px] uppercase tracking-widest">Lifetime Builds</span><span id="dash-total-builds" class="text-accent text-lg drop-shadow-[0_0_8px_rgba(243,156,18,0.5)]">0</span></div>
                     <div class="flex justify-between items-center bg-black/30 p-3 rounded-lg border border-white/5"><span class="text-slate-400 text-[10px] uppercase tracking-widest">FastTrack Time Boosts</span><span id="dash-boost-count" class="text-raytown-blue">0</span></div>
                     <div class="flex justify-between items-center bg-black/30 p-3 rounded-lg border border-white/5"><span class="text-slate-400 text-[10px] uppercase tracking-widest">Status</span><span id="dash-rank-full" class="text-accent">🛠️ Builder</span></div>
@@ -323,9 +329,14 @@
     <main id="screen-dispatch" class="screen">
         <div class="px-6 py-4 bg-black/40 border-b border-white/10 flex justify-between items-center backdrop-blur-md sticky top-0 z-30">
             <h2 class="text-xs font-black uppercase tracking-[0.2em] text-white flex items-center gap-2"><span class="text-accent text-lg">📍</span> Node Grid Terminal</h2>
-            <button id="global-boost-btn" onclick="activateGlobalBoost()" class="bg-raytown-blue/10 hover:bg-raytown-blue/20 text-raytown-blue border border-raytown-blue px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-colors shadow-[0_0_15px_rgba(0,242,255,0.15)] flex items-center gap-2">
-                FastTrack Time Boost <span class="bg-raytown-blue text-black px-1.5 py-0.5 rounded text-[9px]" id="btn-boost-count">0</span>
-            </button>
+            <div class="flex items-center gap-2">
+                <button onclick="simulateStorm()" class="bg-red-500/20 hover:bg-red-500/40 text-red-400 border border-red-500/50 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-colors shadow-[0_0_15px_rgba(231,76,60,0.2)]">
+                    Test Storm ⛈️
+                </button>
+                <button id="global-boost-btn" onclick="activateGlobalBoost()" class="bg-raytown-blue/10 hover:bg-raytown-blue/20 text-raytown-blue border border-raytown-blue px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-colors shadow-[0_0_15px_rgba(0,242,255,0.15)] flex items-center gap-2">
+                    FastTrack Time Boost <span class="bg-raytown-blue text-black px-1.5 py-0.5 rounded text-[9px]" id="btn-boost-count">0</span>
+                </button>
+            </div>
         </div>
         <div id="generator-list" class="grid-layout hq-grid pb-6 pt-4 relative"></div>
     </main>
@@ -515,7 +526,7 @@
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'raytown-tycoon';
     const ADMIN_KEY = "jah999";
 
-    // Enhanced Storage Engine (Saves TNB & Stats even if Cloud gets blocked)
+    // Enhanced Storage Engine
     const MemoryStore = {};
     const Storage = {
         get: (key) => { 
@@ -533,7 +544,8 @@
     };
 
     let state = { 
-        ign: "Operator", balance: 0, nodes: [], phase: 1, cycle: 1, botStock: 0, 
+        ign: Storage.get('fasttrack_ign') || "Operator", // Fixed initial state priority
+        balance: 0, nodes: [], phase: 1, cycle: 1, botStock: 0, 
         timeBoosts: 0, totalProjects: 0, fragments: 0, overclocks: 0, 
         syncHighScore: 0, lastUpdate: Date.now(), isSyncActive: false, 
         collectorX: 50, isAdmin: false, hasShield: false,
@@ -634,6 +646,19 @@
         }
     };
 
+    // New Function to instantly change IGN if it was accidentally saved as 'Operator'
+    window.changeIgn = () => {
+        const newIgn = prompt("Enter new Operator IGN:", state.ign !== "Operator" ? state.ign : "");
+        if (newIgn && newIgn.trim() !== "") {
+            state.ign = newIgn.trim();
+            Storage.set('fasttrack_ign', state.ign);
+            if (state.ign.toLowerCase() === ADMIN_KEY.toLowerCase()) state.isAdmin = true;
+            updateUI();
+            window.saveGame();
+            window.showToast("IGN UPDATED");
+        }
+    };
+
     window.inGameConnectWallet = async () => {
         const input = prompt("Paste Base Wallet Address:");
         if (input && input.trim() !== "") { 
@@ -703,7 +728,7 @@
         }
         
         updateUI();
-        window.saveGame();
+        window.saveGame(); // Ensure new IGN gets pushed to Leaderboard immediately
     };
 
     function initMap() {
@@ -878,6 +903,23 @@
             if (active > 0) { state.timeBoosts--; window.showToast("FASTTRACK TIME BOOST (50%)!"); updateUI(); window.saveGame(); }
             else window.showToast("NO LOTS BUILDING");
         } else window.showToast("OUT OF BOOSTS");
+    };
+
+    window.simulateStorm = () => {
+        state.isStorming = !state.isStorming;
+        if (state.isStorming) {
+            state.stormTimeLeft = 50;
+            const types = ['RAIN', 'SNOW', 'WIND', 'STORM'];
+            state.weatherType = types[Math.floor(Math.random() * types.length)];
+            window.showToast("⚠️ SEVERE " + state.weatherType + " DETECTED");
+        } else {
+            state.stormTimeLeft = 0;
+            state.weatherType = 'CLEAR';
+            window.showToast("WEATHER CLEARED");
+        }
+        updateWeatherFX();
+        updateUI();
+        window.saveGame();
     };
 
     window.greaseGears = (id) => {
@@ -1166,8 +1208,12 @@
                     const userDoc = doc(db, 'artifacts', appId, 'users', user.uid, 'data', 'gameState');
                     onSnapshot(userDoc, (snap) => {
                         if (snap.exists()) {
-                            // Only overwrite state from cloud if local state isn't newer/playing
-                            Object.assign(state, snap.data());
+                            const cloudData = snap.data();
+                            // Prevent Cloud from overwriting a valid IGN with 'Operator'
+                            if (cloudData.ign === "Operator" && Storage.get('fasttrack_ign')) {
+                                cloudData.ign = Storage.get('fasttrack_ign');
+                            }
+                            Object.assign(state, cloudData);
                             if (state.ign.toLowerCase() === ADMIN_KEY.toLowerCase()) state.isAdmin = true;
                         }
                         hasLoaded = true; 
@@ -1198,11 +1244,11 @@
     
     initApp();
     
-    // Auto-Login Bypass (if local save exists, jump straight in!)
+    // Fixed Auto-Login Bypass
     if (Storage.get('fasttrack_ign') && localStateString) {
         setTimeout(() => {
             const ignInput = document.getElementById('operator-ign');
-            if(ignInput) ignInput.value = state.ign;
+            if(ignInput) ignInput.value = Storage.get('fasttrack_ign');
             window.enterHQ();
         }, 150);
     }
