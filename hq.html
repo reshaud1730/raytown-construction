@@ -514,7 +514,7 @@
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'raytown-tycoon';
     const ADMIN_KEY = "jah999";
 
-    // Bulletproof Storage Engine (Fixes the login freezing issue in Strict Browsers)
+    // Bulletproof Storage Engine 
     const MemoryStore = {};
     const Storage = {
         get: (key) => { 
@@ -674,6 +674,9 @@
         if (gateway) gateway.style.display = 'none';
         if (container) container.classList.remove('hidden');
         
+        // Force the UI loop to unlock immediately
+        hasLoaded = true;
+
         if (!gameInitialized) {
             initMap(); 
             initMinigame(); 
@@ -681,20 +684,39 @@
             gameInitialized = true;
         }
         
+        updateUI();
         window.saveGame();
     };
 
     function initMap() {
         const list = document.getElementById('generator-list');
         if (!list) return;
-        if (state.nodes.length === 0) {
+
+        // Repair or Initialize missing/corrupted State Arrays to prevent UI crashes
+        if (!state.nodes || state.nodes.length === 0) {
+            state.nodes = [];
             for (let i = 0; i < 12; i++) state.nodes.push({ 
                 id: i, owned: false, type: 'VACANT', status: 'idle', progress: 0, cooldown: 0, isBot: false, 
                 countG: 0, countR: 0, countY: 0 
             });
+        } else {
+            state.nodes.forEach(n => {
+                if (!BUILDING_TYPES[n.type]) n.type = 'VACANT'; // Fix legacy saves
+                n.countG = n.countG || 0;
+                n.countR = n.countR || 0;
+                n.countY = n.countY || 0;
+            });
         }
-        list.innerHTML = '';
-        state.nodes.forEach(n => { const div = document.createElement('div'); div.id = `node-row-${n.id}`; list.appendChild(div); });
+
+        // Only append DOM nodes if they don't exist to prevent screen wiping on save loops
+        if (list.children.length === 0) {
+            list.innerHTML = '';
+            state.nodes.forEach(n => { 
+                const div = document.createElement('div'); 
+                div.id = `node-row-${n.id}`; 
+                list.appendChild(div); 
+            });
+        }
         updateUI();
     }
 
@@ -852,6 +874,13 @@
 
     function updateUI() {
         if (!hasLoaded) return;
+        
+        // Ensure defaults just in case
+        state.balance = state.balance || 0;
+        state.timeBoosts = state.timeBoosts || 0;
+        state.botStock = state.botStock || 0;
+        state.overclocks = state.overclocks || 0;
+
         const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
         const rank = RANK_DATA.slice().reverse().find(r => state.totalProjects >= r.req) || RANK_DATA[0];
         
@@ -924,7 +953,7 @@
                         </button>
                     </div>`;
             } else {
-                const type = BUILDING_TYPES[n.type];
+                const type = BUILDING_TYPES[n.type] || BUILDING_TYPES['VACANT'];
                 let glowClass = '';
                 let colorTheme = '';
                 
@@ -941,7 +970,7 @@
                 const totalC = type.cooldown * pSM;
                 let fill = n.status === 'building' ? n.progress : (n.status === 'cooldown' ? (n.cooldown / totalC) * 100 : 0);
                 
-                let qI = n.countG < 30 ? `<span class="text-green-400">G: ${n.countG}/30</span>` : (n.countR < 60 ? `<span class="text-red-400">R: ${n.countR}/60</span>` : (n.countY < 90 ? `<span class="text-yellow-400">Y: ${n.countY}/90</span>` : `<span class="text-white drop-shadow-[0_0_5px_white]">READY</span>`));
+                let qI = (n.countG || 0) < 30 ? `<span class="text-green-400">G: ${n.countG || 0}/30</span>` : ((n.countR || 0) < 60 ? `<span class="text-red-400">R: ${n.countR || 0}/60</span>` : ((n.countY || 0) < 90 ? `<span class="text-yellow-400">Y: ${n.countY || 0}/90</span>` : `<span class="text-white drop-shadow-[0_0_5px_white]">READY</span>`));
                 
                 row.innerHTML = `
                     <div class="digital-card ${glowClass} flex flex-col p-5">
@@ -972,8 +1001,8 @@
                             <div class="flex gap-2">
                             ${n.status==='idle' ? `
                                 <button onclick="startBuild(${n.id},'GREEN')" class="hover:-translate-y-1 transition-transform bg-green-500/20 text-green-400 border border-green-500/30 w-8 h-8 flex items-center justify-center rounded-lg text-[10px] font-black shadow-[0_0_15px_rgba(46,204,113,0.15)]">G</button>
-                                ${n.countG>=30?`<button onclick="startBuild(${n.id},'RED')" class="hover:-translate-y-1 transition-transform bg-red-500/20 text-red-400 border border-red-500/30 w-8 h-8 flex items-center justify-center rounded-lg text-[10px] font-black shadow-[0_0_15px_rgba(231,76,60,0.15)]">R</button>`:''}
-                                ${n.countR>=60?`<button onclick="startBuild(${n.id},'YELLOW')" class="hover:-translate-y-1 transition-transform bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 w-8 h-8 flex items-center justify-center rounded-lg text-[10px] font-black shadow-[0_0_15px_rgba(241,196,15,0.15)]">Y</button>`:''}
+                                ${(n.countG||0)>=30?`<button onclick="startBuild(${n.id},'RED')" class="hover:-translate-y-1 transition-transform bg-red-500/20 text-red-400 border border-red-500/30 w-8 h-8 flex items-center justify-center rounded-lg text-[10px] font-black shadow-[0_0_15px_rgba(231,76,60,0.15)]">R</button>`:''}
+                                ${(n.countR||0)>=60?`<button onclick="startBuild(${n.id},'YELLOW')" class="hover:-translate-y-1 transition-transform bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 w-8 h-8 flex items-center justify-center rounded-lg text-[10px] font-black shadow-[0_0_15px_rgba(241,196,15,0.15)]">Y</button>`:''}
                                 <button onclick="useBot(${n.id})" class="hover:-translate-y-1 transition-transform bg-[#00f2ff]/20 text-[#00f2ff] border border-[#00f2ff]/50 h-8 px-3 flex items-center justify-center rounded-lg text-[9px] font-black shadow-[0_0_15px_rgba(0,242,255,0.3)] tracking-widest ${state.phase < 2 ? 'opacity-30 cursor-not-allowed filter grayscale' : ''}">BOT</button>
                             ` : n.status==='cooldown' ? `<button onclick="greaseGears(${n.id})" class="grease-btn ${state.overclocks>0?'enhanced':''} !mt-0 !h-8 flex items-center justify-center px-4 tracking-widest shadow-lg">Grease ${state.overclocks>0?'⚡':''}</button>` : ''}
                             </div>
@@ -1064,7 +1093,7 @@
                 n.cooldown -= delta * wM; if (n.cooldown <= 0) { n.status = 'idle'; n.cooldown = 0; } 
             }
             if (n.status === 'building') {
-                const type = BUILDING_TYPES[n.type];
+                const type = BUILDING_TYPES[n.type] || BUILDING_TYPES['VACANT'];
                 const pSM = Math.pow(3, state.phase - 1);
                 const aTT = type.time * pSM;
                 const wPM = (state.isStorming && !state.hasShield) ? 0 : 1;
@@ -1120,14 +1149,26 @@
                 }
             });
         } catch (e) { 
-            console.error("Firebase Init Failed", e);
-            window.showToast("CONNECTION ERROR"); 
+            console.error("Firebase Init Failed, engaging Offline Sandbox Mode", e);
+            window.showToast("OFFLINE MODE ENGAGED");
+            
+            // Critical Fix: Force offline load so the grid renders!
+            hasLoaded = true;
+            currentUser = { uid: 'offline-operator' };
+            
+            if (!gameInitialized) {
+                initMap();
+                initMinigame();
+                gameLoop();
+                gameInitialized = true;
+            }
+            updateUI();
         }
     };
     initApp();
-    setInterval(() => { if (currentUser) window.saveGame(); }, 25000);
-    window.addEventListener('beforeunload', () => { if (currentUser) window.saveGame(); });
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && currentUser) window.saveGame(); });
+    setInterval(() => { if (currentUser && currentUser.uid !== 'offline-operator') window.saveGame(); }, 25000);
+    window.addEventListener('beforeunload', () => { if (currentUser && currentUser.uid !== 'offline-operator') window.saveGame(); });
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && currentUser && currentUser.uid !== 'offline-operator') window.saveGame(); });
 </script>
 </body>
 </html>
