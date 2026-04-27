@@ -97,7 +97,7 @@
         @media (min-width: 768px) {
             .grid-layout { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
             .hq-grid { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
-            .market-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+            .market-grid { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
         }
 
         .top-bar {
@@ -118,6 +118,7 @@
         }
         .action-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(243, 156, 18, 0.6), inset 0 2px 0 rgba(255,255,255,0.4); filter: brightness(1.1); }
         .action-btn:active { transform: translateY(1px); box-shadow: 0 2px 10px rgba(243, 156, 18, 0.4); }
+        .action-btn:disabled, .action-btn.opacity-50 { cursor: not-allowed; transform: none; filter: grayscale(1); }
 
         .bottom-nav {
             position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
@@ -156,7 +157,7 @@
             box-shadow: 0 0 40px rgba(0,242,255,0.15) inset;
         }
         .falling-item { position: absolute; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 2rem; z-index: 50; top: -50px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
-        #collector { position: absolute; bottom: 20px; width: 70px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; z-index: 100; left: 50%; transform: translateX(-50%); pointer-events: none; opacity: 0; transition: opacity 0.3s; filter: drop-shadow(0 0 15px rgba(0,242,255,0.5)); }
+        #collector { position: absolute; bottom: 20px; width: 70px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; z-index: 100; left: 50%; transform: translateX(-50%); pointer-events: none; opacity: 0; transition: opacity 0.3s, width 0.3s; filter: drop-shadow(0 0 15px rgba(0,242,255,0.5)); }
 
         .screen { display: none; flex-grow: 1; overflow-y: auto; padding-top: 10px; }
         .screen.active { display: block; animation: fade-in 0.4s ease-out forwards; }
@@ -191,12 +192,9 @@
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
 
-        /* Toast Redesign */
         #toast {
-            background: rgba(243, 156, 18, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid #fff;
-            box-shadow: 0 10px 30px rgba(243, 156, 18, 0.4);
+            background: rgba(243, 156, 18, 0.9); backdrop-filter: blur(10px);
+            border: 1px solid #fff; box-shadow: 0 10px 30px rgba(243, 156, 18, 0.4);
         }
     </style>
 </head>
@@ -371,6 +369,118 @@
         </div>
     </main>
 
+    <!-- MARKETPLACE & R&D LAB -->
+    <main id="screen-market" class="screen">
+        <div class="px-6 py-4 bg-black/40 border-b border-white/10 backdrop-blur-md sticky top-0 z-30 mb-6">
+            <h2 class="text-xs font-black uppercase tracking-[0.2em] text-white flex items-center gap-2"><span class="text-lg">🛒</span> Terminal Marketplace & R&D</h2>
+        </div>
+        
+        <!-- Consumables Section -->
+        <h3 class="text-xs text-raytown-blue font-black uppercase tracking-[0.3em] mb-4 text-center">Consumables & Sync Loadouts</h3>
+        <div class="grid-layout market-grid max-w-6xl mx-auto mb-10">
+            <!-- Time Boost -->
+            <div class="digital-card interactive p-6 flex flex-col justify-between border-t-4 border-t-green-400 bg-gradient-to-b from-green-900/10 to-transparent">
+                <div>
+                    <div class="text-4xl mb-4 drop-shadow-[0_0_15px_rgba(46,204,113,0.5)]">⏩</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-green-400">Time Boost</h3>
+                    <p class="text-[10px] text-slate-400 mb-4 font-bold leading-relaxed tracking-wide">+50% BUILD PROGRESS ON ALL ACTIVE LOTS INSTANTLY.</p>
+                </div>
+                <button class="action-btn !bg-[linear-gradient(135deg,#2ecc71,#27ae60)] !shadow-[0_4px_15px_rgba(46,204,113,0.4)] !py-3 !text-xs" onclick="buyItem('boost')">Purchase (1500 TNB)</button>
+            </div>
+            
+            <!-- Weather Shield -->
+            <div class="digital-card interactive p-6 flex flex-col justify-between border-t-4 border-t-blue-400 bg-gradient-to-b from-blue-900/10 to-transparent">
+                <div>
+                    <div class="text-4xl mb-4 drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]">🛡️</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-blue-400">Weather Shield</h3>
+                    <p class="text-[10px] text-slate-400 mb-4 font-bold leading-relaxed tracking-wide">BLOCKS WEATHER DELAYS FOR ONE FULL CONSTRUCTION CYCLE.</p>
+                </div>
+                <button id="btn-shield" class="action-btn !bg-[linear-gradient(135deg,#60a5fa,#2563eb)] !shadow-[0_4px_15px_rgba(96,165,250,0.4)] !py-3 !text-xs" onclick="buyItem('shield')">Install (7500 TNB)</button>
+            </div>
+            
+            <!-- Contract Bot -->
+            <div class="digital-card interactive p-6 flex flex-col justify-between border-t-4 border-t-white bg-gradient-to-b from-white/5 to-transparent">
+                <div>
+                    <div class="text-4xl mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">🤖</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-white">Contract Bot</h3>
+                    <p class="text-[10px] text-slate-400 mb-4 font-bold leading-relaxed tracking-wide">AUTOMATES A FULL BUILD. REQUIRED TO UNLOCK ERA 2.</p>
+                </div>
+                <button class="action-btn !bg-[linear-gradient(135deg,#e2e8f0,#94a3b8)] !shadow-[0_4px_15px_rgba(255,255,255,0.2)] !py-3 !text-xs" onclick="buyItem('bot')">Hire (500 TNB)</button>
+            </div>
+
+            <!-- Magnetic Collector -->
+            <div class="digital-card interactive p-6 flex flex-col justify-between border-t-4 border-t-orange-500 bg-gradient-to-b from-orange-900/10 to-transparent">
+                <div>
+                    <div class="text-4xl mb-4 drop-shadow-[0_0_15px_rgba(249,115,22,0.5)]">🧲</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-orange-500">Magnetic Collector</h3>
+                    <p class="text-[10px] text-slate-400 mb-4 font-bold leading-relaxed tracking-wide">WIDENS SYNC PAD. MAKES CATCHING TOOLS MUCH EASIER FOR 1 SESSION.</p>
+                </div>
+                <button id="btn-magnetic" class="action-btn !bg-[linear-gradient(135deg,#f97316,#ea580c)] !shadow-[0_4px_15px_rgba(249,115,22,0.4)] !py-3 !text-xs" onclick="buyItem('magnetic')">Equip (300 TNB)</button>
+            </div>
+
+            <!-- Hazard Deflector -->
+            <div class="digital-card interactive p-6 flex flex-col justify-between border-t-4 border-t-cyan-500 bg-gradient-to-b from-cyan-900/10 to-transparent">
+                <div>
+                    <div class="text-4xl mb-4 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">⚠️</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-cyan-400">Hazard Deflector</h3>
+                    <p class="text-[10px] text-slate-400 mb-4 font-bold leading-relaxed tracking-wide">ABSORBS ONE FATAL HAZARD STRIKE DURING SYNC TO SAVE YOUR STREAK.</p>
+                </div>
+                <button id="btn-deflector" class="action-btn !bg-[linear-gradient(135deg,#06b6d4,#0891b2)] !shadow-[0_4px_15px_rgba(6,182,212,0.4)] !py-3 !text-xs" onclick="buyItem('deflector')">Equip (500 TNB)</button>
+            </div>
+
+            <!-- Golden Permit -->
+            <div class="digital-card interactive p-6 flex flex-col justify-between border-t-4 border-t-yellow-400 bg-gradient-to-b from-yellow-900/10 to-transparent">
+                <div>
+                    <div class="text-4xl mb-4 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]">🌟</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-yellow-400">Golden Permit</h3>
+                    <p class="text-[10px] text-slate-400 mb-4 font-bold leading-relaxed tracking-wide">INJECTS 50-TNB GOLDEN HAMMERS INTO SYNC DROPS FOR 5 CYCLES.</p>
+                </div>
+                <button id="btn-golden" class="action-btn !bg-[linear-gradient(135deg,#facc15,#eab308)] !shadow-[0_4px_15px_rgba(250,204,21,0.4)] !py-3 !text-xs" onclick="buyItem('golden')">Purchase (1000 TNB)</button>
+            </div>
+        </div>
+
+        <!-- R&D Tech Tree -->
+        <h3 class="text-xs text-[#f39c12] font-black uppercase tracking-[0.3em] mb-4 text-center border-t border-white/10 pt-8">R&D Tech Tree (Permanent Upgrades)</h3>
+        <div class="grid-layout market-grid max-w-6xl mx-auto mb-10">
+            <!-- Overclock Mastery -->
+            <div class="digital-card interactive p-6 flex flex-col justify-between border-t-4 border-t-purple-500 bg-gradient-to-b from-purple-900/20 to-transparent">
+                <div>
+                    <div class="text-4xl mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">⚙️</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-purple-400">Overclock Mastery</h3>
+                    <p class="text-[10px] text-slate-300 mb-4 font-bold leading-relaxed tracking-wide">PERMANENTLY INCREASES BASE SPEED OF ALL MANUAL BUILDS.</p>
+                </div>
+                <button id="btn-overclock" class="action-btn !bg-[linear-gradient(135deg,#a855f7,#7e22ce)] !text-white !shadow-[0_4px_15px_rgba(168,85,247,0.4)] !py-3 !text-xs" onclick="buyItem('overclock')">Upgrade 2% (2000 TNB)</button>
+            </div>
+
+            <!-- Bot Firmware 2.0 -->
+            <div class="digital-card interactive p-6 flex flex-col justify-between border-t-4 border-t-teal-400 bg-gradient-to-b from-teal-900/20 to-transparent">
+                <div>
+                    <div class="text-4xl mb-4 drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]">📡</div>
+                    <h3 class="font-black italic uppercase text-lg mb-1 text-teal-400">Bot Firmware 2.0</h3>
+                    <p class="text-[10px] text-slate-300 mb-4 font-bold leading-relaxed tracking-wide">BOTS WILL AUTO-QUEUE 3 BUILDS AND BYPASS ALL COOLDOWNS AFTER EACH.</p>
+                </div>
+                <button id="btn-firmware" class="action-btn !bg-[linear-gradient(135deg,#2dd4bf,#0f766e)] !text-white !shadow-[0_4px_15px_rgba(45,212,191,0.4)] !py-3 !text-xs" onclick="buyItem('firmware')">Update Firmware (4000 TNB)</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- NETWORK TAB -->
+    <main id="screen-network" class="screen">
+        <div class="px-6 py-4 bg-black/40 border-b border-white/10 backdrop-blur-md sticky top-0 z-30">
+            <h2 class="text-xs font-black uppercase tracking-[0.2em] text-white flex items-center gap-2"><span class="text-lg">🌐</span> Network Rankings</h2>
+        </div>
+        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div class="digital-card p-6">
+                <h3 class="text-[10px] font-black uppercase text-accent mb-6 tracking-[0.3em] text-center border-b border-white/10 pb-4">Top Operators (Builds)</h3>
+                <div id="leaderboard-builds" class="space-y-3"></div>
+            </div>
+            <div class="digital-card p-6">
+                <h3 class="text-[10px] font-black uppercase text-raytown-blue mb-6 tracking-[0.3em] text-center border-b border-white/10 pb-4">Sync Champions (Scores)</h3>
+                <div id="leaderboard-sync" class="space-y-3"></div>
+            </div>
+        </div>
+    </main>
+
     <!-- PLAYBOOK TAB -->
     <main id="screen-playbook" class="screen">
         <div class="px-6 py-4 bg-black/40 border-b border-white/10 backdrop-blur-md sticky top-0 z-30">
@@ -379,30 +489,31 @@
         <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             <div class="digital-card p-8">
                 <h3 class="text-sm font-black text-accent uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">🏗️</span> The Core Loop</h3>
-                <p class="text-sm text-slate-300 leading-relaxed font-semibold">Coordinate FastTrack builds to generate TNB. Your first 3 lots are FREE. Lots 4-12 require expansion permits. Once a build hits 100%, you get paid instant yield. Hit "Grease" to cut maintenance cooldowns.</p>
+                <p class="text-sm text-slate-300 leading-relaxed font-semibold">Coordinate builds to generate TNB. Your first 3 lots are FREE. Lots 4-12 require expansion permits. Once a build hits 100%, you get paid instant yield. Hit "Grease" to cut maintenance cooldowns.</p>
             </div>
             <div class="digital-card p-8">
                 <h3 class="text-sm font-black text-raytown-blue uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">📈</span> Era Scaling</h3>
                 <div class="space-y-4">
                     <div class="bg-black/30 p-3 rounded border-l-2 border-white/20"><strong class="text-white text-xs tracking-widest uppercase">Ph 1: Foundation</strong> <span class="text-xs text-slate-400">Standard costs, 2.0x base payouts. Manual.</span></div>
                     <div class="bg-black/30 p-3 rounded border-l-2 border-accent"><strong class="text-accent text-xs tracking-widest uppercase">Ph 2: Corporate</strong> <span class="text-xs text-slate-400">Costs double. 4.0x base payouts. Auto Bots unlock.</span></div>
-                    <div class="bg-black/30 p-3 rounded border-l-2 border-red-500"><strong class="text-red-400 text-xs tracking-widest uppercase">Ph 3: Terminal</strong> <span class="text-xs text-slate-400">Costs triple. 5.33x payouts (+33% boost). Final lock.</span></div>
+                    <div class="bg-black/30 p-3 rounded border-l-2 border-red-500"><strong class="text-red-400 text-xs tracking-widest uppercase">Ph 3: Terminal</strong> <span class="text-xs text-slate-400">Costs triple. 5.33x payouts. Final lock.</span></div>
                 </div>
             </div>
             <div class="digital-card p-8">
                 <h3 class="text-sm font-black text-green-400 uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">🎮</span> Supply Sync Mini-Game</h3>
                 <ul class="text-sm text-slate-300 leading-relaxed font-semibold space-y-2 list-disc list-inside">
                     <li><strong class="text-white">Catch Hammers (🔨):</strong> Earn 3 TNB instantly per catch.</li>
+                    <li><strong class="text-yellow-400">Golden Hammers (🌟):</strong> Rare drops worth 50 TNB (Requires Golden Permit).</li>
                     <li><strong class="text-green-400">Enhanced Grease (⚡):</strong> Catch 10 hammers to bank. Slices maintenance cooldowns by 15s (instead of 3s).</li>
                     <li><strong class="text-red-400">Hazards (⚠️):</strong> Triggers a network Desync, forcing a reboot and wiping unbanked hammers.</li>
                 </ul>
             </div>
             <div class="digital-card p-8">
-                <h3 class="text-sm font-black text-purple-400 uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">🛒</span> The Marketplace</h3>
+                <h3 class="text-sm font-black text-purple-400 uppercase tracking-widest mb-4 flex items-center gap-3"><span class="text-2xl">🛒</span> Marketplace & R&D</h3>
                 <ul class="text-sm text-slate-300 leading-relaxed font-semibold space-y-2 list-disc list-inside">
-                    <li><strong class="text-accent">Contract Bots (500 TNB):</strong> Automates a single full build.</li>
-                    <li><strong class="text-raytown-blue">FastTrack Time Boost:</strong> Instantly blasts ALL active builds +50% progress! (Scales: 1.5k / 3k / 4.5k TNB).</li>
-                    <li><strong class="text-green-400">Weather Shield (7,500 TNB):</strong> Blocks random 50s storm delays for a full cycle.</li>
+                    <li><strong class="text-accent">Contract Bots:</strong> Automates a single build. Upgrade to <strong class="text-teal-400">Firmware 2.0</strong> in R&D to auto-queue 3 builds and bypass cooldowns!</li>
+                    <li><strong class="text-raytown-blue">Sync Loadouts:</strong> Equip Magnetic Pads, Hazard Deflectors, or Golden Permits to maximize your Sync sessions.</li>
+                    <li><strong class="text-purple-400">Overclock Mastery:</strong> Permanently upgrades the base speed of all manual grid builds.</li>
                 </ul>
             </div>
             <div class="digital-card p-8 md:col-span-2">
@@ -431,28 +542,6 @@
         </div>
     </main>
 
-    <!-- NETWORK TAB -->
-    <main id="screen-network" class="screen">
-        <div class="px-6 py-4 bg-black/40 border-b border-white/10 backdrop-blur-md sticky top-0 z-30">
-            <h2 class="text-xs font-black uppercase tracking-[0.2em] text-white flex items-center gap-2"><span class="text-lg">🌐</span> Network Rankings</h2>
-        </div>
-        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div class="digital-card p-6">
-                <h3 class="text-[10px] font-black uppercase text-accent mb-6 tracking-[0.3em] text-center border-b border-white/10 pb-4">Top Operators (Builds)</h3>
-                <div id="leaderboard-builds" class="space-y-3">
-                    <!-- Javascript will inject leaderboard here -->
-                </div>
-            </div>
-            <div class="digital-card p-6">
-                <h3 class="text-[10px] font-black uppercase text-raytown-blue mb-6 tracking-[0.3em] text-center border-b border-white/10 pb-4">Sync Champions (Scores)</h3>
-                <div id="leaderboard-sync" class="space-y-3">
-                     <!-- Javascript will inject leaderboard here -->
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- ADMIN TAB -->
     <main id="screen-admin" class="screen">
         <div class="px-6 py-4 bg-black/40 border-b border-red-900/50 backdrop-blur-md sticky top-0 z-30 flex justify-between items-center">
             <h2 class="text-xs font-black uppercase tracking-[0.2em] text-red-500 flex items-center gap-2"><span class="text-lg">🔒</span> CEO Payout Vault</h2>
@@ -461,49 +550,14 @@
         <div id="admin-payout-list" class="p-6 space-y-4 max-w-3xl mx-auto"></div>
     </main>
 
-    <!-- MARKET TAB -->
-    <main id="screen-market" class="screen">
-        <div class="px-6 py-4 bg-black/40 border-b border-white/10 backdrop-blur-md sticky top-0 z-30 mb-6">
-            <h2 class="text-xs font-black uppercase tracking-[0.2em] text-white flex items-center gap-2"><span class="text-lg">🛒</span> Marketplace</h2>
-        </div>
-        <div class="grid-layout market-grid max-w-6xl mx-auto">
-            <div class="digital-card interactive p-8 flex flex-col justify-between border-t-4 border-t-green-400 bg-gradient-to-b from-green-900/10 to-transparent">
-                <div>
-                    <div class="text-5xl mb-6 drop-shadow-[0_0_15px_rgba(46,204,113,0.5)]">⏩</div>
-                    <h3 class="font-black italic uppercase text-xl mb-2 text-green-400">FastTrack Time Boost</h3>
-                    <p class="text-xs text-slate-300 mb-6 font-bold leading-relaxed tracking-wide">+50% BUILD PROGRESS ON ALL ACTIVE LOTS INSTANTLY.</p>
-                </div>
-                <button class="action-btn !bg-[linear-gradient(135deg,#2ecc71,#27ae60)] !shadow-[0_4px_15px_rgba(46,204,113,0.4)]" onclick="buyItem('boost')">Purchase (1500 TNB)</button>
-            </div>
-            
-            <div class="digital-card interactive p-8 flex flex-col justify-between border-t-4 border-t-blue-400 bg-gradient-to-b from-blue-900/10 to-transparent">
-                <div>
-                    <div class="text-5xl mb-6 drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]">🛡️</div>
-                    <h3 class="font-black italic uppercase text-xl mb-2 text-blue-400">Weather Shield</h3>
-                    <p class="text-xs text-slate-300 mb-6 font-bold leading-relaxed tracking-wide">BLOCKS WEATHER DELAYS FOR ONE FULL CONSTRUCTION CYCLE.</p>
-                </div>
-                <button id="buy-shield-btn" class="action-btn !bg-[linear-gradient(135deg,#60a5fa,#2563eb)] !shadow-[0_4px_15px_rgba(96,165,250,0.4)]" onclick="buyItem('shield')">Install (7500 TNB)</button>
-            </div>
-            
-            <div class="digital-card interactive p-8 flex flex-col justify-between border-t-4 border-t-white bg-gradient-to-b from-white/5 to-transparent">
-                <div>
-                    <div class="text-5xl mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">🤖</div>
-                    <h3 class="font-black italic uppercase text-xl mb-2 text-white">Contract Bot</h3>
-                    <p class="text-xs text-slate-300 mb-6 font-bold leading-relaxed tracking-wide">AUTOMATES ONE COMPLETE BUILD. REQUIRED TO UNLOCK ERA 2.</p>
-                </div>
-                <button class="action-btn !bg-[linear-gradient(135deg,#e2e8f0,#94a3b8)] !shadow-[0_4px_15px_rgba(255,255,255,0.2)]" onclick="buyItem('bot')">Hire (500 TNB)</button>
-            </div>
-        </div>
-    </main>
-
     <nav class="bottom-nav">
         <button class="nav-btn active" onclick="switchTab('operator', this)"><span class="text-lg mb-1">🏢</span>HQ</button>
         <button class="nav-btn" onclick="switchTab('dispatch', this)"><span class="text-lg mb-1">📍</span>GRID</button>
         <button class="nav-btn" onclick="switchTab('sync', this)"><span class="text-lg mb-1">🎮</span>SYNC</button>
+        <button class="nav-btn" onclick="switchTab('market', this)"><span class="text-lg mb-1">🛒</span>SHOP</button>
         <button class="nav-btn" onclick="switchTab('playbook', this)"><span class="text-lg mb-1">📖</span>DOCS</button>
         <button class="nav-btn" onclick="switchTab('network', this)"><span class="text-lg mb-1">🌐</span>NET</button>
         <button id="nav-admin-btn" class="nav-btn text-red-500 hidden" onclick="switchTab('admin', this)"><span class="text-lg mb-1">🔒</span>ADM</button>
-        <button class="nav-btn" onclick="switchTab('market', this)"><span class="text-lg mb-1">🛒</span>SHOP</button>
     </nav>
 </div>
 
@@ -544,14 +598,17 @@
     };
 
     let state = { 
-        ign: Storage.get('fasttrack_ign') || "Operator", // Fixed initial state priority
+        ign: Storage.get('fasttrack_ign') || "Operator",
         balance: 0, nodes: [], phase: 1, cycle: 1, botStock: 0, 
         timeBoosts: 0, totalProjects: 0, fragments: 0, overclocks: 0, 
         syncHighScore: 0, lastUpdate: Date.now(), isSyncActive: false, 
         collectorX: 50, isAdmin: false, hasShield: false,
         isStorming: false, stormTimeLeft: 0, lastWeatherCheck: 0,
         weatherType: 'CLEAR', 
-        shieldExpiryCycle: 0, shieldExpiryPhase: 0
+        shieldExpiryCycle: 0, shieldExpiryPhase: 0,
+        // New R&D and Sync states
+        overclockMastery: 0, botFirmware: 0,
+        syncMagnetic: false, syncDeflector: false, goldenHammerCycles: 0
     };
     
     // IMMEDIATELY load local state to prevent TNB loss on refresh
@@ -585,22 +642,19 @@
     window.saveGame = async () => {
         if (!hasLoaded) return; 
         
-        // DUAL-SAVE: Always save to local browser storage so refreshes don't wipe TNB
         Storage.set('raytown_save_state', JSON.stringify(state));
 
-        // Attempt Cloud Save
         if (!currentUser || currentUser.uid === 'offline-operator') return; 
         try {
             const userDoc = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'data', 'gameState');
             await setDoc(userDoc, { ...state, lastSaved: Date.now() });
             
-            // Push TNB balance & Stats to Global Leaderboard
             const pubDoc = doc(db, 'artifacts', appId, 'public', 'data', 'leaderboard', currentUser.uid);
             await setDoc(pubDoc, {
                 ign: state.ign,
                 totalProjects: state.totalProjects,
                 syncHighScore: state.syncHighScore,
-                balance: state.balance, // Saves TNB to Network Tab!
+                balance: state.balance,
                 hasShield: state.hasShield,
                 lastActive: serverTimestamp()
             }, { merge: true });
@@ -627,7 +681,6 @@
         if (fields) fields.classList.remove('hidden');
     };
 
-    // Auto-reveal inputs for brand new users
     setTimeout(() => {
         if (!Storage.get('fasttrack_ign')) {
             window.showIgnInput();
@@ -646,7 +699,6 @@
         }
     };
 
-    // New Function to instantly change IGN if it was accidentally saved as 'Operator'
     window.changeIgn = () => {
         const newIgn = prompt("Enter new Operator IGN:", state.ign !== "Operator" ? state.ign : "");
         if (newIgn && newIgn.trim() !== "") {
@@ -728,7 +780,7 @@
         }
         
         updateUI();
-        window.saveGame(); // Ensure new IGN gets pushed to Leaderboard immediately
+        window.saveGame();
     };
 
     function initMap() {
@@ -738,12 +790,13 @@
         if (!state.nodes || state.nodes.length === 0) {
             state.nodes = [];
             for (let i = 0; i < 12; i++) state.nodes.push({ 
-                id: i, owned: false, type: 'VACANT', status: 'idle', progress: 0, cooldown: 0, isBot: false, 
+                id: i, owned: false, type: 'VACANT', status: 'idle', progress: 0, cooldown: 0, isBot: false, botQueue: 0,
                 countG: 0, countR: 0, countY: 0 
             });
         } else {
             state.nodes.forEach(n => {
                 if (!BUILDING_TYPES[n.type]) n.type = 'VACANT';
+                n.botQueue = n.botQueue || 0;
                 n.countG = n.countG || 0;
                 n.countR = n.countR || 0;
                 n.countY = n.countY || 0;
@@ -783,21 +836,41 @@
         const coll = document.getElementById('collector');
         if (overlay) overlay.style.display = 'none'; 
         if (coll) coll.style.opacity = '1'; 
+        updateUI();
     };
 
     function spawnItem() {
         const container = document.getElementById('minigame-container');
         const isHazard = Math.random() < 0.20;
-        const el = document.createElement('div'); el.className = 'falling-item'; el.innerHTML = isHazard ? '⚠️' : '🔨';
+        const isGolden = !isHazard && state.goldenHammerCycles > 0 && Math.random() < 0.15;
+        
+        const el = document.createElement('div'); 
+        el.className = 'falling-item'; 
+        el.innerHTML = isHazard ? '⚠️' : (isGolden ? '🌟' : '🔨');
+        if(isGolden) el.style.filter = 'drop-shadow(0 5px 15px rgba(243, 156, 18, 0.8))';
+        
         const startX = Math.random() * 90 + 5; el.style.left = startX + '%'; container.appendChild(el);
         let posY = -40;
         const animate = () => {
             if (!state.isSyncActive || !document.getElementById('screen-sync').classList.contains('active')) { el.remove(); return; }
             posY += 4; el.style.top = posY + 'px';
-            if (posY > container.clientHeight - 80 && posY < container.clientHeight - 20 && Math.abs(startX - state.collectorX) < 12) {
-                if (isHazard) { triggerDesync(); } 
+            
+            const hitWidth = state.syncMagnetic ? 25 : 12;
+            
+            if (posY > container.clientHeight - 80 && posY < container.clientHeight - 20 && Math.abs(startX - state.collectorX) < hitWidth) {
+                if (isHazard) { 
+                    if(state.syncDeflector) {
+                        state.syncDeflector = false;
+                        window.showToast("HAZARD DEFLECTED!");
+                        updateUI();
+                    } else {
+                        triggerDesync(); 
+                    }
+                } 
                 else { 
-                    state.fragments++; state.balance += 3; syncSessionScore++;
+                    state.fragments++; 
+                    state.balance += isGolden ? 50 : 3; 
+                    syncSessionScore += isGolden ? 5 : 1;
                     if (syncSessionScore > state.syncHighScore) state.syncHighScore = syncSessionScore;
                     if (state.fragments >= 10) { state.fragments = 0; state.overclocks++; window.showToast("ENHANCED GREASE BANKED!"); } 
                     updateUI(); 
@@ -810,7 +883,9 @@
     }
 
     function triggerDesync() { 
-        state.isSyncActive = false; const overlay = document.getElementById('desync-overlay');
+        state.isSyncActive = false; 
+        state.syncMagnetic = false;
+        const overlay = document.getElementById('desync-overlay');
         if (overlay) overlay.classList.remove('hidden'); 
         window.saveGame();
     }
@@ -828,7 +903,6 @@
     };
 
     function renderLeaderboard(players) {
-        // Fallback: ALWAYS inject the local player into the list so the screen is never blank
         if (!players.find(p => p.ign === state.ign)) {
             players.push({ ign: state.ign, totalProjects: state.totalProjects, syncHighScore: state.syncHighScore });
         }
@@ -853,17 +927,16 @@
 
     function fetchLeaderboard() {
         if (!currentUser || currentUser.uid === 'offline-operator') {
-            renderLeaderboard([]); // Triggers fallback to show local player
+            renderLeaderboard([]);
             return;
         }
-
         const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
         onSnapshot(colRef, (snap) => {
             const players = snap.docs.map(d => d.data());
             renderLeaderboard(players);
         }, (err) => {
             console.error("Leaderboard listener error", err);
-            renderLeaderboard([]); // Triggers fallback
+            renderLeaderboard([]);
         });
     }
 
@@ -1006,6 +1079,37 @@
         set('quota-percent', Math.floor(Math.min(100, progress)) + '%');
         set('quota-text', `Cycle ${state.cycle} Progress`);
 
+        // Market Buttons Updates
+        const bShield = document.getElementById('buy-shield-btn'); 
+        if(bShield) { bShield.innerText = state.hasShield ? 'ACTIVE' : 'Install (7500 TNB)'; bShield.classList.toggle('opacity-50', state.hasShield); }
+        
+        const bMag = document.getElementById('btn-magnetic'); 
+        if(bMag) { bMag.innerText = state.syncMagnetic ? 'ACTIVE' : 'Equip (300 TNB)'; bMag.classList.toggle('opacity-50', state.syncMagnetic); }
+        
+        const bDef = document.getElementById('btn-deflector'); 
+        if(bDef) { bDef.innerText = state.syncDeflector ? 'ACTIVE' : 'Equip (500 TNB)'; bDef.classList.toggle('opacity-50', state.syncDeflector); }
+        
+        const bGold = document.getElementById('btn-golden'); 
+        if(bGold) { bGold.innerText = state.goldenHammerCycles > 0 ? `ACTIVE (${state.goldenHammerCycles} CYC)` : 'Purchase (1000 TNB)'; bGold.classList.toggle('opacity-50', state.goldenHammerCycles > 0); }
+        
+        const bFw = document.getElementById('btn-firmware');
+        if(bFw) { bFw.innerText = state.botFirmware >= 1 ? 'INSTALLED' : 'Update Firmware (4000 TNB)'; bFw.classList.toggle('opacity-50', state.botFirmware >= 1); }
+        
+        const bOc = document.getElementById('btn-overclock');
+        if(bOc) {
+            if(state.overclockMastery === 0) bOc.innerText = 'Upgrade 2% (2000 TNB)';
+            else if(state.overclockMastery === 1) bOc.innerText = 'Upgrade 5% (5000 TNB)';
+            else if(state.overclockMastery === 2) bOc.innerText = 'Upgrade 10% (10000 TNB)';
+            else { bOc.innerText = 'MAX LEVEL'; bOc.classList.add('opacity-50'); }
+        }
+
+        // Collector visual update
+        const coll = document.getElementById('collector');
+        if(coll) {
+            coll.style.width = state.syncMagnetic ? '120px' : '70px';
+            coll.style.filter = state.syncMagnetic ? 'drop-shadow(0 0 25px rgba(243,156,18,0.8))' : 'drop-shadow(0 0 15px rgba(0,242,255,0.5))';
+        }
+
         state.nodes.forEach(n => {
             const row = document.getElementById(`node-row-${n.id}`);
             if (!row) return;
@@ -1051,7 +1155,7 @@
                             <div class="flex items-center gap-3">
                                 ${n.status === 'building' ? `<span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full ${colorTheme.replace('text-','bg-')} opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 ${colorTheme.replace('text-','bg-')}"></span></span>` : `<div class="w-2 h-2 rounded-full ${n.status==='cooldown'?'bg-red-500':'bg-green-500'}"></div>`}
                                 <div>
-                                    <div class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Active Node</div>
+                                    <div class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Active Node ${n.isBot && state.botFirmware >= 1 ? `<span class="text-[#00f2ff] ml-1 border border-[#00f2ff]/50 bg-[#00f2ff]/10 px-1 rounded">BOT v2.0 (QUEUE: ${n.botQueue})</span>` : ''}</div>
                                     <div class="text-sm font-black uppercase tracking-wider text-white">Lot #${n.id+1}</div>
                                 </div>
                             </div>
@@ -1097,19 +1201,38 @@
     
     window.useBot = (id) => { 
         if (state.phase < 2) return window.showToast("PHASE 2 REQUIRED");
-        if (state.botStock > 0) { state.botStock--; window.startBuild(id, 'GREEN', true); updateUI(); window.saveGame(); }
-        else window.showToast("OUT OF BOTS"); 
+        if (state.botStock > 0) { 
+            state.botStock--; 
+            state.nodes[id].botQueue = state.botFirmware >= 1 ? 2 : 0; 
+            window.startBuild(id, 'GREEN', true); 
+        } else window.showToast("OUT OF BOTS"); 
     };
 
     window.buyItem = (item) => {
-        if (item === 'shield' && state.hasShield) return window.showToast("SHIELD ALREADY ACTIVE");
-        let cost = item === 'bot' ? 500 : (item === 'shield' ? 7500 : (state.phase === 1 ? 1500 : (state.phase === 2 ? 3000 : 4500)));
+        let cost = 0;
+        if (item === 'bot') cost = 500;
+        else if (item === 'boost') cost = state.phase === 1 ? 1500 : (state.phase === 2 ? 3000 : 4500);
+        else if (item === 'shield') { if (state.hasShield) return window.showToast("SHIELD ALREADY ACTIVE"); cost = 7500; }
+        else if (item === 'magnetic') { if (state.syncMagnetic) return window.showToast("MAGNETIC ACTIVE"); cost = 300; }
+        else if (item === 'deflector') { if (state.syncDeflector) return window.showToast("DEFLECTOR ACTIVE"); cost = 500; }
+        else if (item === 'golden') { if (state.goldenHammerCycles > 0) return window.showToast("PERMIT ACTIVE"); cost = 1000; }
+        else if (item === 'firmware') { if (state.botFirmware >= 1) return window.showToast("MAX UPGRADED"); cost = 4000; }
+        else if (item === 'overclock') {
+            if (state.overclockMastery >= 3) return window.showToast("MAX LEVEL");
+            cost = state.overclockMastery === 0 ? 2000 : (state.overclockMastery === 1 ? 5000 : 10000);
+        }
+
         if (state.balance >= cost) {
             state.balance -= cost;
             if(item==='bot') state.botStock++; 
             else if(item==='boost') state.timeBoosts++; 
             else if(item==='shield') { state.hasShield = true; state.shieldExpiryCycle = state.cycle; state.shieldExpiryPhase = state.phase; window.showToast("SHIELD ACTIVE"); }
-            window.showToast("PURCHASE COMPLETE"); updateUI(); window.saveGame();
+            else if(item==='magnetic') { state.syncMagnetic = true; window.showToast("MAGNETIC COLLECTOR ACTIVE"); }
+            else if(item==='deflector') { state.syncDeflector = true; window.showToast("HAZARD DEFLECTOR ACTIVE"); }
+            else if(item==='golden') { state.goldenHammerCycles = 5; window.showToast("GOLDEN PERMIT ACQUIRED"); }
+            else if(item==='firmware') { state.botFirmware = 1; window.showToast("FIRMWARE 2.0 INSTALLED"); }
+            else if(item==='overclock') { state.overclockMastery++; window.showToast("OVERCLOCK UPGRADED"); }
+            updateUI(); window.saveGame();
         } else window.showToast("INSUFFICIENT TNB");
     };
 
@@ -1119,8 +1242,10 @@
         if (target) target.classList.add('active');
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         if (btn) btn.classList.add('active');
+        
         if (tab !== 'sync') {
             state.isSyncActive = false;
+            state.syncMagnetic = false; // Reset magnetic pad when leaving sync
             const startOverlay = document.getElementById('minigame-start-overlay');
             const coll = document.getElementById('collector');
             const desyncOverlay = document.getElementById('desync-overlay');
@@ -1170,17 +1295,44 @@
                 const pSM = Math.pow(3, state.phase - 1);
                 const aTT = type.time * pSM;
                 const wPM = (state.isStorming && !state.hasShield) ? 0 : 1;
-                let rankP = (rank.bonus === 0 ? 1.0 : (rank.bonus === 15 ? 1.15 : 1.05));
+                
+                let manualBonus = 0;
+                if (!n.isBot) {
+                    if (state.overclockMastery === 1) manualBonus = 0.02;
+                    else if (state.overclockMastery === 2) manualBonus = 0.05;
+                    else if (state.overclockMastery === 3) manualBonus = 0.10;
+                }
+                
+                let rankP = (rank.bonus === 0 ? 1.0 : (rank.bonus === 15 ? 1.15 : 1.05)) + manualBonus;
                 n.progress += (100 / aTT) * delta * rankP * wPM;
+                
                 if (n.progress >= 100) {
                     state.totalProjects++;
                     if (n.type === 'GREEN') n.countG++; else if (n.type === 'RED') n.countR++; else if (n.type === 'YELLOW') n.countY++;
                     const multiplier = state.phase === 1 ? 2.0 : (state.phase === 2 ? 4.0 : 5.33);
                     state.balance += (type.income * multiplier) * (1 - rank.split);
-                    n.status = 'cooldown'; n.cooldown = type.cooldown * pSM; n.isBot = false;
+                    
+                    if (n.isBot && state.botFirmware >= 1 && n.botQueue > 0) {
+                        n.botQueue--;
+                        n.progress = 0; 
+                        n.status = 'building'; 
+                    } else if (n.isBot && state.botFirmware >= 1 && n.botQueue === 0) {
+                        n.status = 'idle'; 
+                        n.cooldown = 0; 
+                        n.isBot = false;
+                    } else {
+                        n.status = 'cooldown'; n.cooldown = type.cooldown * pSM; n.isBot = false;
+                    }
+
                     const owned = state.nodes.filter(node => node.owned);
                     if (owned.length > 0 && owned.every(node => node.countG >= 30 && node.countR >= 60 && node.countY >= 90)) {
                         state.nodes.forEach(node => { node.countG = 0; node.countR = 0; node.countY = 0; });
+                        
+                        if(state.goldenHammerCycles > 0) {
+                            state.goldenHammerCycles--;
+                            if(state.goldenHammerCycles === 0) window.showToast("GOLDEN PERMIT EXPIRED");
+                        }
+                        
                         if (state.cycle < 9) state.cycle++; else { state.cycle = 1; state.phase++; }
                     }
                     window.saveGame();
@@ -1209,7 +1361,6 @@
                     onSnapshot(userDoc, (snap) => {
                         if (snap.exists()) {
                             const cloudData = snap.data();
-                            // Prevent Cloud from overwriting a valid IGN with 'Operator'
                             if (cloudData.ign === "Operator" && Storage.get('fasttrack_ign')) {
                                 cloudData.ign = Storage.get('fasttrack_ign');
                             }
@@ -1230,7 +1381,7 @@
             
             hasLoaded = true;
             currentUser = { uid: 'offline-operator' };
-            fetchLeaderboard(); // Will trigger offline fallback
+            fetchLeaderboard(); 
             
             if (!gameInitialized) {
                 initMap();
@@ -1244,7 +1395,6 @@
     
     initApp();
     
-    // Fixed Auto-Login Bypass
     if (Storage.get('fasttrack_ign') && localStateString) {
         setTimeout(() => {
             const ignInput = document.getElementById('operator-ign');
@@ -1253,7 +1403,7 @@
         }, 150);
     }
 
-    setInterval(() => { if (hasLoaded) window.saveGame(); }, 15000); // Save locally & cloud every 15s
+    setInterval(() => { if (hasLoaded) window.saveGame(); }, 15000);
     window.addEventListener('beforeunload', () => { if (hasLoaded) window.saveGame(); });
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && hasLoaded) window.saveGame(); });
 </script>
