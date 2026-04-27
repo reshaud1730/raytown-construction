@@ -720,25 +720,34 @@
     };
 
     window.requestWithdrawal = async () => {
-        if (!currentUser) return;
         const wallet = Storage.get('fasttrack_operator_wallet');
         if (!wallet) return window.showToast("CONNECT WALLET FIRST");
         if (state.balance < 100) return window.showToast("MIN 100 TNB");
         
+        const withdrawAmount = Math.floor(state.balance);
+        
+        // 1. Deduct immediately locally so UI updates to 0 instantly
+        state.balance -= withdrawAmount; 
+        window.showToast("REQUEST SENT TO CEO VAULT");
+        updateUI(); 
+        window.saveGame();
+
+        // 2. Only attempt cloud save if the user is authenticated online
+        if (!currentUser || currentUser.uid === 'offline-operator') return;
+
         try {
             const requestsCol = collection(db, 'artifacts', appId, 'public', 'data', 'withdrawalRequests');
             await addDoc(requestsCol, { 
                 uid: currentUser.uid, 
                 ign: state.ign, 
                 wallet: wallet, 
-                amount: Math.floor(state.balance), 
+                amount: withdrawAmount, 
                 status: 'pending', 
                 requestedAt: serverTimestamp() 
             });
-            state.balance = 0; 
-            window.showToast("REQUEST SENT TO CEO VAULT");
-            updateUI(); window.saveGame();
-        } catch (e) { window.showToast("NETWORK ERROR"); }
+        } catch (e) { 
+            console.error("Failed to sync withdrawal to cloud:", e);
+        }
     };
 
     window.enterHQ = () => {
